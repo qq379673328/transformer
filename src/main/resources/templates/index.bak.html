@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="webkit" name="renderer" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	
+	<title></title>
+	<link rel="shortcut icon" href="images/favicon.ico" />
+	
+	<link rel="stylesheet" type="text/css" href="scripts/libs/jquery-easyui-1.4/themes/bootstrap/easyui.css"/>
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/main.css"/>
+	
+	<script type="text/javascript" src="scripts/libs/require-2.1.15.js" data-main="main.js"></script>
+
+</head>
+<body class="main">
+		
+	<div id="header" class="top">
+		<ul id="main-navigation" class="">
+			<li class="navli" th:with="user=${session.loginUserInfo}" th:unless="${user}">
+				<a class="item" href="#user-info">
+					<img src="images/icons/admin.png" /><br/>
+					<span th:text="${user.userName}"></span>
+				</a>
+			</li>
+			<li class="navli">
+				<a class="item logout" href="logout">
+					<img src="images/icons/exit.png" /><br/>
+					<span>退出</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div id="content" class="body">
+		<div id="main-menus" class="left"></div>
+		<div class="right">
+			<div class="right-white">
+				<div class="location">
+					当前所在位置：
+					<a href="javascript: void(0);" id="location-1"></a>
+					<span id="location-2"></span>
+					<a href="javascript: void(0);" id="location-3" class="now"></a>
+				</div>
+				<div id="main-content">
+				
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</body>
+</html>

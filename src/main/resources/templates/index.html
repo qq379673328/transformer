@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="webkit" name="renderer" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	
+	<title></title>
+	<link rel="shortcut icon" href="images/favicon.ico" />
+	
+	<link rel="stylesheet" type="text/css" href="scripts/libs/jquery-easyui-1.4/themes/bootstrap/easyui.css"/>
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/main.css"/>
+	
+	<script type="text/javascript" src="scripts/libs/require-2.1.15.js" data-main="main.js"></script>
+
+</head>
+<body class="main">
+	<div id="header">
+		<div class="logo">
+			<h1>濮阳市变电站设备图片管理与检索系统</h1>
+		</div>
+		<div class="user">
+			<span class="username">
+				<span>当前用户:&nbsp;&nbsp;</span>
+				<span class="currentuser">
+					<a href="javascript: void(0);" ><span th:text="${user}"></span></a>	
+				</span>
+			</span>
+			<a href="logout" class="exit">退出</a>
+		</div>
+		<ul id="main-navigation" class="menu"></ul>
+	</div>
+	<div id="content">
+		<div id="main-menus" class="left"></div>
+		<div class="right">
+			<div class="right-white">
+				<div class="location">
+					当前所在位置：
+					<a href="javascript: void(0);" id="location-1"></a>
+					<span id="location-2"></span>
+					<a href="javascript: void(0);" id="location-3" class="now"></a>
+				</div>
+				<div id="main-content">
+				
+				</div>
+			</div>
+			<div id="footer">版权所有：中华人民共和国国家卫生和计划生育委员会</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</body>
+	
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 业务-设备类型 -->
+<mapper namespace="cn.com.sinosoft.devicetype">
+
+	<!-- 获取列表 -->
+	<select id="get-list"
+		resultType="hashmap">
+		SELECT
+		  t.*
+		FROM t_biz_device_type t 
+		where 1=1
+		<if test="state != null">
+			and t.state = #{state}
+		</if>
+		ORDER BY t.create_time desc
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="del">
+		delete from t_biz_device_type 
+			where id in 
+			<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+			 #{item}
+			</foreach>
+	</delete>
+	
+	<!-- 更新状态 -->
+	<update id="change-state">
+		update t_biz_device_type set
+			state = #{state}
+		where id in 
+		<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+		 #{item}
+		</foreach>
+	</update>
+</mapper>

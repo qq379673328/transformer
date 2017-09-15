@@ -1,0 +1,65 @@
+﻿# spring相关配置
+spring:
+    profiles:
+        active: dev
+    # 基本请求
+    http:
+        encoding:
+            charset: UTF-8
+        converters:
+            preferred-json-mapper: true
+    # json转换-请修改自定义json转换CustomConfig
+    # 页面模板
+    thymeleaf:
+        enabled: true
+        encoding: UTF-8
+        prefix: classpath:/templates/
+        suffix: .html
+        # 调试使用
+        cache: false
+    # 资源文件
+    resources:
+        static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${app.config.uploadPath}
+    # 数据源
+    datasource:
+        testWhileIdle: true
+        timeBetweenEvictionRunsMillis: 60000
+        validationQuery: SELECT 1
+    # cache
+    cache:
+        jcache:
+            config: classpath:ehcache.xml
+
+# 日志
+logging:
+    path: ./logs/transformer
+
+# 服务器
+server:
+    session:
+        timeout: 1800
+    #监听路径
+    servlet-path: /
+    #压缩
+    compression:
+        #是否开启压缩
+        enabled: true
+
+# jwt 认证
+audience:
+    # token名
+    tokenName: access-token
+    # 过期时间
+    expiresSecond: 86400
+    # 加密字符串
+    base64Secret: transformer123
+    # 拦截地址-需认证
+    urlPatterns[0]: /api/**
+    # 忽略授权验证的地址
+    excludeAuthUrls[0]: /api/system/businesser/edit
+    excludeAuthUrls[1]: /api/base/changSelfPwd
+
+# 文件上传
+filepath:
+    save: c:\\transformer\\upfiles
+    download: http://localhost:9201/transformer/upfiles/

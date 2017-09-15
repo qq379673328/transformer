@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<!-- 数据库驱动 -->
+	<classPathEntry
+		location="D:/mvn_rep/rep/mysql/mysql-connector-java/5.1.33/mysql-connector-java-5.1.33.jar" />
+	<context id="MysqlContext" targetRuntime="MyBatis3"
+		defaultModelType="flat">
+
+		<property name="autoDelimitKeywords" value="true" />
+		<property name="beginningDelimiter" value="`" />
+		<property name="endingDelimiter" value="`" />
+
+		<!-- generate entity时，生成hashcode和equals方法 -->
+		<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
+		<!-- generate entity时，生成serialVersionUID -->
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+
+		<!-- 注释 -->
+		<commentGenerator>
+			<property name="suppressDate" value="true" />
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+		<!-- 数据库连接 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/transformer" userId="root"
+			password="lizhiyong" />
+
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- java model -->
+		<javaModelGenerator targetPackage="cn.com.sinosoft.bomsmgr.entity.ge"
+			targetProject="transformer">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<!-- sqlmap xml,注意：重新生成前xml文件请先删除，否则会重复 -->
+		<sqlMapGenerator targetPackage="mybatis.mapper.generate"
+			targetProject="transformer">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<!-- java client dao -->
+		<javaClientGenerator targetPackage="cn.com.sinosoft.bomsmgr.dao.ge"
+			targetProject="transformer" type="ANNOTATEDMAPPER">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+		<!-- 全部表-单表请使用具体表名 -->
+		<table tableName="%">
+			<generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table>
+
+	</context>
+</generatorConfiguration>

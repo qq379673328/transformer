@@ -1,0 +1,2 @@
+<div id="infocontent">
+</div>

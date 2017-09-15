@@ -1,0 +1,170 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 通用-用户 -->
+<mapper namespace="cn.com.sinosoft.common.user">
+
+	<!-- 获取用户列表-带密码 -->
+	<select id="user-list"
+		resultType="cn.com.sinosoft.bomsmgr.entity.ge.TAuthUser">
+		SELECT
+		  t.id,
+		  t.create_time,
+		  t.name,
+		  t.create_user,
+		  t.update_user,
+		  t.login_name,
+		  t.pass_word,
+		  t.is_used,
+		  t.email,
+		  t.sex,
+		  t.phone
+		FROM t_auth_user t
+		where 1=1
+		<if test="userId != null">
+		    AND t.id = #{userId}
+		</if>
+		<if test="userName != null">
+		    AND t.LOGIN_NAME = #{userName}
+		</if>
+		<if test="passWord != null">
+		    AND t.PASS_WORD = #{passWord}
+		</if>
+		ORDER BY t.create_time desc
+	</select>
+	
+	<!-- 获取用户列表-分页查询 -->
+	<select id="list"
+		resultType="cn.com.sinosoft.bomsmgr.entity.ge.TAuthUser">
+		SELECT
+		  t.id,
+		  t.name,
+		  t.create_time,
+		  t.create_user,
+		  t.update_user,
+		  t.login_name,
+		  t.is_used,
+		  t.email,
+		  t.sex,
+		  t.phone
+		FROM t_auth_user t
+		where 1=1
+		<if test="params.name != null">
+		    AND t.login_name = #{params.name}
+		</if>
+		<if test="params.state != null">
+		    AND is_used = #{params.state}
+		</if>
+		<if test="params.createDateBegin != null">
+			<![CDATA[AND STR_TO_DATE(CONCAT(#{params.createDateBegin}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s') <= t.create_time]]>
+		</if>
+		<if test="params.createDateEnd != null">
+			<![CDATA[AND STR_TO_DATE(CONCAT(#{params.createDateEnd}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s') >= t.create_time]]>
+		</if>
+		
+		ORDER BY t.create_time desc
+	</select>
+	
+	<!-- 获取角色列表-分页查询 -->
+	<select id="role-list"
+		resultType="hashmap">
+		SELECT
+		  *
+		FROM t_auth_role t
+		where 1=1
+		ORDER BY t.create_time desc
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="del">
+		delete from t_auth_user 
+			where id in 
+			<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+			 #{item}
+			</foreach>
+	</delete>
+	
+	<!-- 修改用户状态 -->
+	<update id="change-state">
+		update t_auth_user set
+			IS_USED = #{state}
+		where id in 
+			<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+			 #{item}
+			</foreach>
+	</update>
+	
+	<!-- 修改用户密码 -->
+	<update id="change-pwd">
+		update t_auth_user set
+			PASS_WORD = #{pwd}
+		where LOGIN_NAME = #{userName}
+	</update>
+
+	<!-- 获取权限菜单-所有 -->
+	<select id="mf-list-all"
+		resultType="cn.com.sinosoft.bomsmgr.entity.ge.TAuthMenufun">
+		SELECT
+		  id,
+		  MF_ID,
+		  PMF_ID,
+		  MF_NAME,
+		  MF_LINK,
+		  MF_TYPE,
+		  MF_DESC,
+		  MF_RANK,
+		  MF_LEVEL
+		FROM t_auth_menufun where 1=1
+			<if test="type != null">
+				AND MF_TYPE = #{type}
+			</if>
+		ORDER BY MF_LEVEL,MF_RANK
+	</select>
+	
+	<!-- 获取权限菜单-用户 -->
+	<select id="mf-list-user"
+		resultType="cn.com.sinosoft.bomsmgr.entity.ge.TAuthMenufun">
+		SELECT
+		  id,
+		  MF_ID,
+		  PMF_ID,
+		  MF_NAME,
+		  MF_LINK,
+		  MF_TYPE,
+		  MF_DESC,
+		  MF_RANK,
+		  MF_LEVEL
+		FROM t_auth_menufun
+			where MF_ID in (
+				select MF_ID from t_auth_rm 
+					where ROLE_ID in
+						( select ur.ROLE_ID from t_auth_ur ur where USER_ID =  #{userId})
+					)
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+		ORDER BY MF_LEVEL,MF_RANK
+	</select>
+	
+	<!-- 重新分配角色权限 -->
+	<insert id="mf-role-set" useGeneratedKeys="true" keyProperty="id">
+		insert into t_auth_rm
+			(ROLE_ID, MF_ID)
+		values
+		<foreach collection="ids" item="id" index="index" separator="," >
+			(#{roleId}, #{id})
+		</foreach>
+	</insert>
+	
+	<!-- 重新分配用户角色权限 -->
+	<insert id="user-role-set" useGeneratedKeys="true" keyProperty="id">
+		insert into t_auth_ur
+			(USER_ID, ROLE_ID)
+		values
+		<foreach collection="ids" item="id" index="index" separator="," >
+			(#{userId}, #{id})
+		</foreach>
+	</insert>
+	
+</mapper>

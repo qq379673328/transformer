@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title></title>
+	
+	<link rel="shortcut icon" href="images/favicon.ico" />
+
+<style type="text/css">
+@charset "utf-8";
+/* CSS Document */
+* {margin: 0;padding: 0;font-family: "微软雅黑";}
+.clear {clear: both;}
+.img-bg{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: -9999;
+}
+.img-bg-wrap{
+	width: 700px;
+	z-index: -9998;
+	position: absolute;
+	top: 46.5px;
+	left: 144.5px;
+}
+.logo {
+	position: absolute;
+	top: -80px;
+	left: -60px;
+	width: 332px;
+	height: 109px;
+	background: url(images/logo.png) no-repeat;
+}
+.login-content{
+	width: 989px;
+	height: 523px;
+	margin: 0px auto;
+	position: relative;
+}
+.login-content .title{
+	position: absolute;
+	top: 110px;
+	left: 350px;
+	font-size: 35px;
+	color: #fff;
+}
+.login-content .login-form{
+	position: absolute;
+	width: 400px;
+	top: 180px;
+	left: 370px;
+}
+.login-btn{
+	background: url(images/login-btn.png) no-repeat;
+	background-size: 100%;
+	color: #fff;
+	border: none;
+	padding: 5px 20px;
+	cursor: pointer;
+	margin-left: 20px;
+}
+.in-box{
+	float: left;
+	margin-top: 10px;
+	clear: both;
+}
+.in-box>*{
+	float: left;
+}
+.in-box .input{
+	background-color: #000;
+	color: #fff;
+	border: none;
+	padding: 4px;
+	border-radius: 2px;
+	margin-left: 5px;
+	width: 150px;
+}
+.forget-pwd{
+	color: #fff;
+	padding-left: 30px;
+	position: absolute;
+	top: 285px;
+	right: 240px;
+	text-decoration: none;
+	background: url(images/forget-pwd.png) no-repeat;
+	font-size: 12px;
+}
+.forget-pwd-info{
+	color: #fff;
+	position: absolute;
+	top: 310px;
+	right: 240px;
+	font-size: 12px;
+}
+.login-form-error{
+	background-color: #F95959;
+	color: #fff;
+	padding: 5px 10px;
+}
+.kaptcha{
+	height: 25px;
+	cursor: pointer;
+	width: 75px;
+}
+.in-box .input-kaptcha{
+	width: 75px;
+}
+</style>
+
+
+</head>
+<body>
+	<img src="images/login-bg.jpg" class="img-bg" />
+	<div id="login-box">
+		<div class="login-box">
+			<!-- 普通登陆 -->
+			<div class="login-content">
+				<img src="images/login-wrap.png" class="img-bg-wrap" />
+				<div class="logo"></div>
+				<div class="title">登录</div>
+				<form class="login-form" action="login" method="post" autocomplete="off"
+					onsubmit="check()">
+					<input type="hidden" name="loginType" value="1" />
+					<div class="in-box">
+						<span class="label">用&nbsp;&nbsp;&nbsp;户</span>
+						<input id="input_username" class="input" name="username" type="text"
+							autocomplete="off"
+							th:value="${session.SESSION_NAME_LASTLOGINNAME}"
+							placeholder="用户名" />
+					</div>
+					<div class="in-box">
+						<span class="label">密&nbsp;&nbsp;&nbsp;码</span>
+						<input id="input_password_copy" class="input" name="password"
+							type="text"
+							autocomplete="off"
+							placeholder="密码" />
+						<input id="input_password" class="input" name="password"
+							style="display: none;"
+							type="password"
+							th:value="${session.SESSION_NAME_LASTLOGINPWD}"
+							autocomplete="off"
+							placeholder="密码" />
+					</div>
+					<div class="in-box">
+						<span class="label">验证码</span>
+						<input id="input_code" class="input input-kaptcha" name="code"
+							type="text"
+							autocomplete="off"
+							placeholder="验证码"/><img class="kaptcha"
+							src="api/pub/kaptcha"
+							title="点击更换"
+							onclick="javascript:this.src='api/pub/kaptcha';"/>
+						<input class="login-btn" type="submit" value="登 录" />
+					</div>
+					
+					<div class="in-box clearfix">
+						<span th:if="${param.error != null && session.SPRING_SECURITY_LAST_EXCEPTION != null}"
+							th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"
+							class="login-form-error">
+						</span>
+						<span th:if="${param.logout}" class="login-form-error">您已注销成功</span>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="scripts/libs/jquery-1.11.1.min.js"></script>
+	<!--登陆页面嵌入iframe中时处理-->
+	<script type="text/javascript">
+		if (self != top) {
+			window.parent.location.reload();
+		}
+		
+		function getCookie(c_name) {
+			var c_start;
+			if (document.cookie.length > 0) {
+				c_start = document.cookie.indexOf(c_name + "=")
+				if (c_start != -1){ 
+					c_start = c_start + c_name.length+1 
+					c_end = document.cookie.indexOf(";",c_start)
+					if (c_end == -1) {
+						c_end = document.cookie.length
+					}
+					return unescape(document.cookie.substring(c_start, c_end))
+				}
+			}
+			return ""
+		}
+		
+		$(function(){
+			var marginTop = $(window).height()/2 - $(".login-content").height()/2 + 50;
+			$(".login-content").css("margin-top", marginTop);
+			
+			$("#input_password_copy").val(getNDot($("#input_password").val().length))
+			
+			$("#input_password_copy").focus(function(){
+				$(this).remove();
+				$("#input_password").show();
+				$("#input_password").focus();
+			});
+			
+			// 用户名处理-session中无的话从cookie中取
+			var $inputUserName = $("#input_username");
+			if(!$inputUserName.val()){
+				$inputUserName.val(getCookie("COOKIE_NAME_LASTLOGINNAME"));
+			}
+		});
+		
+		function getNDot(n){
+			var ret = '';
+			for(i = 0; i < n; i++){
+				ret += '•';
+			}
+			return ret;
+		}
+		
+		function check(){
+			$("#input_password_copy").remove();
+		}
+		
+	</script>
+	
+</body>
+</html>

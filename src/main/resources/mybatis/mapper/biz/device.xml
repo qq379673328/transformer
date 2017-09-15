@@ -1,0 +1,27 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 业务-设备 -->
+<mapper namespace="cn.com.sinosoft.device">
+
+	<!-- 获取列表 -->
+	<select id="get-list"
+		resultType="hashmap">
+		SELECT
+		  t.*
+		FROM t_biz_device t 
+		where 1=1
+		ORDER BY t.create_time desc
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="del">
+		delete from t_biz_device 
+			where id in 
+			<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+			 #{item}
+			</foreach>
+	</delete>
+	
+</mapper>
