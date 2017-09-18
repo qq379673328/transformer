@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.com.sinosoft.bomsmgr.dao.ge.TBizWiringdiagramMapper;
 import cn.com.sinosoft.bomsmgr.entity.ge.TBizWiringdiagram;
+import cn.com.sinosoft.bomsmgr.model.biz.WiringdiagramDetail;
+import cn.com.sinosoft.bomsmgr.model.biz.WiringdiagramInfo;
 import cn.com.sinosoft.bomsmgr.service.common.CommonUserService;
 import cn.com.sinosoft.tbf.dao.BaseDao;
 
@@ -23,20 +25,51 @@ import cn.com.sinosoft.tbf.dao.BaseDao;
 @Service
 public class WiringdiagramService {
 
-	public static final String NAMESPACE_BASE = "cn.com.sinosoft.device.";
+	public static final String NAMESPACE_BASE = "cn.com.sinosoft.wiringdiagram.";
 
 	@Resource
 	BaseDao baseDao;
 	@Resource
 	CommonUserService commonUserService;
+	@Resource
+	DeviceService deviceService;
 
 	/**
 	 * 获取所有
 	 *
 	 * @return
 	 */
-	public List<Map<String, Object>> getList(Map<String, Object> params) {
+	public List<WiringdiagramInfo> getList(Map<String, Object> params) {
 		return baseDao.queryList(NAMESPACE_BASE + "get-list", params);
+	}
+
+	/**
+	 * 根据id获取
+	 *
+	 * @param id
+	 * @return
+	 */
+	public WiringdiagramInfo getById(Integer id) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		List<WiringdiagramInfo> items = getList(params);
+		return items.size() > 0 ? items.get(0) : null;
+	}
+
+	/**
+	 * 根据接线图id获取接线图详情
+	 *
+	 * @param id
+	 * @return
+	 */
+	public WiringdiagramDetail getDetailById(Integer id) {
+		WiringdiagramDetail detail = new WiringdiagramDetail();
+		detail.setWiringdiagram(getById(id));
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("wiringdiagramId", id);
+		detail.setDeviceInfos(deviceService.getList(params));
+		return detail;
 	}
 
 	/**
@@ -48,6 +81,7 @@ public class WiringdiagramService {
 	 */
 	@Transactional
 	public void add(TBizWiringdiagram item) {
+		item.setCreateUser(commonUserService.getRequestUserId());
 		getMapper().insertSelective(item);
 	}
 

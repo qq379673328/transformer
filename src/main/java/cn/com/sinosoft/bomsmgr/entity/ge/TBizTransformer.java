@@ -18,6 +18,8 @@ public class TBizTransformer implements Serializable {
 
     private String address;
 
+    private String state;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -76,6 +78,14 @@ public class TBizTransformer implements Serializable {
         this.address = address == null ? null : address.trim();
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state == null ? null : state.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -94,7 +104,8 @@ public class TBizTransformer implements Serializable {
             && (this.getDesc() == null ? other.getDesc() == null : this.getDesc().equals(other.getDesc()))
             && (this.getCreateUser() == null ? other.getCreateUser() == null : this.getCreateUser().equals(other.getCreateUser()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()));
+            && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
+            && (this.getState() == null ? other.getState() == null : this.getState().equals(other.getState()));
     }
 
     @Override
@@ -108,6 +119,7 @@ public class TBizTransformer implements Serializable {
         result = prime * result + ((getCreateUser() == null) ? 0 : getCreateUser().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
+        result = prime * result + ((getState() == null) ? 0 : getState().hashCode());
         return result;
     }
 }

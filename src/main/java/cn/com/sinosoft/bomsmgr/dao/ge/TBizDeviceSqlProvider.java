@@ -64,6 +64,14 @@ public class TBizDeviceSqlProvider {
             sql.VALUES("height", "#{height,jdbcType=INTEGER}");
         }
         
+        if (record.getCreateUser() != null) {
+            sql.VALUES("create_user", "#{createUser,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getCreateTime() != null) {
+            sql.VALUES("create_time", "#{createTime,jdbcType=TIMESTAMP}");
+        }
+        
         return sql.toString();
     }
 
@@ -83,6 +91,8 @@ public class TBizDeviceSqlProvider {
         sql.SELECT("y");
         sql.SELECT("width");
         sql.SELECT("height");
+        sql.SELECT("create_user");
+        sql.SELECT("create_time");
         sql.FROM("t_biz_device");
         applyWhere(sql, example, false);
         
@@ -140,6 +150,14 @@ public class TBizDeviceSqlProvider {
             sql.SET("height = #{record.height,jdbcType=INTEGER}");
         }
         
+        if (record.getCreateUser() != null) {
+            sql.SET("create_user = #{record.createUser,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getCreateTime() != null) {
+            sql.SET("create_time = #{record.createTime,jdbcType=TIMESTAMP}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -158,6 +176,8 @@ public class TBizDeviceSqlProvider {
         sql.SET("y = #{record.y,jdbcType=INTEGER}");
         sql.SET("width = #{record.width,jdbcType=INTEGER}");
         sql.SET("height = #{record.height,jdbcType=INTEGER}");
+        sql.SET("create_user = #{record.createUser,jdbcType=VARCHAR}");
+        sql.SET("create_time = #{record.createTime,jdbcType=TIMESTAMP}");
         
         TBizDeviceExample example = (TBizDeviceExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -202,6 +222,14 @@ public class TBizDeviceSqlProvider {
         
         if (record.getHeight() != null) {
             sql.SET("height = #{height,jdbcType=INTEGER}");
+        }
+        
+        if (record.getCreateUser() != null) {
+            sql.SET("create_user = #{createUser,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getCreateTime() != null) {
+            sql.SET("create_time = #{createTime,jdbcType=TIMESTAMP}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

@@ -1104,35 +1104,35 @@ define(["jquery", "underscore", "json2", "core",
 		tpl: tpl,
 		success: function() {
 			$win.dialog($.extend({
-			closed: false,
-			title: title,
-			onClose: function() {
-				if (onClose) {
-				onClose();
+				closed: false,
+				title: title,
+				onClose: function() {
+					if (onClose) {
+					onClose();
+					}
+					$win.dialog("destroy");
 				}
-				$win.dialog("destroy");
-			}
 			}, dialogConfig));
 			handleForm({
-			$form: $win.find("form"),
-			saveUrl: surl,
-			rules: rules,
-			title: "" + title,
-			data: data,
-			type: type,
-			child: child,
-			beforeSubmit: beforeSubmit,
-			success: function(data) {
-				if (success) {
-				success(data, $win);
-				} else {
-				$win.dialog("close");
+				$form: $win.find("form"),
+				saveUrl: surl,
+				rules: rules,
+				title: "" + title,
+				data: data,
+				type: type,
+				child: child,
+				beforeSubmit: beforeSubmit,
+				success: function(data) {
+					if (success) {
+						success(data, $win);
+					} else {
+						$win.dialog("close");
+					}
+				},
+				tplsuccess: function($form) {
+					if (mtplsuccess)
+					mtplsuccess($form);
 				}
-			},
-			tplsuccess: function($form) {
-				if (mtplsuccess)
-				mtplsuccess($form);
-			}
 			});
 		}
 		});

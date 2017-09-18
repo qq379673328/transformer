@@ -9,22 +9,22 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.com.sinosoft.bomsmgr.dao.ge.TBizDeviceMapper;
-import cn.com.sinosoft.bomsmgr.entity.ge.TBizDevice;
-import cn.com.sinosoft.bomsmgr.model.biz.DeviceInfo;
+import cn.com.sinosoft.bomsmgr.dao.ge.TBizPartMapper;
+import cn.com.sinosoft.bomsmgr.entity.ge.TBizPart;
+import cn.com.sinosoft.bomsmgr.model.biz.PartInfo;
 import cn.com.sinosoft.bomsmgr.service.common.CommonUserService;
 import cn.com.sinosoft.tbf.dao.BaseDao;
 
 /**
- * 设备服务
+ * 部件服务
  *
  * @author <a href="mainto:nytclizy@gmail.com">lizhiyong</a>
  * @since 2017年9月14日
  */
 @Service
-public class DeviceService {
+public class PartService {
 
-	public static final String NAMESPACE_BASE = "cn.com.sinosoft.device.";
+	public static final String NAMESPACE_BASE = "cn.com.sinosoft.part.";
 
 	@Resource
 	BaseDao baseDao;
@@ -36,7 +36,7 @@ public class DeviceService {
 	 *
 	 * @return
 	 */
-	public List<DeviceInfo> getList(Map<String, Object> params) {
+	public List<PartInfo> getList(Map<String, Object> params) {
 		return baseDao.queryList(NAMESPACE_BASE + "get-list", params);
 	}
 
@@ -48,7 +48,7 @@ public class DeviceService {
 	 * @return 详情
 	 */
 	@Transactional
-	public void add(TBizDevice item) {
+	public void add(TBizPart item) {
 		item.setCreateUser(commonUserService.getRequestUserId());
 		getMapper().insertSelective(item);
 	}
@@ -61,7 +61,7 @@ public class DeviceService {
 	 * @return 影响条数
 	 */
 	@Transactional
-	public int update(TBizDevice item) {
+	public int update(TBizPart item) {
 		return getMapper().updateByPrimaryKeySelective(item);
 	}
 
@@ -86,8 +86,8 @@ public class DeviceService {
 	 *
 	 * @return
 	 */
-	private TBizDeviceMapper getMapper() {
-		return baseDao.getMapper(TBizDeviceMapper.class);
+	private TBizPartMapper getMapper() {
+		return baseDao.getMapper(TBizPartMapper.class);
 	}
 
 }

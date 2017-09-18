@@ -1,32 +1,40 @@
 package cn.com.sinosoft.bomsmgr.dao.ge;
 
-import cn.com.sinosoft.bomsmgr.entity.ge.TBizPartsHis;
-import cn.com.sinosoft.bomsmgr.entity.ge.TBizPartsHisExample.Criteria;
-import cn.com.sinosoft.bomsmgr.entity.ge.TBizPartsHisExample.Criterion;
-import cn.com.sinosoft.bomsmgr.entity.ge.TBizPartsHisExample;
+import cn.com.sinosoft.bomsmgr.entity.ge.TBizPart;
+import cn.com.sinosoft.bomsmgr.entity.ge.TBizPartExample.Criteria;
+import cn.com.sinosoft.bomsmgr.entity.ge.TBizPartExample.Criterion;
+import cn.com.sinosoft.bomsmgr.entity.ge.TBizPartExample;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.jdbc.SQL;
 
-public class TBizPartsHisSqlProvider {
+public class TBizPartSqlProvider {
 
-    public String countByExample(TBizPartsHisExample example) {
+    public String countByExample(TBizPartExample example) {
         SQL sql = new SQL();
-        sql.SELECT("count(*)").FROM("t_biz_parts_his");
+        sql.SELECT("count(*)").FROM("t_biz_part");
         applyWhere(sql, example, false);
         return sql.toString();
     }
 
-    public String deleteByExample(TBizPartsHisExample example) {
+    public String deleteByExample(TBizPartExample example) {
         SQL sql = new SQL();
-        sql.DELETE_FROM("t_biz_parts_his");
+        sql.DELETE_FROM("t_biz_part");
         applyWhere(sql, example, false);
         return sql.toString();
     }
 
-    public String insertSelective(TBizPartsHis record) {
+    public String insertSelective(TBizPart record) {
         SQL sql = new SQL();
-        sql.INSERT_INTO("t_biz_parts_his");
+        sql.INSERT_INTO("t_biz_part");
+        
+        if (record.getName() != null) {
+            sql.VALUES("`name`", "#{name,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getDesc() != null) {
+            sql.VALUES("`desc`", "#{desc,jdbcType=VARCHAR}");
+        }
         
         if (record.getCreateTime() != null) {
             sql.VALUES("create_time", "#{createTime,jdbcType=TIMESTAMP}");
@@ -40,45 +48,52 @@ public class TBizPartsHisSqlProvider {
             sql.VALUES("img_id", "#{imgId,jdbcType=VARCHAR}");
         }
         
-        if (record.getContent() != null) {
-            sql.VALUES("content", "#{content,jdbcType=LONGVARCHAR}");
+        if (record.getX() != null) {
+            sql.VALUES("x", "#{x,jdbcType=INTEGER}");
+        }
+        
+        if (record.getY() != null) {
+            sql.VALUES("y", "#{y,jdbcType=INTEGER}");
+        }
+        
+        if (record.getWidth() != null) {
+            sql.VALUES("width", "#{width,jdbcType=INTEGER}");
+        }
+        
+        if (record.getHeight() != null) {
+            sql.VALUES("height", "#{height,jdbcType=INTEGER}");
+        }
+        
+        if (record.getTypeId() != null) {
+            sql.VALUES("type_id", "#{typeId,jdbcType=INTEGER}");
+        }
+        
+        if (record.getDeviceId() != null) {
+            sql.VALUES("device_id", "#{deviceId,jdbcType=INTEGER}");
         }
         
         return sql.toString();
     }
 
-    public String selectByExampleWithBLOBs(TBizPartsHisExample example) {
+    public String selectByExample(TBizPartExample example) {
         SQL sql = new SQL();
         if (example != null && example.isDistinct()) {
             sql.SELECT_DISTINCT("id");
         } else {
             sql.SELECT("id");
         }
+        sql.SELECT("`name`");
+        sql.SELECT("`desc`");
         sql.SELECT("create_time");
         sql.SELECT("create_user");
         sql.SELECT("img_id");
-        sql.SELECT("content");
-        sql.FROM("t_biz_parts_his");
-        applyWhere(sql, example, false);
-        
-        if (example != null && example.getOrderByClause() != null) {
-            sql.ORDER_BY(example.getOrderByClause());
-        }
-        
-        return sql.toString();
-    }
-
-    public String selectByExample(TBizPartsHisExample example) {
-        SQL sql = new SQL();
-        if (example != null && example.isDistinct()) {
-            sql.SELECT_DISTINCT("id");
-        } else {
-            sql.SELECT("id");
-        }
-        sql.SELECT("create_time");
-        sql.SELECT("create_user");
-        sql.SELECT("img_id");
-        sql.FROM("t_biz_parts_his");
+        sql.SELECT("x");
+        sql.SELECT("y");
+        sql.SELECT("width");
+        sql.SELECT("height");
+        sql.SELECT("type_id");
+        sql.SELECT("device_id");
+        sql.FROM("t_biz_part");
         applyWhere(sql, example, false);
         
         if (example != null && example.getOrderByClause() != null) {
@@ -89,14 +104,22 @@ public class TBizPartsHisSqlProvider {
     }
 
     public String updateByExampleSelective(Map<String, Object> parameter) {
-        TBizPartsHis record = (TBizPartsHis) parameter.get("record");
-        TBizPartsHisExample example = (TBizPartsHisExample) parameter.get("example");
+        TBizPart record = (TBizPart) parameter.get("record");
+        TBizPartExample example = (TBizPartExample) parameter.get("example");
         
         SQL sql = new SQL();
-        sql.UPDATE("t_biz_parts_his");
+        sql.UPDATE("t_biz_part");
         
         if (record.getId() != null) {
             sql.SET("id = #{record.id,jdbcType=INTEGER}");
+        }
+        
+        if (record.getName() != null) {
+            sql.SET("`name` = #{record.name,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getDesc() != null) {
+            sql.SET("`desc` = #{record.desc,jdbcType=VARCHAR}");
         }
         
         if (record.getCreateTime() != null) {
@@ -111,46 +134,67 @@ public class TBizPartsHisSqlProvider {
             sql.SET("img_id = #{record.imgId,jdbcType=VARCHAR}");
         }
         
-        if (record.getContent() != null) {
-            sql.SET("content = #{record.content,jdbcType=LONGVARCHAR}");
+        if (record.getX() != null) {
+            sql.SET("x = #{record.x,jdbcType=INTEGER}");
+        }
+        
+        if (record.getY() != null) {
+            sql.SET("y = #{record.y,jdbcType=INTEGER}");
+        }
+        
+        if (record.getWidth() != null) {
+            sql.SET("width = #{record.width,jdbcType=INTEGER}");
+        }
+        
+        if (record.getHeight() != null) {
+            sql.SET("height = #{record.height,jdbcType=INTEGER}");
+        }
+        
+        if (record.getTypeId() != null) {
+            sql.SET("type_id = #{record.typeId,jdbcType=INTEGER}");
+        }
+        
+        if (record.getDeviceId() != null) {
+            sql.SET("device_id = #{record.deviceId,jdbcType=INTEGER}");
         }
         
         applyWhere(sql, example, true);
         return sql.toString();
     }
 
-    public String updateByExampleWithBLOBs(Map<String, Object> parameter) {
-        SQL sql = new SQL();
-        sql.UPDATE("t_biz_parts_his");
-        
-        sql.SET("id = #{record.id,jdbcType=INTEGER}");
-        sql.SET("create_time = #{record.createTime,jdbcType=TIMESTAMP}");
-        sql.SET("create_user = #{record.createUser,jdbcType=VARCHAR}");
-        sql.SET("img_id = #{record.imgId,jdbcType=VARCHAR}");
-        sql.SET("content = #{record.content,jdbcType=LONGVARCHAR}");
-        
-        TBizPartsHisExample example = (TBizPartsHisExample) parameter.get("example");
-        applyWhere(sql, example, true);
-        return sql.toString();
-    }
-
     public String updateByExample(Map<String, Object> parameter) {
         SQL sql = new SQL();
-        sql.UPDATE("t_biz_parts_his");
+        sql.UPDATE("t_biz_part");
         
         sql.SET("id = #{record.id,jdbcType=INTEGER}");
+        sql.SET("`name` = #{record.name,jdbcType=VARCHAR}");
+        sql.SET("`desc` = #{record.desc,jdbcType=VARCHAR}");
         sql.SET("create_time = #{record.createTime,jdbcType=TIMESTAMP}");
         sql.SET("create_user = #{record.createUser,jdbcType=VARCHAR}");
         sql.SET("img_id = #{record.imgId,jdbcType=VARCHAR}");
+        sql.SET("x = #{record.x,jdbcType=INTEGER}");
+        sql.SET("y = #{record.y,jdbcType=INTEGER}");
+        sql.SET("width = #{record.width,jdbcType=INTEGER}");
+        sql.SET("height = #{record.height,jdbcType=INTEGER}");
+        sql.SET("type_id = #{record.typeId,jdbcType=INTEGER}");
+        sql.SET("device_id = #{record.deviceId,jdbcType=INTEGER}");
         
-        TBizPartsHisExample example = (TBizPartsHisExample) parameter.get("example");
+        TBizPartExample example = (TBizPartExample) parameter.get("example");
         applyWhere(sql, example, true);
         return sql.toString();
     }
 
-    public String updateByPrimaryKeySelective(TBizPartsHis record) {
+    public String updateByPrimaryKeySelective(TBizPart record) {
         SQL sql = new SQL();
-        sql.UPDATE("t_biz_parts_his");
+        sql.UPDATE("t_biz_part");
+        
+        if (record.getName() != null) {
+            sql.SET("`name` = #{name,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getDesc() != null) {
+            sql.SET("`desc` = #{desc,jdbcType=VARCHAR}");
+        }
         
         if (record.getCreateTime() != null) {
             sql.SET("create_time = #{createTime,jdbcType=TIMESTAMP}");
@@ -164,8 +208,28 @@ public class TBizPartsHisSqlProvider {
             sql.SET("img_id = #{imgId,jdbcType=VARCHAR}");
         }
         
-        if (record.getContent() != null) {
-            sql.SET("content = #{content,jdbcType=LONGVARCHAR}");
+        if (record.getX() != null) {
+            sql.SET("x = #{x,jdbcType=INTEGER}");
+        }
+        
+        if (record.getY() != null) {
+            sql.SET("y = #{y,jdbcType=INTEGER}");
+        }
+        
+        if (record.getWidth() != null) {
+            sql.SET("width = #{width,jdbcType=INTEGER}");
+        }
+        
+        if (record.getHeight() != null) {
+            sql.SET("height = #{height,jdbcType=INTEGER}");
+        }
+        
+        if (record.getTypeId() != null) {
+            sql.SET("type_id = #{typeId,jdbcType=INTEGER}");
+        }
+        
+        if (record.getDeviceId() != null) {
+            sql.SET("device_id = #{deviceId,jdbcType=INTEGER}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");
@@ -173,7 +237,7 @@ public class TBizPartsHisSqlProvider {
         return sql.toString();
     }
 
-    protected void applyWhere(SQL sql, TBizPartsHisExample example, boolean includeExamplePhrase) {
+    protected void applyWhere(SQL sql, TBizPartExample example, boolean includeExamplePhrase) {
         if (example == null) {
             return;
         }

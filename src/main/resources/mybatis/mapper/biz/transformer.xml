@@ -7,13 +7,17 @@
 
 	<!-- 获取列表 -->
 	<select id="get-list"
-		resultType="hashmap">
+		resultType="cn.com.sinosoft.bomsmgr.model.biz.TransformerInfo">
 		SELECT
-		  t.*
+		  t.*,
+		  getusername(t.create_user) createUserDesc
 		FROM t_biz_transformer t 
 		where 1=1
 		<if test="state != null">
 			and t.state = #{state}
+		</if>
+		<if test="id != null">
+			and t.id = #{id}
 		</if>
 		ORDER BY t.create_time desc
 	</select>

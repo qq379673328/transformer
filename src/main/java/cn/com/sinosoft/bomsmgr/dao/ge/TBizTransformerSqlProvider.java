@@ -52,6 +52,10 @@ public class TBizTransformerSqlProvider {
             sql.VALUES("address", "#{address,jdbcType=VARCHAR}");
         }
         
+        if (record.getState() != null) {
+            sql.VALUES("`state`", "#{state,jdbcType=VARCHAR}");
+        }
+        
         return sql.toString();
     }
 
@@ -68,6 +72,7 @@ public class TBizTransformerSqlProvider {
         sql.SELECT("create_user");
         sql.SELECT("create_time");
         sql.SELECT("address");
+        sql.SELECT("`state`");
         sql.FROM("t_biz_transformer");
         applyWhere(sql, example, false);
         
@@ -113,6 +118,10 @@ public class TBizTransformerSqlProvider {
             sql.SET("address = #{record.address,jdbcType=VARCHAR}");
         }
         
+        if (record.getState() != null) {
+            sql.SET("`state` = #{record.state,jdbcType=VARCHAR}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -128,6 +137,7 @@ public class TBizTransformerSqlProvider {
         sql.SET("create_user = #{record.createUser,jdbcType=VARCHAR}");
         sql.SET("create_time = #{record.createTime,jdbcType=TIMESTAMP}");
         sql.SET("address = #{record.address,jdbcType=VARCHAR}");
+        sql.SET("`state` = #{record.state,jdbcType=VARCHAR}");
         
         TBizTransformerExample example = (TBizTransformerExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -160,6 +170,10 @@ public class TBizTransformerSqlProvider {
         
         if (record.getAddress() != null) {
             sql.SET("address = #{address,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getState() != null) {
+            sql.SET("`state` = #{state,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

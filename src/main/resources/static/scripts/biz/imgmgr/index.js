@@ -13,62 +13,88 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		$tagTransformers = $("#tag-transformers"),// 变电站容器
 		$tagItems = $('#tag-items'),// 设备列表容器
 		$tagCurrent = $('#tag-current'),// 当前选择设备
-		ITEMS = []// 当前设备列表
+		ITEMS = [],// 当前设备列表
+		CURRENT_TRANSFORMER = null,// 当前变电站
+		CURRENT_WD = null,// 当前接线图
+		CURRENT_DEVICE = null// 当前选中设备
 		;
 	
-	// 加载左侧变电站数据
-	core.submitAjax({
-		url: 'api/transformer/list',
-		method: 'get',
-		data: {state: '01'},
-		success: function(data){
-			data = data || [];
-			var typeMap = {};
-			for(var i in data){
-				var item = data[i];
-				var type = item.type;
-				if(typeMap[type]){
-					typeMap[type].push(item);
-				}else{
-					typeMap[type] = [item];
+	// 刷新变电站
+	function refreshTransFormer(){
+		$tagTransformers.html("加载中...");
+		// 加载左侧变电站数据
+		core.submitAjax({
+			url: 'api/transformer/list',
+			type: 'get',
+			data: {state: '01'},
+			success: function(data){
+				data = data || [];
+				var typeMap = {};
+				for(var i in data){
+					var item = data[i];
+					var type = item.type;
+					if(typeMap[type]){
+						typeMap[type].push(item);
+					}else{
+						typeMap[type] = [item];
+					}
 				}
-			}
-			$tagTransformers.append($("<div class='lv1'>").html('濮阳市供电区变电站'));
-			for(var type in typeMap){
-				$tagTransformers.append($("<div class='lv2'>").html(type));
-				for(var j in typeMap[type]){
-					var item = typeMap[type][j];
-					$tagTransformers.append(
-						$("<div class='lv3'>")
-							.data('data', item)
-							.html(item.name)
-							.click(function(){
-								// 切换变电站
-								changeTransFormer($(this).data('data'), $(this));
-							})
-					);
+				$tagTransformers.html('');
+				$tagTransformers.append($("<div class='lv1'>").html('濮阳市供电区变电站'));
+				for(var type in typeMap){
+					$tagTransformers.append($("<div class='lv2'>").html(type));
+					for(var j in typeMap[type]){
+						var item = typeMap[type][j];
+						$tagTransformers.append(
+							$("<div class='lv3'>")
+								.data('data', item)
+								.html(item.name)
+								.click(function(){
+									// 切换变电站
+									changeTransFormer($(this).data('data'), $(this));
+								})
+						);
+					}
 				}
-				
 				// 默认切换第一个变电站
 				if(data.length > 0){
-					changeTransFormer(data[0], $tagTransformers.find(".lv3:first-child"));
+					changeTransFormer(data[0], $tagTransformers.find(".lv3:first"));
+				}else{// 无变电站
+					changeTransFormer();
 				}
 			}
-		}
-	});
+		});
+	}
+	refreshTransFormer();
 	
 	// 切换变电站
 	function changeTransFormer(item, $tag){
+		CURRENT_TRANSFORMER = item;
+		
+		// 变电站为空
+		if(!item){
+			$("#im-center-withdata").hide();
+			$("#im-center-nodata").show();
+		}else{
+			$("#im-center-withdata").show();
+			$("#im-center-nodata").hide();
+		}
+		
 		$tagTransformers.find(".lv3").removeClass("select");
 		$tag.addClass("select");
+		// 刷新接线图
+		refreshWg(item.id);
+	}
+	
+	// 刷新接线图-通过变电站id
+	function refreshWg(tfId){
 		// 加载变电站的详细信息
 		core.submitAjax({
-			url: 'api/transformer/getDetail',
-			method: 'get',
-			data: {id: item.id},
+			url: 'api/transformer/getDetailById/' + tfId,
+			type: 'get',
 			success: function(data){
 				// 接线图信息
-				var wgs = data.wg || [];
+				var wgs = data.wiringdiagrams || [];
 				// 渲染接线图列表
 				$("#tag-select-wg").combobox({
 					data: wgs,
@@ -90,6 +116,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 	
 	// 切换接线图
 	function changeWg(item){
+		CURRENT_WD = item;
 		// 接线图信息
 		var wgId = item.id,
 			wgImgId = item.imgId,
@@ -100,7 +127,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		// 加载接线图设备列表信息
 		core.submitAjax({
 			url: 'api/device/list',
-			method: 'get',
+			type: 'get',
 			data: {transformerId: tfId, state: '01'},
 			success: function(data){
 				ITEMS = data;
@@ -109,6 +136,45 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			}
 		})
 	}
+	
+	// 添加接线图
+	$("#btn-wd-add").click(function(){
+		if(!CURRENT_TRANSFORMER){
+			core.alertMessage("无变电站信息");
+			return;
+		}
+		tplengine.openWinWithEdit({
+			title: '添加接线图',
+			tpl: 'scripts/biz/imgmgr/tpl/wd-add.tpl',
+			data: {
+				transformerId: CURRENT_TRANSFORMER.id
+			},
+			surl: 'api/wiringdiagram/add',
+			success: function(data, $win){
+				refreshWg(CURRENT_TRANSFORMER.id);
+				$win.dialog("destory");
+			},
+			beforeSubmit: function($form){
+				if($form.find("input[name=imgId]").val()){
+					return true;
+				}else{
+					core.alertMessage("请上传接线图");
+					return false;
+				}
+			},
+			tplsuccess: function(){
+				// 文件上传
+				simpleupload.simpleupload({
+					$div: $("#fileupload-tag"),
+					attachType: "wg",
+					filetype: ["png", "PNG", "jpg", "JPG"],
+					filemax: 20 * 1024 * 1024,
+					progressbar: $("#progress-bar"),
+					hidFileId: "imgId"
+				});
+			}
+		})
+	});
 	
 	// 拖动事件
 	function onDrag(e){
@@ -243,6 +309,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 
 	// 显示当前选中元素的信息
 	function showCurrentItem(item){
+		CURRENT_DEVICE = item;
 		if(item){
 			$tagCurrent
 				.show()
@@ -254,15 +321,5 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			$tagCurrent.hide();
 		}
 	}
-	
-	// 文件上传
-	simpleupload.simpleupload({
-		$div: $("#fileupload-tag"),
-		attachType: "wg",
-		filetype: ["png", "PNG", "jpg", "JPG"],
-		filemax: 20 * 1024 * 1024,
-		progressbar: $("#progress-bar"),
-		hidFileId: "fileId"
-	});
 	
 });

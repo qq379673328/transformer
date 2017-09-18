@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class TBizPartsExample {
+public class TBizPartExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public TBizPartsExample() {
+    public TBizPartExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -802,6 +802,66 @@ public class TBizPartsExample {
 
         public Criteria andTypeIdNotBetween(Integer value1, Integer value2) {
             addCriterion("type_id not between", value1, value2, "typeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceIdIsNull() {
+            addCriterion("device_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceIdIsNotNull() {
+            addCriterion("device_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceIdEqualTo(Integer value) {
+            addCriterion("device_id =", value, "deviceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceIdNotEqualTo(Integer value) {
+            addCriterion("device_id <>", value, "deviceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceIdGreaterThan(Integer value) {
+            addCriterion("device_id >", value, "deviceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("device_id >=", value, "deviceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceIdLessThan(Integer value) {
+            addCriterion("device_id <", value, "deviceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceIdLessThanOrEqualTo(Integer value) {
+            addCriterion("device_id <=", value, "deviceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceIdIn(List<Integer> values) {
+            addCriterion("device_id in", values, "deviceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceIdNotIn(List<Integer> values) {
+            addCriterion("device_id not in", values, "deviceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceIdBetween(Integer value1, Integer value2) {
+            addCriterion("device_id between", value1, value2, "deviceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("device_id not between", value1, value2, "deviceId");
             return (Criteria) this;
         }
     }

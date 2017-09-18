@@ -195,12 +195,8 @@ body {
 	margin-bottom: 5px;
 }
 /*查看页面*/
-
 .showPage {
 	width: 100%;
-	border-color: #d8e2e6;
-	border-width: 1px 1px 1px 1px;
-	border-style: solid;
 	font-size: 14px;
 }
 .showPage tr {
@@ -412,7 +408,7 @@ body {
 	margin-top: 10px;
 }
 .btn {
-	color: #444;
+	color: #fff;
 	height: 30px;
 	line-height: 30px;
 	border: none;
@@ -426,7 +422,7 @@ body {
 	margin: 3px;
 	font-size: 14px;
 	padding: 0px 15px;
-	background: url(../images/btn-bg.png) repeat-x;
+	background-color: #2f5a80;
 }
 .btn-main{
 	background: url(../images/blue-border.png) no-repeat;
@@ -445,7 +441,7 @@ body {
 	line-height: 20px;
 	padding: 0px 10px;
 }
-.btn:hover {color: #A59898;}
+.btn:hover {color: #ffe5e5;}
 .btn-autowidth {width: auto;}
 .btn-unselect {
 	background: #9FA097;
@@ -459,7 +455,7 @@ body {
 	line-height: 25px;
 	font-size: 12px;
 }
-/* .btn-save {background-color: #27A058;}
+.btn-save {background-color: #27A058;}
 .btn-add {background-color: #36B8AC;}
 .btn-reset {background-color: #c0c0c0;}
 .btn-cancle {background-color: #463434;}
@@ -467,7 +463,7 @@ body {
 .btn-danger {background-color: #D80B0B;}
 .btn-green {background-color: #33CC66;}
 .btn-brown {background-color: #CC9999;}
-.btn-orange {background-color: #FF9933;} */
+.btn-orange {background-color: #FF9933;}
 .valid-error {
 	border: 1px solid red;
 	color: red;
@@ -853,9 +849,7 @@ body {
 .datagrid-header-row {
 	height: 32px;
 }
-.window .window-header {
-	background-color: #c2dffa;
-}
+.window .window-header {}
 .window .window-body {
 	border: none;
 	padding: 0px;
@@ -1615,16 +1609,19 @@ a {
 	line-height: 22px;
 	background-color: #2e9c5f;
 	color: #fff;
+	overflow-x: auto;
 }
 .im .im-left .lv1{margin-left: 10px;}
 .im .im-left .lv2{margin-left: 20px;}
-.im .im-left .lv3{margin-left: 30px; cursor: pointer;}
+.im .im-left .lv3{margin-left: 30px; cursor: pointer; padding-left: 10px;}
 .im .im-left .lv3:hover{background-color: #fff; color: #000;}
+.im .im-left .lv3.select{background-color: #2f5a80;}
 .im .im-center{
 	overflow-x: auto;
 	float: left;
 	background-color: #eee;
 }
+.im .im-center-title{text-align: center;}
 .im .im-right{
 	width: 180px;
 	min-height: 300px;

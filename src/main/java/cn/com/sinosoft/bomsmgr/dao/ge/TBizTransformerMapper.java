@@ -33,10 +33,12 @@ public interface TBizTransformerMapper {
     @Insert({
         "insert into t_biz_transformer (`name`, `type`, ",
         "`desc`, create_user, ",
-        "create_time, address)",
+        "create_time, address, ",
+        "`state`)",
         "values (#{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, ",
         "#{desc,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, ",
-        "#{createTime,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR})"
+        "#{createTime,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, ",
+        "#{state,jdbcType=VARCHAR})"
     })
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insert(TBizTransformer record);
@@ -53,13 +55,14 @@ public interface TBizTransformerMapper {
         @Result(column="desc", property="desc", jdbcType=JdbcType.VARCHAR),
         @Result(column="create_user", property="createUser", jdbcType=JdbcType.VARCHAR),
         @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="address", property="address", jdbcType=JdbcType.VARCHAR)
+        @Result(column="address", property="address", jdbcType=JdbcType.VARCHAR),
+        @Result(column="state", property="state", jdbcType=JdbcType.VARCHAR)
     })
     List<TBizTransformer> selectByExample(TBizTransformerExample example);
 
     @Select({
         "select",
-        "id, `name`, `type`, `desc`, create_user, create_time, address",
+        "id, `name`, `type`, `desc`, create_user, create_time, address, `state`",
         "from t_biz_transformer",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -70,7 +73,8 @@ public interface TBizTransformerMapper {
         @Result(column="desc", property="desc", jdbcType=JdbcType.VARCHAR),
         @Result(column="create_user", property="createUser", jdbcType=JdbcType.VARCHAR),
         @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="address", property="address", jdbcType=JdbcType.VARCHAR)
+        @Result(column="address", property="address", jdbcType=JdbcType.VARCHAR),
+        @Result(column="state", property="state", jdbcType=JdbcType.VARCHAR)
     })
     TBizTransformer selectByPrimaryKey(Integer id);
 
@@ -90,7 +94,8 @@ public interface TBizTransformerMapper {
           "`desc` = #{desc,jdbcType=VARCHAR},",
           "create_user = #{createUser,jdbcType=VARCHAR},",
           "create_time = #{createTime,jdbcType=TIMESTAMP},",
-          "address = #{address,jdbcType=VARCHAR}",
+          "address = #{address,jdbcType=VARCHAR},",
+          "`state` = #{state,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(TBizTransformer record);

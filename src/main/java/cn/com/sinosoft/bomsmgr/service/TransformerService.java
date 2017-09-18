@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.com.sinosoft.bomsmgr.dao.ge.TBizTransformerMapper;
 import cn.com.sinosoft.bomsmgr.entity.ge.TBizTransformer;
+import cn.com.sinosoft.bomsmgr.model.biz.TransformerDetail;
+import cn.com.sinosoft.bomsmgr.model.biz.TransformerInfo;
 import cn.com.sinosoft.bomsmgr.service.common.CommonUserService;
 import cn.com.sinosoft.tbf.dao.BaseDao;
 
@@ -30,14 +32,29 @@ public class TransformerService {
 	BaseDao baseDao;
 	@Resource
 	CommonUserService commonUserService;
+	@Resource
+	WiringdiagramService wiringdiagramService;
 
 	/**
 	 * 获取所有变压器
 	 *
 	 * @return
 	 */
-	public List<Map<String, Object>> getList(Map<String, Object> params) {
+	public List<TransformerInfo> getList(Map<String, Object> params) {
 		return baseDao.queryList(NAMESPACE_BASE + "get-list", params);
+	}
+
+	/**
+	 * 根据id获取
+	 *
+	 * @param id
+	 * @return
+	 */
+	public TransformerInfo getById(Integer id) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		List<TransformerInfo> items = getList(params);
+		return items.size() > 0 ? items.get(0) : null;
 	}
 
 	/**
@@ -123,6 +140,22 @@ public class TransformerService {
 		params.put("state", state);
 		params.put("ids", ids);
 		return baseDao.delete(NAMESPACE_BASE + "change-state", params);
+	}
+
+	/**
+	 * 根据变电站id获取变电站详情
+	 *
+	 * @param id
+	 * @return
+	 */
+	public TransformerDetail getDetailById(Integer id) {
+		TransformerDetail detail = new TransformerDetail();
+		detail.setTransformer(getById(id));
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("transformerId", id);
+		detail.setWiringdiagrams(wiringdiagramService.getList(params));
+		return detail;
 	}
 
 	/**

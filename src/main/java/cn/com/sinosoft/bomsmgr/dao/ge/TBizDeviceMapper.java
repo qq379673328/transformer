@@ -34,11 +34,13 @@ public interface TBizDeviceMapper {
         "insert into t_biz_device (`name`, type_id, ",
         "`desc`, wiringdiagram_id, ",
         "img_id, x, y, ",
-        "width, height)",
+        "width, height, create_user, ",
+        "create_time)",
         "values (#{name,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, ",
         "#{desc,jdbcType=VARCHAR}, #{wiringdiagramId,jdbcType=INTEGER}, ",
         "#{imgId,jdbcType=VARCHAR}, #{x,jdbcType=INTEGER}, #{y,jdbcType=INTEGER}, ",
-        "#{width,jdbcType=INTEGER}, #{height,jdbcType=INTEGER})"
+        "#{width,jdbcType=INTEGER}, #{height,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR}, ",
+        "#{createTime,jdbcType=TIMESTAMP})"
     })
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insert(TBizDevice record);
@@ -58,13 +60,16 @@ public interface TBizDeviceMapper {
         @Result(column="x", property="x", jdbcType=JdbcType.INTEGER),
         @Result(column="y", property="y", jdbcType=JdbcType.INTEGER),
         @Result(column="width", property="width", jdbcType=JdbcType.INTEGER),
-        @Result(column="height", property="height", jdbcType=JdbcType.INTEGER)
+        @Result(column="height", property="height", jdbcType=JdbcType.INTEGER),
+        @Result(column="create_user", property="createUser", jdbcType=JdbcType.VARCHAR),
+        @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP)
     })
     List<TBizDevice> selectByExample(TBizDeviceExample example);
 
     @Select({
         "select",
-        "id, `name`, type_id, `desc`, wiringdiagram_id, img_id, x, y, width, height",
+        "id, `name`, type_id, `desc`, wiringdiagram_id, img_id, x, y, width, height, ",
+        "create_user, create_time",
         "from t_biz_device",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -78,7 +83,9 @@ public interface TBizDeviceMapper {
         @Result(column="x", property="x", jdbcType=JdbcType.INTEGER),
         @Result(column="y", property="y", jdbcType=JdbcType.INTEGER),
         @Result(column="width", property="width", jdbcType=JdbcType.INTEGER),
-        @Result(column="height", property="height", jdbcType=JdbcType.INTEGER)
+        @Result(column="height", property="height", jdbcType=JdbcType.INTEGER),
+        @Result(column="create_user", property="createUser", jdbcType=JdbcType.VARCHAR),
+        @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP)
     })
     TBizDevice selectByPrimaryKey(Integer id);
 
@@ -101,7 +108,9 @@ public interface TBizDeviceMapper {
           "x = #{x,jdbcType=INTEGER},",
           "y = #{y,jdbcType=INTEGER},",
           "width = #{width,jdbcType=INTEGER},",
-          "height = #{height,jdbcType=INTEGER}",
+          "height = #{height,jdbcType=INTEGER},",
+          "create_user = #{createUser,jdbcType=VARCHAR},",
+          "create_time = #{createTime,jdbcType=TIMESTAMP}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(TBizDevice record);

@@ -12,24 +12,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.com.sinosoft.bomsmgr.entity.ge.TBizTransformer;
-import cn.com.sinosoft.bomsmgr.model.biz.TransformerDetail;
-import cn.com.sinosoft.bomsmgr.model.biz.TransformerInfo;
-import cn.com.sinosoft.bomsmgr.service.TransformerService;
+import cn.com.sinosoft.bomsmgr.entity.ge.TBizWiringdiagram;
+import cn.com.sinosoft.bomsmgr.model.biz.WiringdiagramDetail;
+import cn.com.sinosoft.bomsmgr.model.biz.WiringdiagramInfo;
+import cn.com.sinosoft.bomsmgr.service.WiringdiagramService;
 import cn.com.sinosoft.tbf.domain.common.APIResult;
 
 /**
- * 变电站api
+ * 接线图api
  *
  * @author <a href="mainto:nytclizy@gmail.com">lizhiyong</a>
  * @since 2017年4月21日
  */
 @RestController
-@RequestMapping("/api/transformer")
-public class TransformerController {
+@RequestMapping("/api/wiringdiagram")
+public class WiringdiagramController {
 
 	@Resource
-	TransformerService service;
+	WiringdiagramService service;
 
 	/**
 	 * 列表
@@ -37,18 +37,18 @@ public class TransformerController {
 	 * @return
 	 */
 	@GetMapping("list")
-	public APIResult<List<TransformerInfo>> getList(Map<String, Object> params) {
-		return new APIResult<List<TransformerInfo>>(service.getList(params));
+	public APIResult<List<WiringdiagramInfo>> getList(Map<String, Object> params) {
+		return new APIResult<List<WiringdiagramInfo>>(service.getList(params));
 	}
 
 	/**
-	 * 变电站详情
+	 * 接线图详情
 	 *
 	 * @return
 	 */
 	@GetMapping("getDetailById/{id}")
-	public APIResult<TransformerDetail> getDetailById(@PathVariable Integer id) {
-		return new APIResult<TransformerDetail>(service.getDetailById(id));
+	public APIResult<WiringdiagramDetail> getDetailById(@PathVariable Integer id) {
+		return new APIResult<WiringdiagramDetail>(service.getDetailById(id));
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class TransformerController {
 	 * @return
 	 */
 	@PostMapping("add")
-	public APIResult<Object> add(TBizTransformer item) {
+	public APIResult<Object> add(TBizWiringdiagram item) {
 		service.add(item);
 		return new APIResult<Object>();
 	}
@@ -72,7 +72,7 @@ public class TransformerController {
 	 * @return
 	 */
 	@PostMapping("edit")
-	public APIResult<Object> edit(TBizTransformer item) {
+	public APIResult<Object> edit(TBizWiringdiagram item) {
 		service.update(item);
 		return new APIResult<Object>();
 	}
@@ -88,31 +88,5 @@ public class TransformerController {
 	public APIResult<Integer> del(@RequestParam(required = true) Integer[] ids) {
 		return new APIResult<Integer>(service.del(ids), "删除成功", true);
 	}
-
-	/**
-	 * 启用
-	 *
-	 * @param ids
-	 *            id列表（以,隔开）
-	 * @return 影响数据条数
-	 */
-	@PostMapping("enable")
-	public APIResult<Object> enable(@RequestParam(required = true) Integer[] ids) {
-		return new APIResult<Object>(service.enable(ids), "启用成功", true);
-	}
-
-	/**
-	 * 禁用
-	 *
-	 * @param ids
-	 *            id列表（以,隔开）
-	 * @return 影响数据条数
-	 */
-	@PostMapping("disable")
-	public APIResult<Object> disable(@RequestParam(required = true) Integer[] ids) {
-		return new APIResult<Object>(service.disable(ids), "禁用成功", true);
-	}
-
-
 
 }

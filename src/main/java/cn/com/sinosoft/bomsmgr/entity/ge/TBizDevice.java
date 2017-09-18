@@ -1,6 +1,7 @@
 package cn.com.sinosoft.bomsmgr.entity.ge;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class TBizDevice implements Serializable {
     private Integer id;
@@ -22,6 +23,10 @@ public class TBizDevice implements Serializable {
     private Integer width;
 
     private Integer height;
+
+    private String createUser;
+
+    private Date createTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -105,6 +110,22 @@ public class TBizDevice implements Serializable {
         this.height = height;
     }
 
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser == null ? null : createUser.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -126,7 +147,9 @@ public class TBizDevice implements Serializable {
             && (this.getX() == null ? other.getX() == null : this.getX().equals(other.getX()))
             && (this.getY() == null ? other.getY() == null : this.getY().equals(other.getY()))
             && (this.getWidth() == null ? other.getWidth() == null : this.getWidth().equals(other.getWidth()))
-            && (this.getHeight() == null ? other.getHeight() == null : this.getHeight().equals(other.getHeight()));
+            && (this.getHeight() == null ? other.getHeight() == null : this.getHeight().equals(other.getHeight()))
+            && (this.getCreateUser() == null ? other.getCreateUser() == null : this.getCreateUser().equals(other.getCreateUser()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()));
     }
 
     @Override
@@ -143,6 +166,8 @@ public class TBizDevice implements Serializable {
         result = prime * result + ((getY() == null) ? 0 : getY().hashCode());
         result = prime * result + ((getWidth() == null) ? 0 : getWidth().hashCode());
         result = prime * result + ((getHeight() == null) ? 0 : getHeight().hashCode());
+        result = prime * result + ((getCreateUser() == null) ? 0 : getCreateUser().hashCode());
+        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         return result;
     }
 }

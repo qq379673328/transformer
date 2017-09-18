@@ -3,7 +3,7 @@ package cn.com.sinosoft.bomsmgr.entity.ge;
 import java.io.Serializable;
 import java.util.Date;
 
-public class TBizParts implements Serializable {
+public class TBizPart implements Serializable {
     private Integer id;
 
     private String name;
@@ -25,6 +25,8 @@ public class TBizParts implements Serializable {
     private Integer height;
 
     private Integer typeId;
+
+    private Integer deviceId;
 
     private static final long serialVersionUID = 1L;
 
@@ -116,6 +118,14 @@ public class TBizParts implements Serializable {
         this.typeId = typeId;
     }
 
+    public Integer getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(Integer deviceId) {
+        this.deviceId = deviceId;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -127,7 +137,7 @@ public class TBizParts implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        TBizParts other = (TBizParts) that;
+        TBizPart other = (TBizPart) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getDesc() == null ? other.getDesc() == null : this.getDesc().equals(other.getDesc()))
@@ -138,7 +148,8 @@ public class TBizParts implements Serializable {
             && (this.getY() == null ? other.getY() == null : this.getY().equals(other.getY()))
             && (this.getWidth() == null ? other.getWidth() == null : this.getWidth().equals(other.getWidth()))
             && (this.getHeight() == null ? other.getHeight() == null : this.getHeight().equals(other.getHeight()))
-            && (this.getTypeId() == null ? other.getTypeId() == null : this.getTypeId().equals(other.getTypeId()));
+            && (this.getTypeId() == null ? other.getTypeId() == null : this.getTypeId().equals(other.getTypeId()))
+            && (this.getDeviceId() == null ? other.getDeviceId() == null : this.getDeviceId().equals(other.getDeviceId()));
     }
 
     @Override
@@ -156,6 +167,7 @@ public class TBizParts implements Serializable {
         result = prime * result + ((getWidth() == null) ? 0 : getWidth().hashCode());
         result = prime * result + ((getHeight() == null) ? 0 : getHeight().hashCode());
         result = prime * result + ((getTypeId() == null) ? 0 : getTypeId().hashCode());
+        result = prime * result + ((getDeviceId() == null) ? 0 : getDeviceId().hashCode());
         return result;
     }
 }

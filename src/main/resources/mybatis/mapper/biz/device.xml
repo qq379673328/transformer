@@ -7,11 +7,20 @@
 
 	<!-- 获取列表 -->
 	<select id="get-list"
-		resultType="hashmap">
+		resultType="cn.com.sinosoft.bomsmgr.model.biz.DeviceInfo">
 		SELECT
-		  t.*
-		FROM t_biz_device t 
+		  t.*,
+		  getusername(t.create_user) createUserDesc,
+		  getusername(f.create_user) uploadUserDesc
+		FROM t_biz_device t
+			left join t_biz_files f on t.img_id = f.id
 		where 1=1
+		<if test="id != null">
+			and t.id = #{id}
+		</if>
+		<if test="wiringdiagramId != null">
+			and t.wiringdiagram_id = #{wiringdiagramId}
+		</if>
 		ORDER BY t.create_time desc
 	</select>
 	

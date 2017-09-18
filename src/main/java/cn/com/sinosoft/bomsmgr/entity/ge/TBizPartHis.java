@@ -3,7 +3,7 @@ package cn.com.sinosoft.bomsmgr.entity.ge;
 import java.io.Serializable;
 import java.util.Date;
 
-public class TBizPartsHis implements Serializable {
+public class TBizPartHis implements Serializable {
     private Integer id;
 
     private Date createTime;
@@ -67,7 +67,7 @@ public class TBizPartsHis implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        TBizPartsHis other = (TBizPartsHis) that;
+        TBizPartHis other = (TBizPartHis) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getCreateUser() == null ? other.getCreateUser() == null : this.getCreateUser().equals(other.getCreateUser()))
