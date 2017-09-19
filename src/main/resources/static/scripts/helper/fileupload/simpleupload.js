@@ -6,6 +6,7 @@ define(["jquery","jquery.ui.widget","transport","fileupload"],function($){
 		var attachType = qp.attachType;//附件类型-区分是哪个业务上传的
 		var hidFileId = qp.hidFileId || 'hidFileId';//存储返回的附件的Id
 		var $progressbar = qp.progressbar;// 进度条
+		var defaultValue = qp.defaultValue;// 默认值
 		if(!$div || !attachType){
 			alert('上传配置信息错误');
 			return;
@@ -37,13 +38,21 @@ define(["jquery","jquery.ui.widget","transport","fileupload"],function($){
 			opacity:'0',
 			cursor: 'pointer'
 		});
-		var hid_file_id = $('<input type="hidden" name="'+hidFileId+'">');
+		var hid_file_id = $('<input type="hidden" name="'+hidFileId+'">').val(defaultValue);
 		$div.append(lab).append(inupt_file).append(hid_file_id);
 		//添加文件名提示
 		var fileName ="";
 		var $uploadinfo = $("<div class='uploadinfo'>");
 		$uploadinfo.css({"color":"red","display":"inline"});
 		$div.after($uploadinfo);
+		
+		if(defaultValue){// 有默认值-提示已有文件
+			$uploadinfo.html("已上传文件");
+		}
+		
+		// 默认隐藏进度条
+		$progressbar.hide();
+		
 		inupt_file.fileupload({
 			dataType: 'json',
 			formData:{
@@ -78,6 +87,9 @@ define(["jquery","jquery.ui.widget","transport","fileupload"],function($){
 				$uploadinfo.html(fileName + " 上传中...");
 				//上传
 				data.submit();
+				
+				// 显示进度条
+				$progressbar.show();
 			},
 			//后台返回
 			done: function (e, data) {

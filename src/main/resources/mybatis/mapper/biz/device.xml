@@ -11,7 +11,9 @@
 		SELECT
 		  t.*,
 		  getusername(t.create_user) createUserDesc,
-		  getusername(f.create_user) uploadUserDesc
+		  getusername(f.create_user) uploadUserDesc,
+		  f.create_time uploadTime,
+		  f.path
 		FROM t_biz_device t
 			left join t_biz_files f on t.img_id = f.id
 		where 1=1

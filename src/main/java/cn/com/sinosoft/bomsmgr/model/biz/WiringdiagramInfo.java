@@ -1,5 +1,7 @@
 package cn.com.sinosoft.bomsmgr.model.biz;
 
+import java.util.Date;
+
 import cn.com.sinosoft.bomsmgr.entity.ge.TBizWiringdiagram;
 
 /**
@@ -23,6 +25,16 @@ public class WiringdiagramInfo extends TBizWiringdiagram{
 	 */
 	private String uploadUserDesc;
 
+	/**
+	 * 图片上传时间
+	 */
+	private Date uploadTime;
+
+	/**
+	 * 图片存储路径
+	 */
+	private String path;
+
 	public String getCreateUserDesc() {
 		return createUserDesc;
 	}
@@ -41,6 +53,22 @@ public class WiringdiagramInfo extends TBizWiringdiagram{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Date getUploadTime() {
+		return uploadTime;
+	}
+
+	public void setUploadTime(Date uploadTime) {
+		this.uploadTime = uploadTime;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 }

@@ -1,0 +1,16 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 通用-文件 -->
+<mapper namespace="cn.com.sinosoft.file">
+
+	<!-- 插入 -->
+	<insert id="insert">
+		insert into t_biz_files 
+			(id, filename_src, filename_new, create_user, path, filetype, filesize)
+			values
+			(#{id}, #{filenameSrc}, #{filenameNew}, #{createUser}, #{path}, #{filetype}, #{filesize})
+	</insert>
+	
+</mapper>

@@ -47,9 +47,8 @@ public class DeviceController {
 	 * @return
 	 */
 	@PostMapping("add")
-	public APIResult<Object> add(TBizDevice item) {
-		service.add(item);
-		return new APIResult<Object>();
+	public APIResult<DeviceInfo> add(TBizDevice item) {
+		return new APIResult<DeviceInfo>(service.add(item));
 	}
 
 	/**
@@ -60,9 +59,8 @@ public class DeviceController {
 	 * @return
 	 */
 	@PostMapping("edit")
-	public APIResult<Object> edit(TBizDevice item) {
-		service.update(item);
-		return new APIResult<Object>();
+	public APIResult<DeviceInfo> edit(TBizDevice item) {
+		return new APIResult<>(service.update(item));
 	}
 
 	/**

@@ -9,10 +9,9 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 	$(".im-center").width($(window).width() - $(".im-left").width() - $(".im-right").width());
 	
 	// 页面元素
-	var $tagWrap = $('#tag-wrap'),// 中间图片容器
+	var $tagImgWrap = $('#tag-wrap'),// 中间图片容器
 		$tagTransformers = $("#tag-transformers"),// 变电站容器
 		$tagItems = $('#tag-items'),// 设备列表容器
-		$tagCurrent = $('#tag-current'),// 当前选择设备
 		ITEMS = [],// 当前设备列表
 		CURRENT_TRANSFORMER = null,// 当前变电站
 		CURRENT_WD = null,// 当前接线图
@@ -73,68 +72,128 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		
 		// 变电站为空
 		if(!item){
-			$("#im-center-withdata").hide();
-			$("#im-center-nodata").show();
+			$("#im-transformer-withdata").hide();
+			$("#im-transformer-nodata").show();
 		}else{
-			$("#im-center-withdata").show();
-			$("#im-center-nodata").hide();
+			$("#im-transformer-withdata").show();
+			$("#im-transformer-nodata").hide();
 		}
 		
 		$tagTransformers.find(".lv3").removeClass("select");
 		$tag.addClass("select");
 		// 刷新接线图
-		refreshWg(item.id);
+		if(item){
+			refreshWg(item.id);
+		}else{
+			refreshWg();
+		}
 	}
 	
+	/////////// 接线图相关/////////////
 	// 刷新接线图-通过变电站id
 	function refreshWg(tfId){
-		// 加载变电站的详细信息
-		core.submitAjax({
-			url: 'api/transformer/getDetailById/' + tfId,
-			type: 'get',
-			success: function(data){
-				// 接线图信息
-				var wgs = data.wiringdiagrams || [];
-				// 渲染接线图列表
-				$("#tag-select-wg").combobox({
-					data: wgs,
-					editable: false,
-					valueField: 'id',
-					textField: 'desc',
-					onSelect: function(record){
+		if(tfId){// 有变电站
+			// 加载变电站的详细信息
+			core.submitAjax({
+				url: 'api/transformer/getDetailById/' + tfId,
+				type: 'get',
+				success: function(data){
+					// 接线图信息
+					var wgs = data.wiringdiagrams || [];
+					// 渲染接线图列表
+					$("#tag-select-wg").combobox({
+						width: 400,
+						data: wgs,
+						editable: false,
+						valueField: 'id',
+						textField: 'desc',
+						onSelect: function(record){
+							// 切换接线图
+							changeWg(record);
+						}
+					});
+					// 默认显示第一个
+					if(wgs.length > 0){
+						$("#tag-select-wg").combobox('setValue', wgs[0].id);
 						// 切换接线图
-						changeWg(record);
+						changeWg(wgs[0]);
+					}else{
+						changeWg();
 					}
-				});
-				// 默认显示第一个
-				if(wgs.length > 0){
-					$("#tag-select-wg").combobox('setValue', wgs[0].id);
 				}
-			}
-		});
+			});
+		}else{// 无变电站
+			changeWg();
+		}
 	}
 	
 	// 切换接线图
 	function changeWg(item){
 		CURRENT_WD = item;
-		// 接线图信息
-		var wgId = item.id,
-			wgImgId = item.imgId,
-			wgDesc = item.desc,
-			tfId = item.transformerId
-			;
 		
-		// 加载接线图设备列表信息
-		core.submitAjax({
-			url: 'api/device/list',
-			type: 'get',
-			data: {transformerId: tfId, state: '01'},
-			success: function(data){
-				ITEMS = data;
-				
-				refreshItemsData();
-			}
-		})
+		if(!item){// 无接线图
+			$("#im-wg-withdata").hide();
+			$("#im-wg-nodata").show();
+			$("#tag-wg-withdata").hide();
+			$("#tag-wg-nodata").show();
+			
+			// 隐藏相关信息
+			$("#tag-img-info-nodata").show();
+			$("#tag-img-info-withdata").hide();
+			
+			// 刷新设备列表
+			refreshItemsData();
+			
+		}else{// 有接线图
+			$("#im-wg-withdata").show();
+			$("#im-wg-nodata").hide();
+			$("#tag-wg-withdata").show();
+			$("#tag-wg-nodata").hide();
+			
+			// 接线图信息
+			var wgId = item.id,
+				wgImgId = item.imgId,
+				wgImgDownloadUrl = "upfiles/" + item.path,
+				wgUploadTime = item.uploadTime,
+				wgUploadUser = item.uploadUserDesc,
+				wgDesc = item.desc,
+				tfId = item.transformerId
+				;
+			
+			// 显示接线图信息
+			$("#tag-img-info-nodata").hide();
+			$("#tag-img-info-withdata").show();
+			$("#wd-info-uploadTime").html(core.transTimeStamp(wgUploadTime));
+			$("#wd-info-user").html(wgUploadUser);
+			$("#wd-info-desc").html(wgDesc);
+			
+			// 加载接线图设备列表信息
+			core.submitAjax({
+				url: 'api/device/list',
+				type: 'get',
+				data: {transformerId: tfId, state: '01'},
+				success: function(data){
+					refreshItemsData(data);
+				}
+			});
+			
+			// 渲染接线图图片
+			$tagImgWrap.html('');
+			var $imgMain = $("<img id='tag-img' />")
+				.attr('src', wgImgDownloadUrl)
+				.css({
+					position: 'absolute',
+					left: '0px',
+					top: '0px',
+					'z-index': 1
+				})
+				.appendTo($tagImgWrap)
+				.load(function(){
+					// 设置容器宽高
+					$tagImgWrap.width($("#tag-img").width()).height($("#tag-img").height());
+				});
+		}
+		
 	}
 	
 	// 添加接线图
@@ -152,7 +211,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			surl: 'api/wiringdiagram/add',
 			success: function(data, $win){
 				refreshWg(CURRENT_TRANSFORMER.id);
-				$win.dialog("destory");
+				$win.dialog("close");
 			},
 			beforeSubmit: function($form){
 				if($form.find("input[name=imgId]").val()){
@@ -162,10 +221,10 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 					return false;
 				}
 			},
-			tplsuccess: function(){
+			tplsuccess: function($win){
 				// 文件上传
 				simpleupload.simpleupload({
-					$div: $("#fileupload-tag"),
+					$div: $win.find("#fileupload-tag"),
 					attachType: "wg",
 					filetype: ["png", "PNG", "jpg", "JPG"],
 					filemax: 20 * 1024 * 1024,
@@ -175,6 +234,149 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			}
 		})
 	});
+	
+	// 编辑接线图
+	$("#btn-wd-edit").click(function(){
+		if(!CURRENT_WD){
+			core.alertMessage("无接线图信息");
+			return;
+		}
+		tplengine.openWinWithEdit({
+			title: '编辑接线图',
+			tpl: 'scripts/biz/imgmgr/tpl/wd-add.tpl',
+			data: CURRENT_WD,
+			surl: 'api/wiringdiagram/edit',
+			success: function(data, $win){
+				refreshWg(CURRENT_TRANSFORMER.id);
+				$win.dialog("close");
+			},
+			beforeSubmit: function($form){
+				if($form.find("input[name=imgId]").val()){
+					return true;
+				}else{
+					core.alertMessage("请上传接线图");
+					return false;
+				}
+			},
+			tplsuccess: function($win){
+				// 文件上传
+				simpleupload.simpleupload({
+					$div: $win.find("#fileupload-tag"),
+					attachType: "wg",
+					filetype: ["png", "PNG", "jpg", "JPG"],
+					filemax: 20 * 1024 * 1024,
+					progressbar: $("#progress-bar"),
+					hidFileId: "imgId",
+					defaultValue: CURRENT_WD.imgId
+				});
+			}
+		})
+	});
+	
+	// 删除接线图
+	$("#btn-wd-del").click(function(){
+		if(!CURRENT_WD){
+			core.alertMessage("无接线图信息");
+			return;
+		}
+		$.messager.confirm('确认','确定删除当前接线图?删除后不可撤销。',function(r){
+			if (r){
+				core.submitAjax({
+					url: "api/wiringdiagram/del",
+					data: {
+						ids: CURRENT_WD.id
+					},
+					success: function(data){
+						refreshWg(CURRENT_TRANSFORMER.id);
+					}
+				});
+			}
+		});
+	})
+	
+	/////////////////设备相关/////////////////
+	// 添加设备
+	$("#btn-device-add").click(function(){
+		if(!CURRENT_WD){
+			core.alertMessage("无接线图信息");
+			return;
+		}
+		tplengine.openWinWithEdit({
+			title: '添加设备',
+			tpl: 'scripts/biz/imgmgr/tpl/device-add.tpl',
+			data: {
+				wiringdiagramId: CURRENT_WD.id
+			},
+			surl: 'api/device/add',
+			success: function(data, $win){
+				$win.dialog("close");
+				addDevice(data);
+			},
+			tplsuccess: function($win){
+				// 文件上传
+				simpleupload.simpleupload({
+					$div: $win.find("#fileupload-tag"),
+					attachType: "device",
+					filetype: ["png", "PNG", "jpg", "JPG"],
+					filemax: 20 * 1024 * 1024,
+					progressbar: $("#progress-bar"),
+					hidFileId: "imgId"
+				});
+			}
+		})
+	});
+	
+	// 编辑设备
+	$("#btn-device-edit").click(function(){
+		if(!CURRENT_DEVICE){
+			core.alertMessage("无设备信息");
+			return;
+		}
+		tplengine.openWinWithEdit({
+			title: '编辑设备',
+			tpl: 'scripts/biz/imgmgr/tpl/device-add.tpl',
+			data: CURRENT_DEVICE,
+			surl: 'api/device/edit',
+			success: function(data, $win){
+				$win.dialog("close");
+				// 更新设备信息
+				updateDevice(data);
+			},
+			tplsuccess: function($win){
+				// 文件上传
+				simpleupload.simpleupload({
+					$div: $win.find("#fileupload-tag"),
+					attachType: "device",
+					filetype: ["png", "PNG", "jpg", "JPG"],
+					filemax: 20 * 1024 * 1024,
+					progressbar: $("#progress-bar"),
+					hidFileId: "imgId",
+					defaultValue: CURRENT_WD.imgId
+				});
+			}
+		})
+	});
+	
+	// 删除设备
+	$("#btn-device-del").click(function(){
+		if(!CURRENT_DEVICE){
+			core.alertMessage("无设备信息");
+			return;
+		}
+		$.messager.confirm('确认','确定删除当前设备？【删除后不可撤销】',function(r){
+			if (r){
+				core.submitAjax({
+					url: "api/device/del",
+					data: {
+						ids: CURRENT_DEVICE.id
+					},
+					success: function(data){
+						delDevice(CURRENT_DEVICE);
+					}
+				});
+			}
+		});
+	})
 	
 	// 拖动事件
 	function onDrag(e){
@@ -187,99 +389,54 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		if (d.top + $(d.target).outerHeight() > $(d.parent).height()){
 			d.top = $(d.parent).height() - $(d.target).outerHeight();
 		}
-	}
-
-	// 获取图片的原始宽高
-	function getNaturalSize (Domlement) {
-		var natureSize = {};
-		if(window.naturalWidth && window.naturalHeight) {
-		natureSize.width = Domlement.naturalWidth;
-		natureSize.height = Domlement.naturalHeight;
-		} else {
-		var img = new Image();
-		img.src = Domlement.src;
-		natureSize.width = img.width;
-		natureSize.height = img.height;
-		}
-		return natureSize;
-	}
-
-	// 加载图片
-	var $imgMain = $("<img id='tag-img' />")
-		.attr('src', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504864710754&di=986db691b7cf721c4df0ad2485b3101f&imgtype=0&src=http%3A%2F%2Fgbres.dfcfw.com%2FFiles%2Fpicture%2F20140420%2Fsize500%2FC9A6BCF26FE71C31D721A2E7B1A463AC.jpg')
-		.css({
-			position: 'absolute',
-			left: '0px',
-			top: '0px',
-			'z-index': 1
-		})
-		.appendTo($tagWrap)
-		.load(function(){
-			// 设置容器宽高
-			var imgWH = getNaturalSize(document.getElementById('tag-img'));
-			$tagWrap.width(imgWH.width).height(imgWH.height);
-		});
 		
+		// 更新当前数据中的位置信息
+		updateDeviceList($(e.target).data('data'));
+		
+	}
 
-	// 从列表中移除指定数据
-	function removeItemFromList(item){
-		for(var i in ITEMS){
-			if(ITEMS[i].id == item.id){
-				ITEMS.splice(i, 1);
-				break;
-			}
-		}
-		refreshItemsData();
-	}
-	// 往列表中添加数据
-	function addItemToList(item){
-		ITEMS.push(item);
-		refreshItemsData();
-	}
-	// 重新渲染列表数据
-	function refreshItemsData(){
+	////////////////设备相关////////////////////
+	// 重新渲染设备列表数据
+	function refreshItemsData(data){
 		$tagItems.html('');
-		for(var i in ITEMS){
-			var item = ITEMS[i];
-			$tagItems.append(
-				$('<div class="item-drag-right"></div>')
-					.html(item.info)
-					.data('data', item)
-					.tooltip({content: '点击添加-' + item.info})
-					.click(function(){
-						$(this).tooltip('destroy');
-						addOne($(this).data('data'));
-					})
-			);
+		for(var i in data){
+			var item = data[i];
+			// 渲染数据
+			addDevice(item);
 		}
 	}
-
-	// 添加一个
-	function addOne(item){
-		// 从列表中移除数据
-		removeItemFromList(item);
-
-		// 单个元素
+	
+	// 添加一个设备
+	function addDevice(item){
+		if(!item) return;
+		
+		// 数据
+		if(!ITEMS) ITEMS = [];
+		ITEMS.splice(0, 0, item);
+		
+		// 列表
+		$tagItems.prepend(
+			$('<div class="item-drag-right"></div>')
+				.html(item.name)
+				.data('data', item)
+				.click(function(){
+					selectDragItem($(this));
+				})
+		);
+		
+		// 图片
 		var $item = $('<div class="item-drag"></div>');
-		$tagWrap.append($item);
+		$tagImgWrap.append($item);
 		$item.css({
 			width: item.width,
 			height: item.height,
-			left: item.x,
-			top: item.y
+			left: item.x + 'px',
+			top: item.y + 'px'
 		})
 		// 数据
 		.data('data', item)
-		// 内容
-		//.html(item.info)
 		// 提示信息
-		.tooltip({content: item.info, trackMouse: true})
-		// 划过效果
-		.hover(function(){
-			$(this).find('.btn-remove').show();
-		}, function(){
-			$(this).find('.btn-remove').hide();
-		})
+		.tooltip({content: item.name, trackMouse: true})
 		// 点击事件
 		.click(function(){
 			selectDragItem($(this));
@@ -288,20 +445,69 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		.draggable({
 			onDrag: onDrag
 		});
-		// 移除按钮
-		var $btnRemove = $('<div class="btn-remove">x</div>')
-			.hide()
-			.click(function(){
-				var $item = $(this).parent('.item-drag');
-				addItemToList($item.data('data'));
-				$item.tooltip('destroy').remove();
-			})
-			.appendTo($item);
 	}
+	
+	// 移除一个设备
+	function removeDevice(item){
+		if(!item) return;
+		
+		// 数据
+		for(var i in ITEMS){
+			if(ITEMS[i].id == item.id){
+				ITEMS.splic(i, 1);
+				break;
+			}
+		}
+		
+		// 列表
+		$tagItems.find(".item-drag-right").each(function(){
+			if($(this).data('data').id == item.id){
+				$(this).remove();
+			}
+		});
+		
+		// 图片
+		$tagImgWrap.find(".item-drag").each(function(){
+			if($(this).data('data').id == item.id){
+				$(this).remove();
+			}
+		});
+	}
+	
+	// 更新一个设备
+	function updateDevice(item){
+		if(!item) return;
+		
+		// 数据
+		for(var i in ITEMS){
+			if(ITEMS[i].id == item.id){
+				ITEMS[i] = item;
+			}
+		}
+		
+		// 列表
+		updateDeviceList(item);
+		
+		// 图片
+		$tagImgWrap.find(".item-drag").each(function(){
+			if($(this).data('data').id == item.id){
+				$(this).data('data', item);
+			}
+		});
+	}
+	// 更新列表中的对象数据
+	function updateDeviceList(item){
+		$tagItems.find(".item-drag-right").each(function(){
+			if($(this).data('data').id == item.id){
+				$(this).data('data', item);
+			}
+		});
+	}
+	
 
-	// 选中某一个元素
+	// 选中某一个设备元素
 	function selectDragItem($tag){
-		$tagWrap.find('.select').removeClass('select');
+		$tagImgWrap.find('.select').removeClass('select');
 		$tag.addClass('select');
 		// 显示元素信息
 		showCurrentItem($tag.data('data'));
@@ -311,15 +517,17 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 	function showCurrentItem(item){
 		CURRENT_DEVICE = item;
 		if(item){
-			$tagCurrent
-				.show()
-				.html('')
-				.append('<h1>当前选中</h1><br/>')
-				.append('名称：' + item.info)
-				;
+			$("#tag-currentdevice-unselect").hide();
+			$("#tag-currentdevice-select").show();
+			
+			// 显示设备相关信息
+			$("#info-device-name").html(item.name);
+			$("#info-device-desc").html(item.desc);
 		}else{
-			$tagCurrent.hide();
+			$("#tag-currentdevice-select").hide();
+			$("#tag-currentdevice-unselect").show();
 		}
 	}
+	showCurrentItem();
 	
 });

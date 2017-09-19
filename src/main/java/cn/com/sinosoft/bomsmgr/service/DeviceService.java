@@ -48,9 +48,25 @@ public class DeviceService {
 	 * @return 详情
 	 */
 	@Transactional
-	public void add(TBizDevice item) {
+	public DeviceInfo add(TBizDevice item) {
 		item.setCreateUser(commonUserService.getRequestUserId());
 		getMapper().insertSelective(item);
+
+		return getById(item.getId());
+	}
+
+	/**
+	 * 根据id获取信息
+	 *
+	 * @param id
+	 * @return
+	 */
+	public DeviceInfo getById(Integer id){
+		if(id == null) return null;
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		List<DeviceInfo> infos = getList(params);
+		return infos.size() > 0 ? infos.get(0) : null;
 	}
 
 	/**
@@ -61,8 +77,9 @@ public class DeviceService {
 	 * @return 影响条数
 	 */
 	@Transactional
-	public int update(TBizDevice item) {
-		return getMapper().updateByPrimaryKeySelective(item);
+	public DeviceInfo update(TBizDevice item) {
+		getMapper().updateByPrimaryKeySelective(item);
+		return getById(item.getId());
 	}
 
 	/**

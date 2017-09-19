@@ -27,9 +27,7 @@ import cn.com.sinosoft.tbf.dao.BaseDao;
 @Service
 public class FileService {
 
-	public static final String PROPERTIES_PATH = "app.properties";
-	public static final String FILEPATH_SAVE_KEY = "app.files.path";
-	public static final String FILEPATH_DOWNLOAD_KEY = "app.files.downloadpath";
+	public static final String NAMESPACE_BASE = "cn.com.sinosoft.file.";
 
 	@Resource
 	BaseDao baseDao;
@@ -82,7 +80,7 @@ public class FileService {
 			bizFile.setPath(realPathRel + File.separator + fileNameNew);
 			bizFile.setFiletype(fileType);
 			bizFile.setFilesize(fileSizeByte);
-			getMapper().insert(bizFile);
+			baseDao.insert(NAMESPACE_BASE + "insert", bizFile);
 
 		} catch (IOException e) {
 			e.printStackTrace();

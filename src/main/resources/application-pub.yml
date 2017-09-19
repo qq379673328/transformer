@@ -1,12 +1,5 @@
 ﻿# 正式网环境-阿里云
 
-# 系统配置
-app:
-    config:
-        uploadPath: c:\\boms\\upfiles
-    info:
-        download-pre: crm.zzbage.com/upfiles/
-
 # spring相关配置
 spring:
     # 数据源配置
