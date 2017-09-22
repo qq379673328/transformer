@@ -6,7 +6,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 	function($, core, tplengine, simpleupload) {
 	
 	// 调整中心区域宽度
-	$(".im-center").width($(window).width() - $(".im-left").width() - $(".im-right").width());
+	$(".im-center").width($(window).width() - $(".im-left").width() - $(".im-right").width() - 2);
 	
 	// 页面元素
 	var $tagImgWrap = $('#tag-wrap'),// 中间图片容器
@@ -171,7 +171,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			core.submitAjax({
 				url: 'api/device/list',
 				type: 'get',
-				data: {transformerId: tfId, state: '01'},
+				data: {wiringdiagramId: wgId},
 				success: function(data){
 					refreshItemsData(data);
 				}
@@ -185,7 +185,9 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 					position: 'absolute',
 					left: '0px',
 					top: '0px',
-					'z-index': 1
+					'z-index': 1,
+					'border-left': '1px solid #000',
+					'border-right': '1px solid #000'
 				})
 				.appendTo($tagImgWrap)
 				.load(function(){
@@ -381,6 +383,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 	// 拖动事件
 	function onDrag(e){
 		var d = e.data;
+		var data = $(e.target).data('data');
 		if (d.left < 0){d.left = 0}
 		if (d.top < 0){d.top = 0}
 		if (d.left + $(d.target).outerWidth() > $(d.parent).width()){
@@ -390,8 +393,36 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			d.top = $(d.parent).height() - $(d.target).outerHeight();
 		}
 		
-		// 更新当前数据中的位置信息
-		updateDeviceList($(e.target).data('data'));
+		if(data){
+			data.x = d.left;
+			data.y = d.top;
+			// 更新当前数据中的位置信息
+			updateDeviceList(data);
+		}
+		
+	}
+	
+	// 改变大小事件
+	function onResize(e){
+		var d = e.data;
+		var data = $(e.target).data('data');
+		if (d.left < 0){d.left = 0}
+		if (d.top < 0){d.top = 0}
+		var $dTarget = $(d.target);
+		var $tagImg = $("#tag-img");
+		if (d.left + $dTarget.outerWidth() > $tagImg.width()){
+			$dTarget.width($tagImg.width() - d.left);
+		}
+		if (d.top + $dTarget.outerHeight() > $tagImg.height()){
+			$dTarget.height($tagImg.height() - d.top);
+		}
+		
+		if(data){
+			data.width = $dTarget.width();
+			data.height = $dTarget.height();
+			// 更新当前数据中的大小信息
+			updateDeviceList(data);
+		}
 		
 	}
 
@@ -420,7 +451,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 				.html(item.name)
 				.data('data', item)
 				.click(function(){
-					selectDragItem($(this));
+					selectItem($(this).data('data'));
 				})
 		);
 		
@@ -439,12 +470,19 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		.tooltip({content: item.name, trackMouse: true})
 		// 点击事件
 		.click(function(){
-			selectDragItem($(this));
+			selectItem($(this).data('data'));
 		})
 		// 可拖动
 		.draggable({
 			onDrag: onDrag
-		});
+		})
+		// 可调整大小
+		.resizable({
+			maxWidth: $("#tag-img").width(),
+			maxHeight: $("#tag-img").height(),
+			onStopResize: onResize
+		})
+		;
 	}
 	
 	// 移除一个设备
@@ -497,20 +535,41 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 	}
 	// 更新列表中的对象数据
 	function updateDeviceList(item){
+		if(!item) return;
 		$tagItems.find(".item-drag-right").each(function(){
 			if($(this).data('data').id == item.id){
 				$(this).data('data', item);
 			}
 		});
+		
+		// 若当前选择对象一致，则更新显示信息
+		if(CURRENT_DEVICE && CURRENT_DEVICE.id == item.id){
+			showCurrentItem(item);
+		}
 	}
 	
-
 	// 选中某一个设备元素
-	function selectDragItem($tag){
+	function selectItem(item){
+		// 图片中元素
 		$tagImgWrap.find('.select').removeClass('select');
-		$tag.addClass('select');
+		$tagImgWrap.find('.item-drag').each(function(){
+			if($(this).data('data').id == item.id){
+				$(this).addClass('select');
+				return false;
+			}
+		});
+		
+		// 列表中元素
+		$tagItems.find('.select').removeClass('select');
+		$tagItems.find('.item-drag-right').each(function(){
+			if($(this).data('data').id == item.id){
+				$(this).addClass('select');
+				return false;
+			}
+		});
+		
 		// 显示元素信息
-		showCurrentItem($tag.data('data'));
+		showCurrentItem(item);
 	}
 
 	// 显示当前选中元素的信息
@@ -521,8 +580,12 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			$("#tag-currentdevice-select").show();
 			
 			// 显示设备相关信息
-			$("#info-device-name").html(item.name);
-			$("#info-device-desc").html(item.desc);
+			$("#info-device-name").html(item.name);// 名称
+			$("#info-device-desc").html(item.desc);// 描述
+			$("#info-device-width").html(item.width);// 宽
+			$("#info-device-height").html(item.height);// 高
+			$("#info-device-x").html(item.x);// x
+			$("#info-device-y").html(item.y);// y
 		}else{
 			$("#tag-currentdevice-select").hide();
 			$("#tag-currentdevice-unselect").show();

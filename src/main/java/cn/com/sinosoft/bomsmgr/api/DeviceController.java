@@ -35,7 +35,7 @@ public class DeviceController {
 	 * @return
 	 */
 	@GetMapping("list")
-	public APIResult<List<DeviceInfo>> getList(Map<String, Object> params) {
+	public APIResult<List<DeviceInfo>> getList(@RequestParam Map<String, Object> params) {
 		return new APIResult<List<DeviceInfo>>(service.getList(params));
 	}
 

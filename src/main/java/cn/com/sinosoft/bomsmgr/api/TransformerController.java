@@ -37,7 +37,7 @@ public class TransformerController {
 	 * @return
 	 */
 	@GetMapping("list")
-	public APIResult<List<TransformerInfo>> getList(Map<String, Object> params) {
+	public APIResult<List<TransformerInfo>> getList(@RequestParam Map<String, Object> params) {
 		return new APIResult<List<TransformerInfo>>(service.getList(params));
 	}
 

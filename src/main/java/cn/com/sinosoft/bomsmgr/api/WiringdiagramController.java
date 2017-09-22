@@ -37,7 +37,7 @@ public class WiringdiagramController {
 	 * @return
 	 */
 	@GetMapping("list")
-	public APIResult<List<WiringdiagramInfo>> getList(Map<String, Object> params) {
+	public APIResult<List<WiringdiagramInfo>> getList(@RequestParam Map<String, Object> params) {
 		return new APIResult<List<WiringdiagramInfo>>(service.getList(params));
 	}
 

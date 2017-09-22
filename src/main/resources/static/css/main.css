@@ -459,14 +459,27 @@ body {
 	font-size: 12px;
 }
 .btn-save {background-color: #27A058;}
-.btn-add {background-color: #36B8AC;}
+.btn-add {background-color: #5485b1;}
 .btn-reset {background-color: #c0c0c0;}
 .btn-cancle {background-color: #463434;}
 .btn-search {background-color: #5489B1;}
 .btn-danger {background-color: #D80B0B;}
-.btn-green {background-color: #33CC66;}
+.btn-edit {background-color: #33CC66;}
 .btn-brown {background-color: #CC9999;}
 .btn-orange {background-color: #FF9933;}
+/*label*/
+.label{
+	background-color: #2f5a80;
+	color: #fff;
+	padding: 5px 10px;
+	border-radius: 5px;
+	line-height: 30px;
+}
+.label-info{background-color: #36B8AC}
+.label-success{background-color: #33CC66}
+.label-warn{background-color: #FF9933}
+.label-danger{background-color: #D80B0B}
+
 .valid-error {
 	border: 1px solid red;
 	color: red;
@@ -1042,7 +1055,7 @@ body {
 }
 #header .logo {
 	height: 128px;
-	background-color: #2f5a80;
+	background-color: #2e9c5f;
 }
 #header .logo h1{
 	color: #fff;
@@ -1189,14 +1202,14 @@ body {
 	margin-left: 0px;
 }
 #content .right .right-white {
-	min-height: 800px;
+	min-height: 400px;
 }
 #content .right .right-white #main-content {
-	min-height: 800px;
+	min-height: 400px;
 }
 #content .right .location {
-	height: 48px;
-	line-height: 48px;
+	height: 30px;
+	line-height: 30px;
 	color: #3e3a39;
 	font-size: 14px;
 }
@@ -1590,20 +1603,33 @@ a {
 .im .im-left .lv1{margin-left: 10px;}
 .im .im-left .lv2{margin-left: 20px;}
 .im .im-left .lv3{margin-left: 30px; cursor: pointer; padding-left: 10px;}
-.im .im-left .lv3:hover{background-color: #2f5a80; color: #fff;}
-.im .im-left .lv3.select{background-color: #2f5a80;}
+.im .im-left .lv3:hover{background-color: #49d280; color: #fff;}
+.im .im-left .lv3.select{background-color: #49d280; border-right: 5px solid;}
 .im .im-center{
 	overflow-x: auto;
+	overflow-y: hidden;
 	float: left;
-	background-color: #eee;
+	border-left: 1px solid #eee;
+	border-right: 1px solid #eee;
 }
-.im .im-center-title{text-align: center;}
+.im .im-center-title{
+	text-align: center;
+	background-color: #21c763;
+	color: #fff;
+}
 .im .im-right{
-	width: 200px;
+	width: 220px;
 	min-height: 300px;
 	float: right;
 	line-height: 22px;
 	color: #fff;
+}
+.im .im-right b{
+	color: #242a2f;
+}
+.im .im-right h1{
+	border-bottom: 1px solid;
+	padding-bottom: 3px;
 }
 .im .item-drag-right{
 	cursor: pointer;
@@ -1614,8 +1640,16 @@ a {
 	right: 0px;
 	top: 0px;
 }
+.im .item-drag-right{
+	padding-left: 10px;
+	border-left: 5px solid #ffbf49;
+}
 .im .item-drag-right:hover{
-	color: red;
+	background-color: #dc5f5f;
+}
+.im .item-drag-right.select{
+	border-left: 5px solid #fff;
+	background-color: #ea4545;
 }
 .im .item-drag{
 	position: absolute;
