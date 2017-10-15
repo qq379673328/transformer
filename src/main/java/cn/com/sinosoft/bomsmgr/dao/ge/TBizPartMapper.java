@@ -35,12 +35,12 @@ public interface TBizPartMapper {
         "create_time, create_user, ",
         "img_id, x, y, ",
         "width, height, type_id, ",
-        "device_id)",
+        "device_img_id)",
         "values (#{name,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, ",
         "#{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, ",
         "#{imgId,jdbcType=VARCHAR}, #{x,jdbcType=INTEGER}, #{y,jdbcType=INTEGER}, ",
         "#{width,jdbcType=INTEGER}, #{height,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, ",
-        "#{deviceId,jdbcType=INTEGER})"
+        "#{deviceImgId,jdbcType=INTEGER})"
     })
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insert(TBizPart record);
@@ -62,14 +62,14 @@ public interface TBizPartMapper {
         @Result(column="width", property="width", jdbcType=JdbcType.INTEGER),
         @Result(column="height", property="height", jdbcType=JdbcType.INTEGER),
         @Result(column="type_id", property="typeId", jdbcType=JdbcType.INTEGER),
-        @Result(column="device_id", property="deviceId", jdbcType=JdbcType.INTEGER)
+        @Result(column="device_img_id", property="deviceImgId", jdbcType=JdbcType.INTEGER)
     })
     List<TBizPart> selectByExample(TBizPartExample example);
 
     @Select({
         "select",
         "id, `name`, `desc`, create_time, create_user, img_id, x, y, width, height, type_id, ",
-        "device_id",
+        "device_img_id",
         "from t_biz_part",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -85,7 +85,7 @@ public interface TBizPartMapper {
         @Result(column="width", property="width", jdbcType=JdbcType.INTEGER),
         @Result(column="height", property="height", jdbcType=JdbcType.INTEGER),
         @Result(column="type_id", property="typeId", jdbcType=JdbcType.INTEGER),
-        @Result(column="device_id", property="deviceId", jdbcType=JdbcType.INTEGER)
+        @Result(column="device_img_id", property="deviceImgId", jdbcType=JdbcType.INTEGER)
     })
     TBizPart selectByPrimaryKey(Integer id);
 
@@ -110,7 +110,7 @@ public interface TBizPartMapper {
           "width = #{width,jdbcType=INTEGER},",
           "height = #{height,jdbcType=INTEGER},",
           "type_id = #{typeId,jdbcType=INTEGER},",
-          "device_id = #{deviceId,jdbcType=INTEGER}",
+          "device_img_id = #{deviceImgId,jdbcType=INTEGER}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(TBizPart record);

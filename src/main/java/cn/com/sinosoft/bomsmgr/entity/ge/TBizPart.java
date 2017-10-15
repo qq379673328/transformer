@@ -26,7 +26,7 @@ public class TBizPart implements Serializable {
 
     private Integer typeId;
 
-    private Integer deviceId;
+    private Integer deviceImgId;
 
     private static final long serialVersionUID = 1L;
 
@@ -118,12 +118,12 @@ public class TBizPart implements Serializable {
         this.typeId = typeId;
     }
 
-    public Integer getDeviceId() {
-        return deviceId;
+    public Integer getDeviceImgId() {
+        return deviceImgId;
     }
 
-    public void setDeviceId(Integer deviceId) {
-        this.deviceId = deviceId;
+    public void setDeviceImgId(Integer deviceImgId) {
+        this.deviceImgId = deviceImgId;
     }
 
     @Override
@@ -149,7 +149,7 @@ public class TBizPart implements Serializable {
             && (this.getWidth() == null ? other.getWidth() == null : this.getWidth().equals(other.getWidth()))
             && (this.getHeight() == null ? other.getHeight() == null : this.getHeight().equals(other.getHeight()))
             && (this.getTypeId() == null ? other.getTypeId() == null : this.getTypeId().equals(other.getTypeId()))
-            && (this.getDeviceId() == null ? other.getDeviceId() == null : this.getDeviceId().equals(other.getDeviceId()));
+            && (this.getDeviceImgId() == null ? other.getDeviceImgId() == null : this.getDeviceImgId().equals(other.getDeviceImgId()));
     }
 
     @Override
@@ -167,7 +167,7 @@ public class TBizPart implements Serializable {
         result = prime * result + ((getWidth() == null) ? 0 : getWidth().hashCode());
         result = prime * result + ((getHeight() == null) ? 0 : getHeight().hashCode());
         result = prime * result + ((getTypeId() == null) ? 0 : getTypeId().hashCode());
-        result = prime * result + ((getDeviceId() == null) ? 0 : getDeviceId().hashCode());
+        result = prime * result + ((getDeviceImgId() == null) ? 0 : getDeviceImgId().hashCode());
         return result;
     }
 }

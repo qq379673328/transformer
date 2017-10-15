@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.com.sinosoft.bomsmgr.dao.ge.TBizDeviceMapper;
 import cn.com.sinosoft.bomsmgr.entity.ge.TBizDevice;
+import cn.com.sinosoft.bomsmgr.model.biz.DeviceDetail;
 import cn.com.sinosoft.bomsmgr.model.biz.DeviceInfo;
 import cn.com.sinosoft.bomsmgr.service.common.CommonUserService;
 import cn.com.sinosoft.tbf.dao.BaseDao;
@@ -30,6 +31,8 @@ public class DeviceService {
 	BaseDao baseDao;
 	@Resource
 	CommonUserService commonUserService;
+	@Resource
+	DeviceImgService deviceImgService;
 
 	/**
 	 * 获取所有
@@ -67,6 +70,22 @@ public class DeviceService {
 		params.put("id", id);
 		List<DeviceInfo> infos = getList(params);
 		return infos.size() > 0 ? infos.get(0) : null;
+	}
+	
+	/**
+	 * 根据设备id获取设备详情
+	 *
+	 * @param id
+	 * @return
+	 */
+	public DeviceDetail getDetailById(Integer id) {
+		DeviceDetail detail = new DeviceDetail();
+		detail.setDevice(getById(id));
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("deviceId", id);
+		detail.setDeviceImgs(deviceImgService.getList(params));
+		return detail;
 	}
 
 	/**

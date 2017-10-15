@@ -12,24 +12,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.com.sinosoft.bomsmgr.entity.ge.TBizDevice;
-import cn.com.sinosoft.bomsmgr.model.biz.DeviceDetail;
-import cn.com.sinosoft.bomsmgr.model.biz.DeviceInfo;
-import cn.com.sinosoft.bomsmgr.service.DeviceService;
+import cn.com.sinosoft.bomsmgr.entity.ge.TBizDeviceImg;
+import cn.com.sinosoft.bomsmgr.model.biz.DeviceImgDetail;
+import cn.com.sinosoft.bomsmgr.model.biz.DeviceImgInfo;
+import cn.com.sinosoft.bomsmgr.service.DeviceImgService;
 import cn.com.sinosoft.tbf.domain.common.APIResult;
 
 /**
- * 设备api
+ * 设备图api
  *
  * @author <a href="mainto:nytclizy@gmail.com">lizhiyong</a>
  * @since 2017年4月21日
  */
 @RestController
-@RequestMapping("/api/device")
-public class DeviceController {
+@RequestMapping("/api/deviceimg")
+public class DeviceImgController {
 
 	@Resource
-	DeviceService service;
+	DeviceImgService service;
 
 	/**
 	 * 列表
@@ -37,18 +37,18 @@ public class DeviceController {
 	 * @return
 	 */
 	@GetMapping("list")
-	public APIResult<List<DeviceInfo>> getList(@RequestParam Map<String, Object> params) {
-		return new APIResult<List<DeviceInfo>>(service.getList(params));
+	public APIResult<List<DeviceImgInfo>> getList(@RequestParam Map<String, Object> params) {
+		return new APIResult<List<DeviceImgInfo>>(service.getList(params));
 	}
-	
+
 	/**
-	 * 设备详情
+	 * 设备图详情
 	 *
 	 * @return
 	 */
 	@GetMapping("getDetailById/{id}")
-	public APIResult<DeviceDetail> getDetailById(@PathVariable Integer id) {
-		return new APIResult<DeviceDetail>(service.getDetailById(id));
+	public APIResult<DeviceImgDetail> getDetailById(@PathVariable Integer id) {
+		return new APIResult<DeviceImgDetail>(service.getDetailById(id));
 	}
 
 	/**
@@ -59,8 +59,9 @@ public class DeviceController {
 	 * @return
 	 */
 	@PostMapping("add")
-	public APIResult<DeviceInfo> add(TBizDevice item) {
-		return new APIResult<DeviceInfo>(service.add(item));
+	public APIResult<Object> add(TBizDeviceImg item) {
+		service.add(item);
+		return new APIResult<Object>();
 	}
 
 	/**
@@ -71,8 +72,9 @@ public class DeviceController {
 	 * @return
 	 */
 	@PostMapping("edit")
-	public APIResult<DeviceInfo> edit(TBizDevice item) {
-		return new APIResult<>(service.update(item));
+	public APIResult<Object> edit(TBizDeviceImg item) {
+		service.update(item);
+		return new APIResult<Object>();
 	}
 
 	/**

@@ -1,0 +1,38 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 业务-部件 -->
+<mapper namespace="cn.com.sinosoft.part">
+
+	<!-- 获取列表 -->
+	<select id="get-list"
+		resultType="cn.com.sinosoft.bomsmgr.model.biz.PartInfo">
+		SELECT
+		  t.*,
+		  getusername(t.create_user) createUserDesc,
+		  getusername(f.create_user) uploadUserDesc,
+		  f.create_time uploadTime,
+		  f.path
+		FROM t_biz_part t
+			left join t_biz_files f on t.img_id = f.id
+		where 1=1
+		<if test="id != null">
+			and t.id = #{id}
+		</if>
+		<if test="deviceImgId != null">
+			and t.device_img_id = #{deviceImgId}
+		</if>
+		ORDER BY t.create_time desc
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="del">
+		delete from t_biz_part
+			where id in 
+			<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+			 #{item}
+			</foreach>
+	</delete>
+	
+</mapper>

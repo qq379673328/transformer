@@ -1,7 +1,6 @@
 package cn.com.sinosoft.bomsmgr.service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -9,22 +8,24 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.com.sinosoft.bomsmgr.dao.ge.TBizPartMapper;
-import cn.com.sinosoft.bomsmgr.entity.ge.TBizPart;
-import cn.com.sinosoft.bomsmgr.model.biz.PartInfo;
+import cn.com.sinosoft.bomsmgr.dao.ge.TBizPartHisMapper;
+import cn.com.sinosoft.bomsmgr.entity.ge.TBizPartHis;
+import cn.com.sinosoft.bomsmgr.model.biz.PartHisInfo;
 import cn.com.sinosoft.bomsmgr.service.common.CommonUserService;
 import cn.com.sinosoft.tbf.dao.BaseDao;
+import cn.com.sinosoft.tbf.domain.common.PageParam;
+import cn.com.sinosoft.tbf.domain.common.PagingResult;
 
 /**
- * 部件服务
+ * 部件历史记录服务
  *
  * @author <a href="mainto:nytclizy@gmail.com">lizhiyong</a>
  * @since 2017年9月14日
  */
 @Service
-public class PartService {
+public class PartHisService {
 
-	public static final String NAMESPACE_BASE = "cn.com.sinosoft.part.";
+	public static final String NAMESPACE_BASE = "cn.com.sinosoft.parthis.";
 
 	@Resource
 	BaseDao baseDao;
@@ -36,23 +37,11 @@ public class PartService {
 	 *
 	 * @return
 	 */
-	public List<PartInfo> getList(Map<String, Object> params) {
-		return baseDao.queryList(NAMESPACE_BASE + "get-list", params);
+	public PagingResult<PartHisInfo> getList(Map<String, Object> params, PageParam pageParam) {
+		PagingResult<PartHisInfo> ret = baseDao.pagingSearch(NAMESPACE_BASE + "get-list", params, pageParam);
+		return ret;
 	}
 	
-	/**
-	 * 根据id获取
-	 *
-	 * @param id
-	 * @return
-	 */
-	public PartInfo getById(Integer id) {
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("id", id);
-		List<PartInfo> items = getList(params);
-		return items.size() > 0 ? items.get(0) : null;
-	}
-
 	/**
 	 * 添加
 	 *
@@ -61,11 +50,9 @@ public class PartService {
 	 * @return 详情
 	 */
 	@Transactional
-	public PartInfo add(TBizPart item) {
+	public void add(TBizPartHis item) {
 		item.setCreateUser(commonUserService.getRequestUserId());
 		getMapper().insertSelective(item);
-		
-		return getById(item.getId());
 	}
 
 	/**
@@ -76,9 +63,8 @@ public class PartService {
 	 * @return 影响条数
 	 */
 	@Transactional
-	public PartInfo update(TBizPart item) {
+	public void update(TBizPartHis item) {
 		getMapper().updateByPrimaryKeySelective(item);
-		return getById(item.getId());
 	}
 
 	/**
@@ -102,8 +88,8 @@ public class PartService {
 	 *
 	 * @return
 	 */
-	private TBizPartMapper getMapper() {
-		return baseDao.getMapper(TBizPartMapper.class);
+	private TBizPartHisMapper getMapper() {
+		return baseDao.getMapper(TBizPartHisMapper.class);
 	}
 
 }

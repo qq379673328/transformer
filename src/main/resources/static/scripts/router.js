@@ -5,7 +5,7 @@ define(["underscore", "mc", "backbone"], function(_, mc, backbone){
 	var customRouter = {
 			
 		// 首页
-		"index": {
+		"": {
 			script: "index/index",
 			tpl: "scripts/biz/index/tpl/index.tpl",
 			menuSelect: ["", "index"],

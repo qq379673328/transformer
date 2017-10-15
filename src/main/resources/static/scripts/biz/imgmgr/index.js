@@ -9,14 +9,73 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 	$(".im-center").width($(window).width() - $(".im-left").width() - $(".im-right").width() - 2);
 	
 	// 页面元素
-	var $tagImgWrap = $('#tag-wrap'),// 中间图片容器
+	var $tagImgWrap = $('#tag-wrap'),// 中间图片容器-变电站
+		$tagImgWrapDevice = $('#tag-wrap-device'),// 中间图片容器-设备
 		$tagTransformers = $("#tag-transformers"),// 变电站容器
 		$tagItems = $('#tag-items'),// 设备列表容器
+		$tagItemsPart = $('#tag-items-part'),// 部件列表容器
 		ITEMS = [],// 当前设备列表
+		ITEMS_PART = [],// 当前部件列表
 		CURRENT_TRANSFORMER = null,// 当前变电站
 		CURRENT_WD = null,// 当前接线图
-		CURRENT_DEVICE = null// 当前选中设备
+		CURRENT_DEVICE = null,// 当前设备
+		CURRENT_DEVICE_IMG = null,// 当前设备图
+		CURRENT_PART = null,// 当前部件
+		
+		$zoneDevice = $("#zone-device"),// 区域-变电站管理
+		$zoneTransformer = $("#zone-transformer"),// 区域-设备管理
+		$zonePart = $("#zone-part")// 区域-部件管理
+		
 		;
+	
+	// 切换显示状态
+	function changeStateTransformer(){
+		$zoneDevice.hide();
+		$zonePart.hide();
+		$zoneTransformer.show();
+	}
+	function changeStateDevice(){
+		$zoneTransformer.hide();
+		$zonePart.hide();
+		$zoneDevice.show();
+	}
+	function changeStatePart(){
+		$zoneTransformer.hide();
+		$zoneDevice.hide();
+		$zonePart.show();
+	}
+	
+	// 返回-设备管理
+	$("#btn-back-device").click(function(){
+		changeStateTransformer();
+		refreshLocation();
+	});
+	// 返回-部件管理
+	$("#btn-back-part").click(function(){
+		changeStateDevice();
+		refreshLocation();
+	});
+	// 刷新当前选择信息
+	function refreshLocation(){
+		var $tagLocationInfos = $("#tag-location-infos");
+		$tagLocationInfos.html('');
+		var split = "&nbsp;&gt;&nbsp;";
+		if(CURRENT_TRANSFORMER){
+			$tagLocationInfos.append(CURRENT_TRANSFORMER.name);
+		}
+		if(CURRENT_WD){
+			$tagLocationInfos.append(split + CURRENT_WD.desc);
+		}
+		if(CURRENT_DEVICE){
+			$tagLocationInfos.append(split + CURRENT_DEVICE.name);
+		}
+		if(CURRENT_DEVICE_IMG){
+			$tagLocationInfos.append(split + CURRENT_DEVICE_IMG.desc);
+		}
+		if(CURRENT_PART){
+			$tagLocationInfos.append(split + CURRENT_PART.desc);
+		}
+	}
 	
 	// 刷新变电站
 	function refreshTransFormer(){
@@ -44,10 +103,12 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 					$tagTransformers.append($("<div class='lv2'>").html(type));
 					for(var j in typeMap[type]){
 						var item = typeMap[type][j];
+						
 						$tagTransformers.append(
 							$("<div class='lv3'>")
 								.data('data', item)
 								.html(item.name)
+								.prepend("<i class='fa fa-home'></i>&nbsp;&nbsp;")
 								.click(function(){
 									// 切换变电站
 									changeTransFormer($(this).data('data'), $(this));
@@ -69,6 +130,15 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 	// 切换变电站
 	function changeTransFormer(item, $tag){
 		CURRENT_TRANSFORMER = item;
+		CURRENT_WD = null;
+		CURRENT_DEVICE = null;
+		CURRENT_DEVICE_IMG = null;
+		CURRENT_PART = null;
+		showCurrentItem();
+		
+		refreshLocation();
+		// 切换状态
+		changeStateTransformer();
 		
 		// 变电站为空
 		if(!item){
@@ -130,7 +200,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 	// 切换接线图
 	function changeWg(item){
 		CURRENT_WD = item;
-		
+		refreshLocation();
 		if(!item){// 无接线图
 			$("#im-wg-withdata").hide();
 			$("#im-wg-nodata").show();
@@ -185,9 +255,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 					position: 'absolute',
 					left: '0px',
 					top: '0px',
-					'z-index': 1,
-					'border-left': '1px solid #000',
-					'border-right': '1px solid #000'
+					'z-index': 1
 				})
 				.appendTo($tagImgWrap)
 				.load(function(){
@@ -394,8 +462,8 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		}
 		
 		if(data){
-			data.x = d.left;
-			data.y = d.top;
+			data.x = parseInt(d.left);
+			data.y = parseInt(d.top);
 			// 更新当前数据中的位置信息
 			updateDeviceList(data);
 		}
@@ -446,9 +514,19 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		ITEMS.splice(0, 0, item);
 		
 		// 列表
+		// 设备信息
 		$tagItems.prepend(
 			$('<div class="item-drag-right"></div>')
 				.html(item.name)
+				.attr('title', item.name)
+				.prepend(
+					$('<i class="fa fa-eye im-view-detail">详情</i>')
+						.data('data', item)
+						.click(function(){
+							// 查看设备管理
+							viewDevice($(this).data('data'));
+						}
+				))
 				.data('data', item)
 				.click(function(){
 					selectItem($(this).data('data'));
@@ -575,6 +653,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 	// 显示当前选中元素的信息
 	function showCurrentItem(item){
 		CURRENT_DEVICE = item;
+		refreshLocation();
 		if(item){
 			$("#tag-currentdevice-unselect").hide();
 			$("#tag-currentdevice-select").show();
@@ -592,5 +671,687 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		}
 	}
 	showCurrentItem();
+	
+	
+	///////////////////////// 设备管理页面
+	// 查看设备管理 
+	function viewDevice(device){
+		CURRENT_DEVICE = device;
+		refreshLocation();
+		// 切换状态
+		changeStateDevice();
+		// 获取设备图信息
+		refreshDeviceImg(device.id);
+	}
+	
+	/////////// 设备图相关/////////////
+	// 刷新设备图-通过设备id
+	function refreshDeviceImg(id){
+		if(id){// 有设备
+			// 加载设备详情
+			core.submitAjax({
+				url: 'api/device/getDetailById/' + id,
+				type: 'get',
+				success: function(data){
+					// 设备图信息
+					var deviceImgs = data.deviceImgs || [];
+					// 渲染设备图列表
+					$("#tag-select-device").combobox({
+						width: 400,
+						data: deviceImgs,
+						editable: false,
+						valueField: 'id',
+						textField: 'desc',
+						onSelect: function(record){
+							// 切换设备图
+							changeDeviceImg(record);
+						}
+					});
+					// 默认显示第一个
+					if(deviceImgs.length > 0){
+						$("#tag-select-device").combobox('setValue', deviceImgs[0].id);
+						// 切换设备图
+						changeDeviceImg(deviceImgs[0]);
+					}else{
+						changeDeviceImg();
+					}
+				}
+			});
+		}else{// 无设备
+			changeDeviceImg();
+		}
+	}
+	
+	// 切换设备图
+	function changeDeviceImg(item){
+		CURRENT_DEVICE_IMG = item;
+		refreshLocation();
+		if(!item){// 无设备图
+			$("#im-deviceimg-withdata").hide();
+			$("#im-deviceimg-nodata").show();
+			
+			// 隐藏相关信息
+			$("#tag-img-info-device-nodata").show();
+			$("#tag-img-info-device-withdata").hide();
+			
+			// 刷新部件列表
+			refreshPartItemsData();
+			
+		}else{// 有设备图
+			$("#im-deviceimg-withdata").show();
+			$("#im-deviceimg-nodata").hide();
+			
+			// 设备图信息
+			var deviceImgId = item.id,
+				deviceImgImgId = item.imgId,
+				deviceImgImgDownloadUrl = "upfiles/" + item.path,
+				deviceImgUploadTime = item.uploadTime,
+				deviceImgUploadUser = item.uploadUserDesc,
+				deviceImgDesc = item.desc,
+				deviceId = item.deviceId
+				;
+			
+			// 显示接线图信息
+			$("#tag-img-info-device-nodata").hide();
+			$("#tag-img-info-device-withdata").show();
+			$("#wd-info-device-uploadTime").html(core.transTimeStamp(deviceImgUploadTime));
+			$("#wd-info-device-user").html(deviceImgUploadUser);
+			$("#wd-info-device-desc").html(deviceImgDesc);
+			
+			// 加载设备图部件列表信息
+			core.submitAjax({
+				url: 'api/part/list',
+				type: 'get',
+				data: {deviceImgId: deviceImgId},
+				success: function(data){
+					refreshPartItemsData(data);
+				}
+			});
+			
+			// 渲染设备图图片
+			$tagImgWrapDevice.html('');
+			var $imgMain = $("<img id='tag-img-device' />")
+				.attr('src', deviceImgImgDownloadUrl)
+				.css({
+					position: 'absolute',
+					left: '0px',
+					top: '0px',
+					'z-index': 1
+				})
+				.appendTo($tagImgWrapDevice)
+				.load(function(){
+					// 设置容器宽高
+					$tagImgWrapDevice.width($("#tag-img-device").width()).height($("#tag-img-device").height());
+				});
+		}
+		
+	}
+	
+	// 添加设备图
+	$("#btn-deviceimg-add").click(function(){
+		if(!CURRENT_DEVICE){
+			core.alertMessage("无设备信息");
+			return;
+		}
+		tplengine.openWinWithEdit({
+			title: '添加设备图',
+			tpl: 'scripts/biz/imgmgr/tpl/deviceimg-add.tpl',
+			data: {
+				deviceId: CURRENT_DEVICE.id
+			},
+			surl: 'api/deviceimg/add',
+			success: function(data, $win){
+				refreshDeviceImg(CURRENT_DEVICE.id);
+				$win.dialog("close");
+			},
+			beforeSubmit: function($form){
+				if($form.find("input[name=imgId]").val()){
+					return true;
+				}else{
+					core.alertMessage("请上传设备图");
+					return false;
+				}
+			},
+			tplsuccess: function($win){
+				// 文件上传
+				simpleupload.simpleupload({
+					$div: $win.find("#fileupload-tag"),
+					attachType: "deviceimg",
+					filetype: ["png", "PNG", "jpg", "JPG"],
+					filemax: 20 * 1024 * 1024,
+					progressbar: $("#progress-bar"),
+					hidFileId: "imgId"
+				});
+			}
+		})
+	});
+	
+	// 编辑设备图
+	$("#btn-deviceimg-edit").click(function(){
+		if(!CURRENT_DEVICE_IMG){
+			core.alertMessage("无设备图信息");
+			return;
+		}
+		tplengine.openWinWithEdit({
+			title: '编辑设备图',
+			tpl: 'scripts/biz/imgmgr/tpl/deviceimg-add.tpl',
+			data: CURRENT_DEVICE_IMG,
+			surl: 'api/deviceimg/edit',
+			success: function(data, $win){
+				refreshDeviceImg(CURRENT_DEVICE.id);
+				$win.dialog("close");
+			},
+			beforeSubmit: function($form){
+				if($form.find("input[name=imgId]").val()){
+					return true;
+				}else{
+					core.alertMessage("请上传设备图");
+					return false;
+				}
+			},
+			tplsuccess: function($win){
+				// 文件上传
+				simpleupload.simpleupload({
+					$div: $win.find("#fileupload-tag-device"),
+					attachType: "deviceimg",
+					filetype: ["png", "PNG", "jpg", "JPG"],
+					filemax: 20 * 1024 * 1024,
+					progressbar: $("#progress-bar-device"),
+					hidFileId: "imgId",
+					defaultValue: CURRENT_DEVICE_IMG.imgId
+				});
+			}
+		})
+	});
+	
+	// 删除设备图
+	$("#btn-deviceimg-del").click(function(){
+		if(!CURRENT_DEVICE_IMG){
+			core.alertMessage("无设备图信息");
+			return;
+		}
+		$.messager.confirm('确认','确定删除当前设备图?删除后不可撤销。',function(r){
+			if (r){
+				core.submitAjax({
+					url: "api/deviceimg/del",
+					data: {
+						ids: CURRENT_DEVICE_IMG.id
+					},
+					success: function(data){
+						refreshDeviceImg(CURRENT_DEVICE.id);
+					}
+				});
+			}
+		});
+	})
+	
+	/////////////////部件相关/////////////////
+	// 添加部件
+	$("#btn-part-add").click(function(){
+		if(!CURRENT_DEVICE_IMG){
+			core.alertMessage("无设备图信息");
+			return;
+		}
+		tplengine.openWinWithEdit({
+			title: '添加部件',
+			tpl: 'scripts/biz/imgmgr/tpl/part-add.tpl',
+			data: {
+				deviceImgId: CURRENT_DEVICE_IMG.id
+			},
+			surl: 'api/part/add',
+			success: function(data, $win){
+				$win.dialog("close");
+				addPart(data);
+			},
+			tplsuccess: function($win){
+				// 文件上传
+				simpleupload.simpleupload({
+					$div: $win.find("#fileupload-tag"),
+					attachType: "device",
+					filetype: ["png", "PNG", "jpg", "JPG"],
+					filemax: 20 * 1024 * 1024,
+					progressbar: $("#progress-bar"),
+					hidFileId: "imgId"
+				});
+			}
+		})
+	});
+	
+	// 编辑部件
+	$("#btn-part-edit").click(function(){
+		if(!CURRENT_PART){
+			core.alertMessage("无部件信息");
+			return;
+		}
+		tplengine.openWinWithEdit({
+			title: '编辑部件',
+			tpl: 'scripts/biz/imgmgr/tpl/part-add.tpl',
+			data: CURRENT_PART,
+			surl: 'api/part/edit',
+			success: function(data, $win){
+				$win.dialog("close");
+				// 更新部件信息
+				updatePart(data);
+			},
+			tplsuccess: function($win){
+				// 文件上传
+				simpleupload.simpleupload({
+					$div: $win.find("#fileupload-tag"),
+					attachType: "device",
+					filetype: ["png", "PNG", "jpg", "JPG"],
+					filemax: 20 * 1024 * 1024,
+					progressbar: $("#progress-bar"),
+					hidFileId: "imgId",
+					defaultValue: CURRENT_WD.imgId
+				});
+			}
+		})
+	});
+	
+	// 删除部件
+	$("#btn-part-del").click(function(){
+		if(!CURRENT_PART){
+			core.alertMessage("无部件信息");
+			return;
+		}
+		$.messager.confirm('确认','确定删除当前部件？【删除后不可撤销】',function(r){
+			if (r){
+				core.submitAjax({
+					url: "api/part/del",
+					data: {
+						ids: CURRENT_PART.id
+					},
+					success: function(data){
+						delPart(CURRENT_PART);
+					}
+				});
+			}
+		});
+	})
+	
+	// 拖动事件
+	function onDragPart(e){
+		var d = e.data;
+		var data = $(e.target).data('data');
+		if (d.left < 0){d.left = 0}
+		if (d.top < 0){d.top = 0}
+		if (d.left + $(d.target).outerWidth() > $(d.parent).width()){
+			d.left = $(d.parent).width() - $(d.target).outerWidth();
+		}
+		if (d.top + $(d.target).outerHeight() > $(d.parent).height()){
+			d.top = $(d.parent).height() - $(d.target).outerHeight();
+		}
+		
+		if(data){
+			data.x = parseInt(d.left);
+			data.y = parseInt(d.top);
+			// 更新当前数据中的位置信息
+			updatePartList(data);
+		}
+		
+	}
+	
+	// 改变大小事件
+	function onResizePart(e){
+		var d = e.data;
+		var data = $(e.target).data('data');
+		if (d.left < 0){d.left = 0}
+		if (d.top < 0){d.top = 0}
+		var $dTarget = $(d.target);
+		var $tagImg = $("#tag-img-device");
+		if (d.left + $dTarget.outerWidth() > $tagImg.width()){
+			$dTarget.width($tagImg.width() - d.left);
+		}
+		if (d.top + $dTarget.outerHeight() > $tagImg.height()){
+			$dTarget.height($tagImg.height() - d.top);
+		}
+		
+		if(data){
+			data.width = $dTarget.width();
+			data.height = $dTarget.height();
+			// 更新当前数据中的大小信息
+			updatePartList(data);
+		}
+		
+	}
+
+	////////////////部件相关////////////////////
+	// 重新渲染部件列表数据
+	function refreshPartItemsData(data){
+		$tagItemsPart.html('');
+		for(var i in data){
+			var item = data[i];
+			// 渲染数据
+			addPart(item);
+		}
+	}
+	
+	// 添加一个部件
+	function addPart(item){
+		if(!item) return;
+		
+		// 数据
+		if(!ITEMS_PART) ITEMS_PART = [];
+		ITEMS_PART.splice(0, 0, item);
+		
+		// 列表
+		// 部件信息
+		$tagItemsPart.prepend(
+			$('<div class="item-drag-right"></div>')
+				.html(item.name)
+				.attr('title', item.name)
+				.prepend(
+					$('<i class="fa fa-eye im-view-detail">详情</i>')
+						.data('data', item)
+						.click(function(){
+							// 查看部件
+							viewPart($(this).data('data'));
+						}
+				))
+				.data('data', item)
+				.click(function(){
+					selectItemPart($(this).data('data'));
+				})
+		);
+		
+		// 图片
+		var $item = $('<div class="item-drag"></div>');
+		$tagImgWrapDevice.append($item);
+		$item.css({
+			width: item.width,
+			height: item.height,
+			left: item.x + 'px',
+			top: item.y + 'px'
+		})
+		// 数据
+		.data('data', item)
+		// 提示信息
+		.tooltip({content: item.name, trackMouse: true})
+		// 点击事件
+		.click(function(){
+			selectItemPart($(this).data('data'));
+		})
+		// 可拖动
+		.draggable({
+			onDrag: onDragPart
+		})
+		// 可调整大小
+		.resizable({
+			maxWidth: $("#tag-img-device").width(),
+			maxHeight: $("#tag-img-device").height(),
+			onStopResize: onResizePart
+		})
+		;
+	}
+	
+	// 移除一个部件
+	function removePart(item){
+		if(!item) return;
+		
+		// 数据
+		for(var i in ITEMS_PART){
+			if(ITEMS_PART[i].id == item.id){
+				ITEMS_PART.splic(i, 1);
+				break;
+			}
+		}
+		
+		// 列表
+		$tagItemsPart.find(".item-drag-right").each(function(){
+			if($(this).data('data').id == item.id){
+				$(this).remove();
+			}
+		});
+		
+		// 图片
+		$tagImgWrapDevice.find(".item-drag").each(function(){
+			if($(this).data('data').id == item.id){
+				$(this).remove();
+			}
+		});
+	}
+	
+	// 更新一个部件
+	function updatePart(item){
+		if(!item) return;
+		
+		// 数据
+		for(var i in ITEMS_PART){
+			if(ITEMS_PART[i].id == item.id){
+				ITEMS_PART[i] = item;
+			}
+		}
+		
+		// 列表
+		updatePartList(item);
+		
+		// 图片
+		$tagImgWrapDevice.find(".item-drag").each(function(){
+			if($(this).data('data').id == item.id){
+				$(this).data('data', item);
+			}
+		});
+	}
+	// 更新列表中的对象数据
+	function updatePartList(item){
+		if(!item) return;
+		$tagItemsPart.find(".item-drag-right").each(function(){
+			if($(this).data('data').id == item.id){
+				$(this).data('data', item);
+			}
+		});
+		
+		// 若当前选择对象一致，则更新显示信息
+		if(CURRENT_PART && CURRENT_PART.id == item.id){
+			showCurrentItemPart(item);
+		}
+	}
+	
+	// 选中某一个部件元素
+	function selectItemPart(item){
+		// 图片中元素
+		$tagImgWrapDevice.find('.select').removeClass('select');
+		$tagImgWrapDevice.find('.item-drag').each(function(){
+			if($(this).data('data').id == item.id){
+				$(this).addClass('select');
+				return false;
+			}
+		});
+		
+		// 列表中元素
+		$tagItemsPart.find('.select').removeClass('select');
+		$tagItemsPart.find('.item-drag-right').each(function(){
+			if($(this).data('data').id == item.id){
+				$(this).addClass('select');
+				return false;
+			}
+		});
+		
+		// 显示元素信息
+		showCurrentItemPart(item);
+	}
+
+	// 显示当前选中元素的信息-部件
+	function showCurrentItemPart(item){
+		CURRENT_PART = item;
+		if(item){
+			$("#tag-currentpart-unselect").hide();
+			$("#tag-currentpart-select").show();
+			
+			// 显示设备相关信息
+			$("#info-part-name").html(item.name);// 名称
+			$("#info-part-desc").html(item.desc);// 描述
+			$("#info-part-width").html(item.width);// 宽
+			$("#info-part-height").html(item.height);// 高
+			$("#info-part-x").html(item.x);// x
+			$("#info-part-y").html(item.y);// y
+		}else{
+			$("#tag-currentpart-select").hide();
+			$("#tag-currentpart-unselect").show();
+		}
+	}
+	showCurrentItemPart();
+	
+	/////////////////// 查看部件
+	function viewPart(part){
+		CURRENT_PART = part;
+		changeStatePart();
+		refreshPartHisInfos();
+		refreshLocation();
+	}
+	// 初始化分页
+	$('#part-pp').pagination({
+		total: 0,
+		pageSize: 10,
+		onSelectPage: function(pageNumber, pageSize){
+			refreshPartHisInfos({
+				page: pageNumber,
+				rows: pageSize,
+				timeBegin: $("#date-begin").datebox('getValue'),
+				timeEnd: $("#date-end").datebox('getValue')
+			});
+		}
+	});
+	$("#date-begin").datebox();
+	$("#date-end").datebox();
+	// 查询
+	$("#btn-parthis-search").click(function(){
+		refreshPartHisInfos({
+			page: 1,
+			rows: 10,
+			timeBegin: $("#date-begin").datebox('getValue'),
+			timeEnd: $("#date-end").datebox('getValue')
+		});
+	});
+	// 添加-部件历史信息
+	$("#btn-parthis-add").click(function(){
+		tplengine.openWinWithEdit({
+			title: '新增',
+			tpl: 'scripts/biz/imgmgr/tpl/parthis-add.tpl',
+			data: {
+				partId: CURRENT_PART.id
+			},
+			surl: 'api/parthis/add',
+			success: function(data, $win){
+				refreshPartHisInfos();
+				$win.dialog("close");
+			},
+			tplsuccess: function($win){
+				// 文件上传
+				simpleupload.simpleupload({
+					$div: $win.find("#fileupload-tag"),
+					attachType: "parthis",
+					filetype: ["png", "PNG", "jpg", "JPG"],
+					filemax: 20 * 1024 * 1024,
+					progressbar: $("#progress-bar"),
+					hidFileId: "imgId",
+					defaultValue: CURRENT_WD.imgId
+				});
+			}
+		})
+	});
+	var LAST_PARAMS = null;
+	// 刷新列表数据
+	function refreshPartHisInfos(params){
+		if(params){
+			LAST_PARAMS = params;
+		}else{
+			params = LAST_PARAMS;
+		}
+		var $partList = $("#part-list");
+		$partList.html('加载中...');
+		
+		if(!params){
+			params = {
+				page: 1,
+				rows: 10
+			}
+		}
+		params.partId = CURRENT_PART.id;
+		
+		core.submitAjax({
+			url: "api/parthis/list",
+			type: 'get',
+			data: params,
+			success: function(data){
+				$partList.html('');
+				for(var i in data.rows){
+					var item = data.rows[i];
+					var $item = $("<div class='part-his-item'></div>")
+						.data('data', item)
+						
+						// 图片
+						.append('<img class="his-item-left" width=100% src="'+ ("upfiles/" + item.path) +'" />')
+						.append($("<div class='his-item-center'></div>")
+							// 创建时间
+							.append(core.transTimeStamp(item.createTime))
+							.append('<br/><br/>')
+							// 描述
+							.append(item.content)
+						)
+						.append($("<div class='his-item-right'></div>")
+							// 查看
+							.append($('<div class="btn btn-view">查看</div>').data('data', item).click(function(){
+								var item = $(this).data('data');
+								tplengine.openWin({
+									title: '查看',
+									dialogConfig: {
+										width: 1000,
+										height: $(window).height() - 200
+									},
+									tpl: 'scripts/biz/imgmgr/tpl/parthis-view.tpl',
+									data: item
+								})
+							}))
+							// 编辑
+							.append($('<div class="btn btn-edit">编辑</div>').data('data', item).click(function(){
+								var item = $(this).data('data');
+								tplengine.openWinWithEdit({
+									title: '编辑',
+									tpl: 'scripts/biz/imgmgr/tpl/parthis-add.tpl',
+									data: item,
+									surl: 'api/parthis/edit',
+									success: function(data, $win){
+										refreshPartHisInfos();
+										$win.dialog("close");
+									},
+									tplsuccess: function($win){
+										// 文件上传
+										simpleupload.simpleupload({
+											$div: $win.find("#fileupload-tag"),
+											attachType: "parthis",
+											filetype: ["png", "PNG", "jpg", "JPG"],
+											filemax: 20 * 1024 * 1024,
+											progressbar: $("#progress-bar"),
+											hidFileId: "imgId",
+											defaultValue: CURRENT_WD.imgId
+										});
+									}
+								})
+							}))
+							// 删除
+							.append($('<div class="btn btn-danger">删除</div>').data('data', item).click(function(){
+								
+								$.messager.confirm('确认','确定删除?删除后不可撤销。',function(r){
+									if (r){
+										core.submitAjax({
+											url: "api/parthis/del",
+											data: {
+												ids: $(this).data('data').id
+											},
+											success: function(){
+												refreshPartHisInfos();
+											}
+										});
+									}
+								});
+							}))
+						)
+						;
+					$partList.append($item);
+				}
+			}
+		});
+	}
 	
 });

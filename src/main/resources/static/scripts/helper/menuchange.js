@@ -110,7 +110,7 @@ define(["jquery", "core", "tplengine", "backbone"], function($, core, tplengine,
 				// 首页
 				$navigation.prepend(
 				'<li class="navli">' +
-					'<a class="item logout" href="#index">' +
+					'<a class="item logout" href="#">' +
 						'<img src="images/u17.jpg" width=60 height=55 /><br/>' +
 						'<span>首页</span>' +
 					'</a>' +

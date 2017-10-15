@@ -158,7 +158,7 @@ define([ "jquery", "core", "router", "mc"],
 			router.init();
 			
 			//若没有导航和菜单被选中,默认跳转第一个导航,第一个菜单
-			var $selectMenu = $menus.find(".selected");
+			/*var $selectMenu = $menus.find(".selected");
 			var $selectNav = $navigation.find(".selected");
 			if($selectMenu.size() == 0 && $selectNav.size() == 0){
 				var toUrl = "";
@@ -186,7 +186,7 @@ define([ "jquery", "core", "router", "mc"],
 				APP.LASTNAV = item.mfId;
 				mc.loadLeftMenu(mf.children, true, item);
 				return;
-			}
+			}*/
 
 		});
 

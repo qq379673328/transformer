@@ -364,6 +364,66 @@ public class TBizPartHisExample {
             addCriterion("img_id not between", value1, value2, "imgId");
             return (Criteria) this;
         }
+
+        public Criteria andPartIdIsNull() {
+            addCriterion("part_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartIdIsNotNull() {
+            addCriterion("part_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartIdEqualTo(Integer value) {
+            addCriterion("part_id =", value, "partId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartIdNotEqualTo(Integer value) {
+            addCriterion("part_id <>", value, "partId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartIdGreaterThan(Integer value) {
+            addCriterion("part_id >", value, "partId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("part_id >=", value, "partId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartIdLessThan(Integer value) {
+            addCriterion("part_id <", value, "partId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartIdLessThanOrEqualTo(Integer value) {
+            addCriterion("part_id <=", value, "partId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartIdIn(List<Integer> values) {
+            addCriterion("part_id in", values, "partId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartIdNotIn(List<Integer> values) {
+            addCriterion("part_id not in", values, "partId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartIdBetween(Integer value1, Integer value2) {
+            addCriterion("part_id between", value1, value2, "partId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("part_id not between", value1, value2, "partId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

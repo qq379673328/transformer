@@ -20,27 +20,36 @@
 		<div class="logo">
 			<h1>濮阳市变电站设备图片管理与检索系统</h1>
 		</div>
-		<div class="user">
-			<span class="username">
-				<span>当前用户:&nbsp;&nbsp;</span>
-				<span class="currentuser">
-					<a href="javascript: void(0);" ><span th:text="${user}"></span></a>	
-				</span>
-			</span>
-			<a href="logout" class="exit">退出</a>
-		</div>
+		<ul class="menu">
+			<li class="navli">
+				<a href="javascript: void(0);"
+					style="cursor: default;">
+					<img src="images/u25.png" />
+					<br/>
+					<span th:text="${user}"></span>
+				</a>
+			</li>
+			<li class="navli">
+				<a href="logout" >
+					<img src="images/u25.png" />
+					<br/>
+					<span>退出</span>
+				</a>
+			</li>
+		</ul>
 		<ul id="main-navigation" class="menu"></ul>
 	</div>
 	<div id="content">
+		<div class="clear"></div>
 		<div id="main-menus" class="left"></div>
 		<div class="right">
 			<div class="right-white">
-				<div class="location">
+				<!-- <div class="location">
 					当前所在位置：
 					<a href="javascript: void(0);" id="location-1"></a>
 					<span id="location-2"></span>
 					<a href="javascript: void(0);" id="location-3" class="now"></a>
-				</div>
+				</div> -->
 				<div id="main-content">
 				
 				</div>

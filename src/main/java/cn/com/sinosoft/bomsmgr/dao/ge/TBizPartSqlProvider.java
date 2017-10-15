@@ -68,8 +68,8 @@ public class TBizPartSqlProvider {
             sql.VALUES("type_id", "#{typeId,jdbcType=INTEGER}");
         }
         
-        if (record.getDeviceId() != null) {
-            sql.VALUES("device_id", "#{deviceId,jdbcType=INTEGER}");
+        if (record.getDeviceImgId() != null) {
+            sql.VALUES("device_img_id", "#{deviceImgId,jdbcType=INTEGER}");
         }
         
         return sql.toString();
@@ -92,7 +92,7 @@ public class TBizPartSqlProvider {
         sql.SELECT("width");
         sql.SELECT("height");
         sql.SELECT("type_id");
-        sql.SELECT("device_id");
+        sql.SELECT("device_img_id");
         sql.FROM("t_biz_part");
         applyWhere(sql, example, false);
         
@@ -154,8 +154,8 @@ public class TBizPartSqlProvider {
             sql.SET("type_id = #{record.typeId,jdbcType=INTEGER}");
         }
         
-        if (record.getDeviceId() != null) {
-            sql.SET("device_id = #{record.deviceId,jdbcType=INTEGER}");
+        if (record.getDeviceImgId() != null) {
+            sql.SET("device_img_id = #{record.deviceImgId,jdbcType=INTEGER}");
         }
         
         applyWhere(sql, example, true);
@@ -177,7 +177,7 @@ public class TBizPartSqlProvider {
         sql.SET("width = #{record.width,jdbcType=INTEGER}");
         sql.SET("height = #{record.height,jdbcType=INTEGER}");
         sql.SET("type_id = #{record.typeId,jdbcType=INTEGER}");
-        sql.SET("device_id = #{record.deviceId,jdbcType=INTEGER}");
+        sql.SET("device_img_id = #{record.deviceImgId,jdbcType=INTEGER}");
         
         TBizPartExample example = (TBizPartExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -228,8 +228,8 @@ public class TBizPartSqlProvider {
             sql.SET("type_id = #{typeId,jdbcType=INTEGER}");
         }
         
-        if (record.getDeviceId() != null) {
-            sql.SET("device_id = #{deviceId,jdbcType=INTEGER}");
+        if (record.getDeviceImgId() != null) {
+            sql.SET("device_img_id = #{deviceImgId,jdbcType=INTEGER}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

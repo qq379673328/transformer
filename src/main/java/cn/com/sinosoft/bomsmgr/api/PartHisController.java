@@ -1,35 +1,34 @@
 package cn.com.sinosoft.bomsmgr.api;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.com.sinosoft.bomsmgr.entity.ge.TBizDevice;
-import cn.com.sinosoft.bomsmgr.model.biz.DeviceDetail;
-import cn.com.sinosoft.bomsmgr.model.biz.DeviceInfo;
-import cn.com.sinosoft.bomsmgr.service.DeviceService;
+import cn.com.sinosoft.bomsmgr.entity.ge.TBizPartHis;
+import cn.com.sinosoft.bomsmgr.model.biz.PartHisInfo;
+import cn.com.sinosoft.bomsmgr.service.PartHisService;
 import cn.com.sinosoft.tbf.domain.common.APIResult;
+import cn.com.sinosoft.tbf.domain.common.PageParam;
+import cn.com.sinosoft.tbf.domain.common.PagingResult;
 
 /**
- * 设备api
+ * 部件历史信息api
  *
  * @author <a href="mainto:nytclizy@gmail.com">lizhiyong</a>
  * @since 2017年4月21日
  */
 @RestController
-@RequestMapping("/api/device")
-public class DeviceController {
+@RequestMapping("/api/parthis")
+public class PartHisController {
 
 	@Resource
-	DeviceService service;
+	PartHisService service;
 
 	/**
 	 * 列表
@@ -37,20 +36,10 @@ public class DeviceController {
 	 * @return
 	 */
 	@GetMapping("list")
-	public APIResult<List<DeviceInfo>> getList(@RequestParam Map<String, Object> params) {
-		return new APIResult<List<DeviceInfo>>(service.getList(params));
+	public APIResult<PagingResult<PartHisInfo>> getList(@RequestParam Map<String, Object> params, PageParam pageParam) {
+		return new APIResult<PagingResult<PartHisInfo>>(service.getList(params, pageParam));
 	}
 	
-	/**
-	 * 设备详情
-	 *
-	 * @return
-	 */
-	@GetMapping("getDetailById/{id}")
-	public APIResult<DeviceDetail> getDetailById(@PathVariable Integer id) {
-		return new APIResult<DeviceDetail>(service.getDetailById(id));
-	}
-
 	/**
 	 * 添加
 	 *
@@ -59,8 +48,9 @@ public class DeviceController {
 	 * @return
 	 */
 	@PostMapping("add")
-	public APIResult<DeviceInfo> add(TBizDevice item) {
-		return new APIResult<DeviceInfo>(service.add(item));
+	public APIResult<Object> add(TBizPartHis item) {
+		service.add(item);
+		return new APIResult<Object>();
 	}
 
 	/**
@@ -71,8 +61,9 @@ public class DeviceController {
 	 * @return
 	 */
 	@PostMapping("edit")
-	public APIResult<DeviceInfo> edit(TBizDevice item) {
-		return new APIResult<>(service.update(item));
+	public APIResult<Object> edit(TBizPartHis item) {
+		service.update(item);
+		return new APIResult<>();
 	}
 
 	/**

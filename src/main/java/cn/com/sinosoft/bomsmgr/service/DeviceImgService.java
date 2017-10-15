@@ -9,48 +9,67 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.com.sinosoft.bomsmgr.dao.ge.TBizPartMapper;
-import cn.com.sinosoft.bomsmgr.entity.ge.TBizPart;
-import cn.com.sinosoft.bomsmgr.model.biz.PartInfo;
+import cn.com.sinosoft.bomsmgr.dao.ge.TBizDeviceImgMapper;
+import cn.com.sinosoft.bomsmgr.entity.ge.TBizDeviceImg;
+import cn.com.sinosoft.bomsmgr.model.biz.DeviceImgDetail;
+import cn.com.sinosoft.bomsmgr.model.biz.DeviceImgInfo;
 import cn.com.sinosoft.bomsmgr.service.common.CommonUserService;
 import cn.com.sinosoft.tbf.dao.BaseDao;
 
 /**
- * 部件服务
+ * 设备图服务
  *
  * @author <a href="mainto:nytclizy@gmail.com">lizhiyong</a>
  * @since 2017年9月14日
  */
 @Service
-public class PartService {
+public class DeviceImgService {
 
-	public static final String NAMESPACE_BASE = "cn.com.sinosoft.part.";
+	public static final String NAMESPACE_BASE = "cn.com.sinosoft.deviceimg.";
 
 	@Resource
 	BaseDao baseDao;
 	@Resource
 	CommonUserService commonUserService;
+	@Resource
+	PartService partService;
 
 	/**
 	 * 获取所有
 	 *
 	 * @return
 	 */
-	public List<PartInfo> getList(Map<String, Object> params) {
+	public List<DeviceImgInfo> getList(Map<String, Object> params) {
 		return baseDao.queryList(NAMESPACE_BASE + "get-list", params);
 	}
-	
+
 	/**
 	 * 根据id获取
 	 *
 	 * @param id
 	 * @return
 	 */
-	public PartInfo getById(Integer id) {
+	public DeviceImgInfo getById(Integer id) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
-		List<PartInfo> items = getList(params);
+		List<DeviceImgInfo> items = getList(params);
 		return items.size() > 0 ? items.get(0) : null;
+	}
+
+	/**
+	 * 根据设备图id获取设备图详情
+	 *
+	 * @param id
+	 * @return
+	 */
+	public DeviceImgDetail getDetailById(Integer id) {
+		DeviceImgDetail detail = new DeviceImgDetail();
+		detail.setDeviceImg(getById(id));
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("deviceId", id);
+		detail.setPartInfos(partService.getList(params));
+		return detail;
 	}
 
 	/**
@@ -61,11 +80,9 @@ public class PartService {
 	 * @return 详情
 	 */
 	@Transactional
-	public PartInfo add(TBizPart item) {
+	public void add(TBizDeviceImg item) {
 		item.setCreateUser(commonUserService.getRequestUserId());
 		getMapper().insertSelective(item);
-		
-		return getById(item.getId());
 	}
 
 	/**
@@ -76,9 +93,8 @@ public class PartService {
 	 * @return 影响条数
 	 */
 	@Transactional
-	public PartInfo update(TBizPart item) {
-		getMapper().updateByPrimaryKeySelective(item);
-		return getById(item.getId());
+	public int update(TBizDeviceImg item) {
+		return getMapper().updateByPrimaryKeySelective(item);
 	}
 
 	/**
@@ -102,8 +118,8 @@ public class PartService {
 	 *
 	 * @return
 	 */
-	private TBizPartMapper getMapper() {
-		return baseDao.getMapper(TBizPartMapper.class);
+	private TBizDeviceImgMapper getMapper() {
+		return baseDao.getMapper(TBizDeviceImgMapper.class);
 	}
 
 }
