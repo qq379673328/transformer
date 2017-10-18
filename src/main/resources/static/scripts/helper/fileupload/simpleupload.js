@@ -12,7 +12,10 @@ define(["jquery","jquery.ui.widget","transport","fileupload"],function($){
 			return;
 		}
 		// 上传文字
-		var lab = $('<label>点击上传</label>')
+		var lab = $('<label><i class="fa fa-upload"></i>&nbsp;&nbsp;点击上传</label>');
+		if(defaultValue){
+			lab = $('<label><i class="fa fa-upload"></i>&nbsp;&nbsp;重新上传</label>');
+		}
 		lab.css({
 			cursor: 'pointer',
 			color: '#fff',
@@ -22,7 +25,6 @@ define(["jquery","jquery.ui.widget","transport","fileupload"],function($){
 			display: 'inline-block',
 			'background-color': '#398AC7',
 			width: '80px',
-			'border-radius':'5px',
 			'text-align':'center'
 		});
 

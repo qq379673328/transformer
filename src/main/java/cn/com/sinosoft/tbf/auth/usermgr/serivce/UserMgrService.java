@@ -81,6 +81,7 @@ public class UserMgrService {
 	@Transactional
 	public void editUser(TAuthUser user) {
 		if (StrUtils.isNull(user.getId())) {// 新增
+			user.setPassWord(CommonUserService.USER_PWD_DEFAULT);
 			if (isLoginNameExist(user.getLoginName())) {
 				throw new ServiceException("登录名已存在");
 			}

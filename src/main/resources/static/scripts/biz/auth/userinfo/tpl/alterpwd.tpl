@@ -26,7 +26,7 @@
 			</td>
 			<td class="td-even">
 				<span id="btn-submit"
-					class="my-btn my-btn-save"><i class="fa fa-save"></i>&nbsp;提交</span>
+					class="btn btn-save"><i class="fa fa-save"></i>&nbsp;提交</span>
 			</td> 
 		</tr>
 	</table>

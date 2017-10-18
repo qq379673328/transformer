@@ -1,5 +1,5 @@
 <div>
-	<div class="name">用户查询</div>
+	<div class="name">用户管理</div>
 	<div class="zone searchzone">
 		<form id="form-search">
 			<table class="">
@@ -28,7 +28,7 @@
 					</td>
 					<td class="td-odd"></td>
 					<td class="td-even">
-						<span id="btn-search" class="my-btn my-btn-search">
+						<span id="btn-search" class="btn btn-search">
 							<i class="fa fa-search"></i>&nbsp;查询
 						</span>
 					</td>

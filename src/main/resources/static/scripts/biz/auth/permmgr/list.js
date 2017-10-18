@@ -1,8 +1,8 @@
 /**
  * 权限分类管理-角色管理
  */
-define(["util","tagutil"],
-		function(util,tagUtil){
+define(["core", "tplengine"],
+		function(core, tplengine){
 	
 	/**
 	 * 页面元素
@@ -25,7 +25,7 @@ define(["util","tagutil"],
 	 */
 	//查询按钮
 	$btnSearch.click(function(){
-		$listTab.datagrid('load', util.getFormData($formSearch));
+		$listTab.datagrid('load', core.getFormData($formSearch));
 	});
 	//批量删除按钮
 	$btnBatchdel.click(delBatch);
@@ -41,7 +41,6 @@ define(["util","tagutil"],
 			url: 'auth/rolemgr/list',
 			columns: [[
 				{field: "ID", hidden:true},
-				{field: "CK", checkbox:true},
 				{field: "ROLE_NAME", title: "角色名称", width: 150},
 				{field: "ROLE_DESC", title: "角色描述", width: 500},
 				{field: "HD", title: "操作", width: 200, formatter: function(val, row, idx){
@@ -76,7 +75,7 @@ define(["util","tagutil"],
 	function getSelectMu(cb){
 		var rows = $listTab.datagrid("getChecked");
 		if(!rows || rows.length == 0){
-			util.alertMessage("请选择数据");
+			core.alertMessage("请选择数据");
 			return;
 		}else{
 			if(cb) cb(rows);
@@ -99,10 +98,10 @@ define(["util","tagutil"],
 	function del(rows){
 		$.messager.confirm('确认','确定删除所选记录?',function(r){
 			if (r){
-				util.submitAjax({
+				core.submitAjax({
 					url: "auth/rolemgr/del",
 					data: {
-						ids: util.getSelectFields(rows, "ID")
+						ids: core.getSelectFields(rows, "ID")
 					},
 					success: function(data){
 						initList();
@@ -127,7 +126,7 @@ define(["util","tagutil"],
 	
 	//新增
 	function add(){
-		tagUtil.openWinWithEdit($.extend({}, addEditConfig, {
+		tplengine.openWinWithEdit($.extend({}, addEditConfig, {
 			title: "新增角色"
 		}));
 	}
@@ -141,7 +140,7 @@ define(["util","tagutil"],
 			appId: row.APP_ID,
 			id: row.ID
 		};
-		tagUtil.openWinWithEdit($.extend({}, addEditConfig, {
+		tplengine.openWinWithEdit($.extend({}, addEditConfig, {
 			title: "编辑角色",
 			data: newRow
 		}));
@@ -149,7 +148,7 @@ define(["util","tagutil"],
 	
 	//查看
 	APP.P.view = function(idx){
-		tagUtil.openWinWithEdit({
+		tplengine.openWinWithEdit({
 			tpl: "scripts/biz/auth/permmgr/tpl/roleview.tpl",
 			type: "0",
 			width:450,
@@ -163,7 +162,7 @@ define(["util","tagutil"],
 	var $curTree = null;
 	APP.P.perm = function(idx){
 		var row = $listTab.datagrid("getData").rows[idx];
-		tagUtil.openWinWithEdit({
+		tplengine.openWinWithEdit({
 			tpl: "scripts/biz/auth/permmgr/tpl/roleperm.tpl",
 			type: "1",
 			width:450,
@@ -173,7 +172,7 @@ define(["util","tagutil"],
 			title: "角色授权",
 			tplsuccess: function($form){
 				//加载权限信息并生成
-				util.submitAjax({
+				core.submitAjax({
 					url: "auth/rolemgr/getPermsAll",
 					data: {roleId: row.ID},
 					success: function(data){

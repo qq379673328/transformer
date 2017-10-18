@@ -4,7 +4,7 @@
 		<div id="tag-transformers"></div>
 	</div>
 	<div class="im-location">
-		当前选择：<span id="tag-location-infos"></span>
+		<i class="fa fa-map-marker"></i>&nbsp;&nbsp;当前选择：<span id="tag-location-infos"></span>
 	</div>
 	<div id="zone-transformer">
 		<div class="im-center" id="im-transformer-nodata">
@@ -35,7 +35,7 @@
 		
 		<div class="im-right">
 			
-			<div id="tag-img-info" style="background-color: #46708e; padding: 10px;margin-bottom: 5px;">
+			<div id="tag-img-info">
 				<h1><i class="fa fa-photo"></i>&nbsp;接线图</h1>
 				<div id="tag-img-info-nodata">
 					未选择
@@ -59,10 +59,10 @@
 				</div>
 			</div>
 			
-			<div style="background-color: #46708e; padding: 10px;margin-bottom: 5px;">
+			<div>
 				<h1><i class="fa fa-cube"></i>&nbsp;当前设备</h1>
 				<div id="tag-currentdevice-unselect">
-					未选中
+					未选择
 				</div>
 				<div id="tag-currentdevice-select">
 					<span class="btn btn-edit fa fa-pencil" id="btn-device-edit">&nbsp;&nbsp;编辑</span>
@@ -80,7 +80,7 @@
 				</div>
 			</div>
 	
-			<div style="background-color: #46708e; padding: 10px;margin-bottom: 5px;">
+			<div>
 				<h1><i class="fa fa-list"></i>&nbsp;设备列表</h1>
 				<div id="tag-wg-nodata">
 					未选择
@@ -97,7 +97,7 @@
 	<div id="zone-device" style="display: none;">
 	
 		<div class="im-center">
-			<div class="btn btn-main" id="btn-back-device">返回</div>
+			<div class="btn btn-back" id="btn-back-device"><i class="fa fa-reply"></i>&nbsp;&nbsp;返回</div>
 			<div class="im-center-title">
 				<b>设备图：</b>
 				<input id="tag-select-device"/>
@@ -119,7 +119,7 @@
 		
 		<div class="im-right">
 			
-			<div id="tag-img-info-device" style="background-color: #46708e; padding: 10px;margin-bottom: 5px;">
+			<div id="tag-img-info-device">
 				<h1><i class="fa fa-photo"></i>&nbsp;设备图</h1>
 				<div id="tag-img-info-device-nodata">
 					未选择
@@ -139,10 +139,10 @@
 				</div>
 			</div>
 			
-			<div style="background-color: #46708e; padding: 10px;margin-bottom: 5px;">
+			<div>
 				<h1><i class="fa fa-cube"></i>&nbsp;当前部件</h1>
 				<div id="tag-currentpart-unselect">
-					未选中
+					未选择
 				</div>
 				<div id="tag-currentpart-select">
 					<span class="btn btn-edit fa fa-pencil" id="btn-part-edit">&nbsp;&nbsp;编辑</span>
@@ -160,7 +160,7 @@
 				</div>
 			</div>
 	
-			<div style="background-color: #46708e; padding: 10px;margin-bottom: 5px;">
+			<div>
 				<h1><i class="fa fa-list"></i>&nbsp;部件列表</h1>
 				<div>
 					<span class="btn btn-add fa fa-plus" id="btn-part-add">&nbsp;&nbsp;添加部件</span>
@@ -173,7 +173,7 @@
 	<div id="zone-part" style="display: none;">
 		
 		<div class="im-center">
-			<div class="btn btn-main" id="btn-back-part">返回</div>
+			<div class="btn btn-back" id="btn-back-part"><i class="fa fa-reply"></i>&nbsp;&nbsp;返回</div>
 			<div>
 				上传日期：
 				<input id="date-begin" />

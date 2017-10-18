@@ -2,7 +2,7 @@
 /**
  * 个人信息编辑
  */
-define(["jquery", "util", "tagutil"], function($, util, tagUtil) {
+define(["jquery", "util", "tplengine"], function($, util, tplengine) {
 	//容器
 	var $infocontent = $("#infocontent");
 	
@@ -15,7 +15,7 @@ define(["jquery", "util", "tagutil"], function($, util, tagUtil) {
 				data: data,
 				tpl: "scripts/biz/auth/userinfo/tpl/editinfo.tpl",
 				success: function(){
-					tagUtil.handleHtml($infocontent.find("form"), data);
+					tplengine.handleHtml($infocontent.find("form"), data);
 					
 					var sForm = new util.SubmitForm({
 						$form: $infocontent.find("form"),

@@ -111,7 +111,7 @@ define(["jquery", "core", "tplengine", "backbone"], function($, core, tplengine,
 				$navigation.prepend(
 				'<li class="navli">' +
 					'<a class="item logout" href="#">' +
-						'<img src="images/u17.jpg" width=60 height=55 /><br/>' +
+						'<i class="fa fa-4x fa-home"></i><br/>' +
 						'<span>首页</span>' +
 					'</a>' +
 				'</li>')
@@ -144,9 +144,9 @@ define(["jquery", "core", "tplengine", "backbone"], function($, core, tplengine,
 	var DEFAULT_IMG = "image/default-menu.png";
 	var DEFAULT_LIWIDTH = "li-150";
 	var NAV_CONFIG = {
-		img_mgr: {img: "images/u35.png"},
-		img_view: {img: "images/u41.png"},
-		system_mgr: {img: "images/u29.png"}
+		img_mgr: {img: "fa-magic"},
+		img_view: {img: "fa-eye"},
+		system_mgr: {img: "fa-cog"}
 	};
 	
 	function createOneNav(mf){
@@ -157,7 +157,8 @@ define(["jquery", "core", "tplengine", "backbone"], function($, core, tplengine,
 		var link = item.mfLink;
 		
 		var liContent = $("<a href='javascript: void(0);'>"
-				+ "<img src='" + imgSrc + "' width='60' height='55' /><br/>"
+				+ "<i class='fa fa-4x " + imgSrc + "'></i><br/>"
+				//+ "<img src='" + imgSrc + "' width='60' height='55' /><br/>"
 				+ item.mfName
 				+ "</a>");
 		
@@ -254,11 +255,9 @@ define(["jquery", "core", "tplengine", "backbone"], function($, core, tplengine,
 		if(mfLink){
 			$li.append("<a href='index" + mfLink + "'>" + getNTab(menu.mfLevel - 1) + mfName + "</a>");
 		}else{
-			//$li.append(getNTab(menu.mfLevel - 1) + "<span class='fa fa-folder-o'></span>&nbsp;" + mfName);
 			$li.append(getNTab(menu.mfLevel - 1) + mfName);
 		}
 		if(!isroot){
-			//$li.hide();
 		}
 		/*$li.click(function(){
 			var haschildren = $(this).data("haschildren");
@@ -330,6 +329,7 @@ define(["jquery", "core", "tplengine", "backbone"], function($, core, tplengine,
 		}
 	}
 	function getNTab(n){
+		return "";
 		var ret = "";
 		n--;
 		n--;

@@ -5,8 +5,17 @@
 define(["jquery", "core", "tplengine", "simpleupload"],
 	function($, core, tplengine, simpleupload) {
 	
-	// 调整中心区域宽度
-	$(".im-center").width($(window).width() - $(".im-left").width() - $(".im-right").width() - 2);
+	/**
+	 * 默认参数
+	 */
+	var DEFAULT_ITEM_WIDTH = 100,
+		DEFAULT_ITEM_HEIGHT = 100
+		;
+	
+	// 调整宽度
+	var centerWidth = $(window).width() - $(".im-left").width() - $(".im-right").width() - 50;
+	$(".im-location").width(centerWidth);
+	$(".im-center").width(centerWidth);
 	
 	// 页面元素
 	var $tagImgWrap = $('#tag-wrap'),// 中间图片容器-变电站
@@ -108,7 +117,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 							$("<div class='lv3'>")
 								.data('data', item)
 								.html(item.name)
-								.prepend("<i class='fa fa-home'></i>&nbsp;&nbsp;")
+								.prepend("<i class='fa fa-bolt'></i>&nbsp;&nbsp;")
 								.click(function(){
 									// 切换变电站
 									changeTransFormer($(this).data('data'), $(this));
@@ -276,7 +285,11 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			title: '添加接线图',
 			tpl: 'scripts/biz/imgmgr/tpl/wd-add.tpl',
 			data: {
-				transformerId: CURRENT_TRANSFORMER.id
+				transformerId: CURRENT_TRANSFORMER.id,
+				x: 0,
+				y: 0,
+				width: DEFAULT_ITEM_WIDTH,
+				height: DEFAULT_ITEM_HEIGHT
 			},
 			surl: 'api/wiringdiagram/add',
 			success: function(data, $win){
@@ -375,7 +388,11 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			title: '添加设备',
 			tpl: 'scripts/biz/imgmgr/tpl/device-add.tpl',
 			data: {
-				wiringdiagramId: CURRENT_WD.id
+				wiringdiagramId: CURRENT_WD.id,
+				x: 0,
+				y: 0,
+				width: DEFAULT_ITEM_WIDTH,
+				height: DEFAULT_ITEM_HEIGHT
 			},
 			surl: 'api/device/add',
 			success: function(data, $win){
@@ -797,7 +814,11 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			title: '添加设备图',
 			tpl: 'scripts/biz/imgmgr/tpl/deviceimg-add.tpl',
 			data: {
-				deviceId: CURRENT_DEVICE.id
+				deviceId: CURRENT_DEVICE.id,
+				x: 0,
+				y: 0,
+				width: DEFAULT_ITEM_WIDTH,
+				height: DEFAULT_ITEM_HEIGHT
 			},
 			surl: 'api/deviceimg/add',
 			success: function(data, $win){
@@ -896,7 +917,11 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			title: '添加部件',
 			tpl: 'scripts/biz/imgmgr/tpl/part-add.tpl',
 			data: {
-				deviceImgId: CURRENT_DEVICE_IMG.id
+				deviceImgId: CURRENT_DEVICE_IMG.id,
+				x: 0,
+				y: 0,
+				width: DEFAULT_ITEM_WIDTH,
+				height: DEFAULT_ITEM_HEIGHT
 			},
 			surl: 'api/part/add',
 			success: function(data, $win){
@@ -1244,8 +1269,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 					filetype: ["png", "PNG", "jpg", "JPG"],
 					filemax: 20 * 1024 * 1024,
 					progressbar: $("#progress-bar"),
-					hidFileId: "imgId",
-					defaultValue: CURRENT_WD.imgId
+					hidFileId: "imgId"
 				});
 			}
 		})

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.com.sinosoft.bomsmgr.entity.ge.TAuthUser;
+import cn.com.sinosoft.bomsmgr.service.common.CommonUserService;
 import cn.com.sinosoft.tbf.auth.usermgr.serivce.UserMgrService;
 import cn.com.sinosoft.tbf.domain.common.APIResult;
 import cn.com.sinosoft.tbf.domain.common.PageParam;
@@ -41,16 +42,27 @@ public class UserMgrController {
 	 */
 	@GetMapping("list")
 	@ResponseBody
-	public APIResult<PagingResult<List<TAuthUser>>> getList(Map<String, String> searchParams,
-			PageParam pageParam) {
+	public APIResult<PagingResult<List<TAuthUser>>> getList(Map<String, String> searchParams, PageParam pageParam) {
 		PagingResult<List<TAuthUser>> result = userMgrService.getList(searchParams, pageParam);
 		return new APIResult<PagingResult<List<TAuthUser>>>(result);
 	}
 
 	/**
+	 * 新增用户信息
+	 *
+	 * @param user
+	 * @return
+	 */
+	@PostMapping("add")
+	public APIResult<String> addUser(TAuthUser user) {
+		userMgrService.editUser(user);
+		return new APIResult<String>(CommonUserService.USER_PWD_DEFAULT, "操作成功", true);
+	}
+
+	/**
 	 * 编辑用户信息
 	 *
-	 * @param role
+	 * @param user
 	 * @return
 	 */
 	@PostMapping("edit")

@@ -3,7 +3,7 @@
 		<b>濮阳市供电区电网简介</b>
 	</div>
 	<div style="padding: 10px;">
-		<div style="width:47%; text-indent: 2em; background-color: #fff; line-height: 2em; padding: 10px; float: left;">
+		<div style="width:47%; text-indent: 2em; line-height: 2em; padding: 10px; float: left;">
 			<p>
 				电网简介电网简介电网简介电网简介电网简介电网简介
 				电网简介电网简介电网简介电网简介电网简介电网简介

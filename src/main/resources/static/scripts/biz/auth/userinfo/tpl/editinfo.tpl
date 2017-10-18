@@ -40,7 +40,7 @@
 		<tr>
 			<td class="td-odd"></td>
 			<td class="td-even">
-				<div id="saveBtn" class="my-btn my-btn-save"><i class="fa fa-save"></i>&nbsp;提交</div>
+				<div id="saveBtn" class="btn btn-save"><i class="fa fa-save"></i>&nbsp;提交</div>
 			</td>
 		</tr>
 	</table>

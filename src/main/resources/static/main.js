@@ -214,6 +214,7 @@ define([ "jquery", "core", "router", "mc"],
 		$.fn.datagrid.defaults.onLoadError = function(xhr, status, err) {// 默认
 			core.handleAjaxError(xhr, status, err);
 		};
+		
 		$.fn.datagrid.defaults.cache = false;// 禁止缓存
 		$.fn.datagrid.defaults.modal = false;// 非模态
 		$.fn.datagrid.defaults.title = "查询结果";// 默认 title

@@ -47,7 +47,6 @@ define(["core", "tplengine"], function(core, tplengine){
 			url: 'auth/usermgr/list',
 			columns: [[
 				{field: "id", hidden:true},
-				{field: "CK", checkbox:true},
 				{field: "loginName", title: "登录名", width: 100},
 				{field: "name", title: "姓名", width: 100},
 				{field: "createTime", title: "注册时间", width: 120, formatter: function(val){
@@ -55,7 +54,7 @@ define(["core", "tplengine"], function(core, tplengine){
 				}},
 				{field: "isUsed", title: "状态", width:60, formatter: function(val, row){
 					val = "";
-					if(row.IS_USED == "0"){//禁用
+					if(row.isUsed == "02"){//禁用
 						val = "<i class='fa fa-lock'></i> 禁用";
 					}else{
 						val = "<i class='fa fa-unlock'></i> 启用";
@@ -64,10 +63,10 @@ define(["core", "tplengine"], function(core, tplengine){
 				}},
 				{field: "HD", title: "操作", width: 100, formatter: function(val, row, idx){
 					return '<a onclick="APP.P.edit(' + idx + ');" title="编辑" class="grid-icon"><span class="fa fa-edit"></span><span>编辑</span></a>'
-					+ '<a onclick="APP.P.resetpwd(' + idx + ');" title="重置密码" class="grid-icon"><span class="fa fa-edit"></span><span>重置密码</span></a>'
-					+ '<a onclick="APP.P.enable(' + idx + ');" title="启用" class="grid-icon"><span class="fa fa-edit"></span><span>启用</span></a>'
-					+ '<a onclick="APP.P.disable(' + idx + ');" title="禁用" class="grid-icon"><span class="fa fa-edit"></span><span>禁用</span></a>'
-					+ '<a onclick="APP.P.del(' + idx + ');" title="删除" class="grid-icon"><span class="fa fa-edit"></span><span>删除</span></a>'
+					+ '<a onclick="APP.P.resetpwd(' + idx + ');" title="重置密码" class="grid-icon"><span class="fa fa-key"></span><span>重置密码</span></a>'
+					+ '<a onclick="APP.P.enable(' + idx + ');" title="启用" class="grid-icon"><span class="fa fa-check"></span><span>启用</span></a>'
+					+ '<a onclick="APP.P.disable(' + idx + ');" title="禁用" class="grid-icon"><span class="fa fa-ban"></span><span>禁用</span></a>'
+					+ '<a onclick="APP.P.del(' + idx + ');" title="删除" class="grid-icon"><span class="fa fa-close"></span><span>删除</span></a>'
 					;
 				}}
 			]],
@@ -158,7 +157,7 @@ define(["core", "tplengine"], function(core, tplengine){
 	}
 	
 	//重置密码
-	APP.P.resetwpd = function(idx){
+	APP.P.resetpwd = function(idx){
 		core.submitAjax({
 			url: "auth/usermgr/resetPwd",
 			data: {ids: getRowByIdx(idx).id}
