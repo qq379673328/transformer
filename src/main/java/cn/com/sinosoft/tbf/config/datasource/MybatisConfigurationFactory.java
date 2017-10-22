@@ -19,7 +19,7 @@ public class MybatisConfigurationFactory{
 		conf.setLazyLoadingEnabled(false);
 		conf.setAggressiveLazyLoading(true);
 		conf.setJdbcTypeForNull(JdbcType.NULL);
-		conf.setLogImpl(StdOutImpl.class);// 打印sql
+		//conf.setLogImpl(StdOutImpl.class);// 打印sql
 		return conf;
 	}
 

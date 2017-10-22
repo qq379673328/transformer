@@ -18,12 +18,12 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'eclipse-wtp'
-apply plugin: 'war'
+//apply plugin: 'war'
 
 
-war {
-	baseName = 'transformer'
-}
+//war {
+	//baseName = 'transformer'
+//}
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
