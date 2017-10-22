@@ -53,7 +53,7 @@ public class UserInfoService {
 		String confirmpassword = params.get("confirmpassword");
 		oldpassword = MD5Util.digestMD5(oldpassword);
 		if (!password.equals(oldpassword)) {
-			throw new ServiceException("原始密码不能为空");
+			throw new ServiceException("原始密码错误");
 		} else if (!newpassword.equals(confirmpassword)) {
 			throw new ServiceException("两次输入的新密码不一致");
 		} else {

@@ -94,7 +94,7 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
 			request.getSession().setAttribute(CommonUserService.SESSION_NAME_USERINFO, loginUserInfo);
 
 			// 树状菜单权限
-			loginUserInfo.setMfTreeVo(commonBaseService.getUserMF(userInfo.getId(), "1"));
+			loginUserInfo.setMfTreeVo(commonBaseService.getUserMF(userInfo.getId(), "0"));
 			// 列表权限-带功能点
 			loginUserInfo.setMfListVO(systemUserService.getUserMf(userInfo.getId(), null));
 

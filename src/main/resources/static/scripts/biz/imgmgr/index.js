@@ -12,6 +12,13 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		DEFAULT_ITEM_HEIGHT = 100
 		;
 	
+	// 是否查看
+	var IS_VIEW = core.getQueryString("IS_VIEW");
+	// 隐藏相关操作
+	if(IS_VIEW){
+		$('.btn-add,.btn-danger,.btn-edit,.btn-save').remove();
+	}
+	
 	// 调整宽度
 	var centerWidth = $(window).width() - $(".im-left").width() - $(".im-right").width() - 50;
 	$(".im-location").width(centerWidth);
@@ -33,7 +40,10 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		
 		$zoneDevice = $("#zone-device"),// 区域-变电站管理
 		$zoneTransformer = $("#zone-transformer"),// 区域-设备管理
-		$zonePart = $("#zone-part")// 区域-部件管理
+		$zonePart = $("#zone-part"),// 区域-部件管理
+		
+		$btnWdSave = $("#btn-wd-save"),// 按钮-保存接线图位置大小
+		$btnDeviceImgSave = $("#btn-deviceimg-save")// 按钮-保存接线图位置大小
 		
 		;
 	
@@ -63,6 +73,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 	$("#btn-back-part").click(function(){
 		changeStateDevice();
 		refreshLocation();
+		$btnDeviceImgSave.hide();
 	});
 	// 刷新当前选择信息
 	function refreshLocation(){
@@ -116,6 +127,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 						$tagTransformers.append(
 							$("<div class='lv3'>")
 								.data('data', item)
+								.attr('title', item.desc)
 								.html(item.name)
 								.prepend("<i class='fa fa-bolt'></i>&nbsp;&nbsp;")
 								.click(function(){
@@ -138,6 +150,10 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 	
 	// 切换变电站
 	function changeTransFormer(item, $tag){
+		
+		$btnWdSave.hide();
+		$btnDeviceImgSave.hide();
+		
 		CURRENT_TRANSFORMER = item;
 		CURRENT_WD = null;
 		CURRENT_DEVICE = null;
@@ -171,6 +187,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 	/////////// 接线图相关/////////////
 	// 刷新接线图-通过变电站id
 	function refreshWg(tfId){
+		
 		if(tfId){// 有变电站
 			// 加载变电站的详细信息
 			core.submitAjax({
@@ -208,6 +225,10 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 	
 	// 切换接线图
 	function changeWg(item){
+		
+		$btnWdSave.hide();
+		$btnDeviceImgSave.hide();
+		
 		CURRENT_WD = item;
 		refreshLocation();
 		if(!item){// 无接线图
@@ -356,6 +377,30 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		})
 	});
 	
+	// 保存接线图中设备位置信息
+	$btnWdSave.click(function(){
+		var data = [];
+		$("#im-wg-withdata .item-drag").each(function(){
+			var item = $(this).data('data');
+			data.push({
+				id: item.id,
+				x: item.x,
+				y: item.y,
+				w: item.width,
+				h: item.height
+			});
+		});
+		core.submitAjax({
+			url: "api/wiringdiagram/updateXyWh",
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			data: JSON.stringify(data),
+			success: function(data){
+				$btnWdSave.hide();
+			}
+		})
+	});
+	
 	// 删除接线图
 	$("#btn-wd-del").click(function(){
 		if(!CURRENT_WD){
@@ -438,7 +483,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 					filemax: 20 * 1024 * 1024,
 					progressbar: $("#progress-bar"),
 					hidFileId: "imgId",
-					defaultValue: CURRENT_WD.imgId
+					defaultValue: CURRENT_DEVICE.imgId
 				});
 			}
 		})
@@ -483,6 +528,8 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			data.y = parseInt(d.top);
 			// 更新当前数据中的位置信息
 			updateDeviceList(data);
+			
+			$btnWdSave.show();
 		}
 		
 	}
@@ -508,6 +555,8 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			// 更新当前数据中的大小信息
 			updateDeviceList(data);
 		}
+		
+		$btnWdSave.show();
 		
 	}
 
@@ -559,25 +608,41 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			left: item.x + 'px',
 			top: item.y + 'px'
 		})
+		.append($('<i class="item-drag-viewdetail fa fa-eye" title="详情"></i>')
+				.data('data', item)
+				.click(function(){
+					// 查看设备管理
+					viewDevice($(this).data('data'));
+				})
+		)
 		// 数据
 		.data('data', item)
 		// 提示信息
-		.tooltip({content: item.name, trackMouse: true})
+		.tooltip({
+			content: item.name 
+				+ (item.path ? ("<br/><img src='upfiles/"+ item.path + "' width=200 />") : '')
+				+ "<br/>" + item.desc
+				, 
+			trackMouse: true})
 		// 点击事件
 		.click(function(){
 			selectItem($(this).data('data'));
-		})
-		// 可拖动
-		.draggable({
-			onDrag: onDrag
-		})
-		// 可调整大小
-		.resizable({
-			maxWidth: $("#tag-img").width(),
-			maxHeight: $("#tag-img").height(),
-			onStopResize: onResize
-		})
-		;
+		});
+		if(!IS_VIEW){
+			// 可拖动
+			$item.draggable({
+				onDrag: onDrag,
+				disabled: IS_VIEW
+			});
+			// 可调整大小
+			$item.resizable({
+				maxWidth: $("#tag-img").width(),
+				maxHeight: $("#tag-img").height(),
+				minWidth: 20,
+				minHeight: 20,
+				onStopResize: onResize
+			});
+		}
 	}
 	
 	// 移除一个设备
@@ -624,7 +689,19 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		// 图片
 		$tagImgWrap.find(".item-drag").each(function(){
 			if($(this).data('data').id == item.id){
-				$(this).data('data', item);
+				$(this).data('data', item)
+					.css({
+						left: item.x + 'px',
+						top: item.y + 'px',
+						width: item.width,
+						height: item.height
+					})
+					.tooltip({
+						content: item.name 
+							+ (item.path ? ("<br/><img src='upfiles/"+ item.path + "' width=200 />") : '')
+							+ "<br/>" + item.desc
+							, 
+						trackMouse: true});
 			}
 		});
 	}
@@ -741,6 +818,9 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 	
 	// 切换设备图
 	function changeDeviceImg(item){
+		
+		$btnDeviceImgSave.hide();
+		
 		CURRENT_DEVICE_IMG = item;
 		refreshLocation();
 		if(!item){// 无设备图
@@ -967,7 +1047,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 					filemax: 20 * 1024 * 1024,
 					progressbar: $("#progress-bar"),
 					hidFileId: "imgId",
-					defaultValue: CURRENT_WD.imgId
+					defaultValue: CURRENT_PART.imgId
 				});
 			}
 		})
@@ -994,6 +1074,30 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		});
 	})
 	
+	// 保存设备图中部件位置大小信息
+	$btnDeviceImgSave.click(function(){
+		var data = [];
+		$("#im-deviceimg-withdata .item-drag").each(function(){
+			var item = $(this).data('data');
+			data.push({
+				id: item.id,
+				x: item.x,
+				y: item.y,
+				w: item.width,
+				h: item.height
+			});
+		});
+		core.submitAjax({
+			url: "api/part/updateXyWh",
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			data: JSON.stringify(data),
+			success: function(data){
+				$btnDeviceImgSave.hide();
+			}
+		})
+	});
+	
 	// 拖动事件
 	function onDragPart(e){
 		var d = e.data;
@@ -1013,6 +1117,8 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			// 更新当前数据中的位置信息
 			updatePartList(data);
 		}
+		
+		$btnDeviceImgSave.show();
 		
 	}
 	
@@ -1037,6 +1143,8 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			// 更新当前数据中的大小信息
 			updatePartList(data);
 		}
+		
+		$btnDeviceImgSave.show();
 		
 	}
 
@@ -1090,23 +1198,41 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		})
 		// 数据
 		.data('data', item)
+		.append($('<i class="item-drag-viewdetail fa fa-eye" title="详情"></i>')
+				.data('data', item)
+				.click(function(){
+					// 查看部件
+					viewPart($(this).data('data'));
+				})
+		)
 		// 提示信息
-		.tooltip({content: item.name, trackMouse: true})
+		.tooltip({
+			content: item.name 
+				+ (item.path ? ("<br/><img src='upfiles/"+ item.path + "' width=200 />") : '')
+				+ "<br/>" + item.desc
+				, 
+			trackMouse: true})
 		// 点击事件
 		.click(function(){
 			selectItemPart($(this).data('data'));
-		})
-		// 可拖动
-		.draggable({
-			onDrag: onDragPart
-		})
-		// 可调整大小
-		.resizable({
-			maxWidth: $("#tag-img-device").width(),
-			maxHeight: $("#tag-img-device").height(),
-			onStopResize: onResizePart
-		})
-		;
+		});
+		if(!IS_VIEW){
+			// 可拖动
+			$item.draggable({
+				onDrag: onDragPart,
+				disabled: IS_VIEW
+			});
+			// 可调整大小
+			$item.resizable({
+				maxWidth: $("#tag-img-device").width(),
+				maxHeight: $("#tag-img-device").height(),
+				minWidth: 20,
+				minHeight: 20,
+				onStopResize: onResizePart,
+				disabled: IS_VIEW
+			});
+		}
+		
 	}
 	
 	// 移除一个部件
@@ -1153,7 +1279,19 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		// 图片
 		$tagImgWrapDevice.find(".item-drag").each(function(){
 			if($(this).data('data').id == item.id){
-				$(this).data('data', item);
+				$(this).data('data', item)
+					.css({
+						left: item.x + 'px',
+						top: item.y + 'px',
+						width: item.width,
+						height: item.height
+					})
+					.tooltip({
+						content: item.name 
+							+ (item.path ? ("<br/><img src='upfiles/"+ item.path + "' width=200 />") : '')
+							+ "<br/>" + item.desc
+							, 
+						trackMouse: true});;
 			}
 		});
 	}
@@ -1299,6 +1437,9 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			data: params,
 			success: function(data){
 				$partList.html('');
+				$('#part-pp').pagination('refresh', {
+					total: data.total
+				});
 				for(var i in data.rows){
 					var item = data.rows[i];
 					var $item = $("<div class='part-his-item'></div>")
@@ -1320,15 +1461,16 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 								tplengine.openWin({
 									title: '查看',
 									dialogConfig: {
-										width: 1000,
-										height: $(window).height() - 200
+										maximized: true,
+										minimizable: false,
+										maximizable: false
 									},
 									tpl: 'scripts/biz/imgmgr/tpl/parthis-view.tpl',
 									data: item
 								})
 							}))
 							// 编辑
-							.append($('<div class="btn btn-edit">编辑</div>').data('data', item).click(function(){
+							.append(IS_VIEW ? null : $('<div class="btn btn-edit">编辑</div>').data('data', item).click(function(){
 								var item = $(this).data('data');
 								tplengine.openWinWithEdit({
 									title: '编辑',
@@ -1348,13 +1490,13 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 											filemax: 20 * 1024 * 1024,
 											progressbar: $("#progress-bar"),
 											hidFileId: "imgId",
-											defaultValue: CURRENT_WD.imgId
+											defaultValue: item.imgId
 										});
 									}
 								})
 							}))
 							// 删除
-							.append($('<div class="btn btn-danger">删除</div>').data('data', item).click(function(){
+							.append(IS_VIEW ? null : $('<div class="btn btn-danger">删除</div>').data('data', item).click(function(){
 								
 								$.messager.confirm('确认','确定删除?删除后不可撤销。',function(r){
 									if (r){

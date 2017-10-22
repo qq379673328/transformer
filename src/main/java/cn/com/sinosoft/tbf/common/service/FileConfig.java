@@ -21,7 +21,7 @@ public class FileConfig {
 	/**
 	 * 下载地址
 	 */
-	private String dowload;
+	private String download;
 
 	public String getSave() {
 		return save;
@@ -31,12 +31,12 @@ public class FileConfig {
 		this.save = save;
 	}
 
-	public String getDowload() {
-		return dowload;
+	public String getDownload() {
+		return download;
 	}
 
-	public void setDowload(String dowload) {
-		this.dowload = dowload;
+	public void setDownload(String download) {
+		this.download = download;
 	}
 
 }

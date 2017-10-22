@@ -3,9 +3,10 @@
  * 工具包
  */
 define(["jquery", "underscore", "json2", "core", 
+        "selectDeviceType",
 	"easyui", "jquery.form"
 	],
-	function($, _, JSON, core) {
+	function($, _, JSON, core, selectDeviceType) {
 
 	//数据码表页面缓存
 	var typeCodesCache = {},
@@ -437,6 +438,8 @@ define(["jquery", "underscore", "json2", "core",
 				$tag: $this,
 				required: required
 				});
+			} else if (type == "select-device-type") { // 设备类型
+				selectDeviceType.init($this, spedata, openWinWithEdit)
 			} else if (type == "coderadio") { //radio
 				var value = $this.data("value") !== "" ? $this.data("value") : $this.data("defaultvalue");
 				createCodeRadio($.extend({}, {

@@ -8,11 +8,13 @@ import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.com.sinosoft.bomsmgr.entity.ge.TBizWiringdiagram;
+import cn.com.sinosoft.bomsmgr.model.biz.ItemXyWh;
 import cn.com.sinosoft.bomsmgr.model.biz.WiringdiagramDetail;
 import cn.com.sinosoft.bomsmgr.model.biz.WiringdiagramInfo;
 import cn.com.sinosoft.bomsmgr.service.WiringdiagramService;
@@ -76,7 +78,7 @@ public class WiringdiagramController {
 		service.update(item);
 		return new APIResult<Object>();
 	}
-
+	
 	/**
 	 * 删除
 	 *
@@ -87,6 +89,17 @@ public class WiringdiagramController {
 	@PostMapping("del")
 	public APIResult<Integer> del(@RequestParam(required = true) Integer[] ids) {
 		return new APIResult<Integer>(service.del(ids), "删除成功", true);
+	}
+	
+	/**
+	 * 更新接线图中所有设备的大小位置信息
+	 *
+	 * @param items
+	 * @return 
+	 */
+	@PostMapping("updateXyWh")
+	public APIResult<Integer> updateXyWh(@RequestBody List<ItemXyWh> items) {
+		return new APIResult<Integer>(service.updateXyWh(items), "更新成功", true);
 	}
 
 }

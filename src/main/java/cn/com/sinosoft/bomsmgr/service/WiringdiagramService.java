@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.com.sinosoft.bomsmgr.dao.ge.TBizWiringdiagramMapper;
 import cn.com.sinosoft.bomsmgr.entity.ge.TBizWiringdiagram;
+import cn.com.sinosoft.bomsmgr.model.biz.ItemXyWh;
 import cn.com.sinosoft.bomsmgr.model.biz.WiringdiagramDetail;
 import cn.com.sinosoft.bomsmgr.model.biz.WiringdiagramInfo;
 import cn.com.sinosoft.bomsmgr.service.common.CommonUserService;
@@ -111,6 +112,22 @@ public class WiringdiagramService {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("ids", ids);
 		return baseDao.delete(NAMESPACE_BASE + "del", params);
+	}
+
+	/**
+	 * 更新位置大小信息
+	 *
+	 * @param items
+	 *            数据列表
+	 * @return 记录条数
+	 */
+	@Transactional
+	public int updateXyWh(List<ItemXyWh> items) {
+		if (items == null || items.size() == 0)
+			return 0;
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("items", items);
+		return baseDao.delete(NAMESPACE_BASE + "updateXyWh", params);
 	}
 
 	/**

@@ -26,13 +26,18 @@
 		ORDER BY t.create_time desc
 	</select>
 	
-	<!-- 批量删除 -->
-	<delete id="del">
-		delete from t_biz_wiringdiagram 
-			where id in 
-			<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
-			 #{item}
-			</foreach>
-	</delete>
+	<!-- 批量更新位置信息 -->
+	<update id="updateXyWh" parameterType="java.util.List">
+		<foreach item="item" index="index" collection="items" open="" separator=";" close="">
+			update t_biz_device
+			<set>
+				x = #{item.x},
+				y = #{item.y},
+				width = #{item.w},
+				height = #{item.h}
+			</set>
+			where id = #{item.id}
+		</foreach>
+	</update>
 	
 </mapper>

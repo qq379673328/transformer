@@ -1,18 +1,19 @@
 <form class="showPage">
 	<table>
 		<tr>
-			<td class="td-odd">内容</td>
-			<td class="td-even">
-				<%=data.content%>
+			<td>
+				<b class="edit-timestamp" data-type="1"><%=data.createTime%></b>
+				<br/>
+				<b><%=data.content%></b>
+				<br/>
 			</td>
 		</tr>
 		<tr>
-			<td class="td-odd">图片</td>
-			<td class="td-even">
+			<td>
 				<%if(data.path){%>
 					<img src="upfiles/<%=data.path%>" />
 				<%}else{%>
-					未上传
+					未上传图片
 				<%}%>
 			</td>
 		</tr>

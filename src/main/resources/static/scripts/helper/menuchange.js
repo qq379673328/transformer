@@ -108,14 +108,15 @@ define(["jquery", "core", "tplengine", "backbone"], function($, core, tplengine,
 					}
 				}
 				// 首页
-				$navigation.prepend(
+				$navigation.prepend($(
 				'<li class="navli">' +
 					'<a class="item logout" href="#">' +
 						'<i class="fa fa-4x fa-home"></i><br/>' +
 						'<span>首页</span>' +
 					'</a>' +
-				'</li>')
+				'</li>').data('item', {mfVO: {mfId: 'index'}}))
 				;
+				
 				if(cb) cb(root[0]);
 			}
 		});
@@ -283,6 +284,12 @@ define(["jquery", "core", "tplengine", "backbone"], function($, core, tplengine,
 	}
 	//根据路由地址切换菜单的显示
 	function showMenuByUrl(menuMFId, navMFId){
+		if(navMFId == 'pwd_edit'){
+			$("#menu-li-pwdedit").addClass('selected');
+		}else{
+			$("#menu-li-pwdedit").removeClass('selected');
+		}
+		
 		$location1.html("");
 		$location2.html("");
 		$location3.html("");

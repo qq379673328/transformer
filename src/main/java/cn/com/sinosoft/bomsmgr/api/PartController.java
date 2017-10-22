@@ -7,15 +7,14 @@ import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.com.sinosoft.bomsmgr.entity.ge.TBizDevice;
 import cn.com.sinosoft.bomsmgr.entity.ge.TBizPart;
-import cn.com.sinosoft.bomsmgr.model.biz.DeviceInfo;
+import cn.com.sinosoft.bomsmgr.model.biz.ItemXyWh;
 import cn.com.sinosoft.bomsmgr.model.biz.PartInfo;
-import cn.com.sinosoft.bomsmgr.service.DeviceService;
 import cn.com.sinosoft.bomsmgr.service.PartService;
 import cn.com.sinosoft.tbf.domain.common.APIResult;
 
@@ -76,6 +75,17 @@ public class PartController {
 	@PostMapping("del")
 	public APIResult<Integer> del(@RequestParam(required = true) Integer[] ids) {
 		return new APIResult<Integer>(service.del(ids), "删除成功", true);
+	}
+	
+	/**
+	 * 更新图中所有部件的大小位置信息
+	 *
+	 * @param items
+	 * @return 
+	 */
+	@PostMapping("updateXyWh")
+	public APIResult<Integer> updateXyWh(@RequestBody List<ItemXyWh> items) {
+		return new APIResult<Integer>(service.updateXyWh(items), "更新成功", true);
 	}
 
 }

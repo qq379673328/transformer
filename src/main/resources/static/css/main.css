@@ -1029,7 +1029,6 @@ body {
 	padding-left: 32px;
 	color: #3a3635;
 	font-size: 16px;
-	border-bottom: 1px solid #eee;
 }
 #content .left .title-lv2 {
 	background-color: #46708e;
@@ -1533,6 +1532,7 @@ a {
 }
 .im .im-center-title{
 	text-align: center;
+	margin-bottom: 8px;
 }
 .im .im-right{
 	width: 220px;
@@ -1597,4 +1597,18 @@ a {
 	opacity: 0.6;
 	cursor: pointer;
 }
+.im .item-drag .item-drag-viewdetail {
+	color: #fff;
+	background-color: #173448;
+	padding: 5px;
+	width: 15px;
+	text-align: center;
+	opacity: 1;
+}
+.im .item-drag .item-drag-viewdetail:hover{
+	background-color: #669bc1;
+}
 .im .item-drag.select{background-color: red;}
+
+.float-left{float: left;}
+.float-right{float: right;}

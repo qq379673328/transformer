@@ -16,7 +16,14 @@ define(["underscore", "mc", "backbone"], function(_, mc, backbone){
 		"img-mgr": {
 			script: "imgmgr/index",
 			tpl: "scripts/biz/imgmgr/tpl/index.tpl",
-			menuSelect: ["", "imgMgr"],
+			menuSelect: ["", "img_mgr"],
+			isMax: true
+		},
+		// 图片查看
+		"img-view": {
+			script: "imgmgr/index",
+			tpl: "scripts/biz/imgmgr/tpl/index.tpl",
+			menuSelect: ["", "img_view"],
 			isMax: true
 		},
 		
@@ -24,35 +31,36 @@ define(["underscore", "mc", "backbone"], function(_, mc, backbone){
 		"auth-user": {
 			script: "auth/usermgr/list",
 			tpl: "scripts/biz/auth/usermgr/tpl/list.tpl",
-			menuSelect: ["", "imgMgr"]
+			menuSelect: ["", "system_mgr"]
 		},
 		
 		// 用户权限管理-角色管理
 		"auth-role": {
 			script: "auth/permmgr/list",
 			tpl: "scripts/biz/auth/permmgr/tpl/list.tpl",
-			menuSelect: ["", "imgMgr"]
+			menuSelect: ["", "system_mgr"]
 		},
 		
 		// 数据字典-变电站
 		"dics-transformer": {
 			script: "dics/transformer/list",
 			tpl: "scripts/biz/dics/transformer/tpl/list.tpl",
-			menuSelect: ["transformer", "dics"]
+			menuSelect: ["transformer", "system_mgr"]
 		},
 		
 		// 数据字典-设备类型
 		"dics-devicetype": {
 			script: "dics/devicetype/list",
 			tpl: "scripts/biz/dics/devicetype/tpl/list.tpl",
-			menuSelect: ["devicetype", "dics"]
+			menuSelect: ["devicetype", "system_mgr"]
 		},
 		
 		// 修改密码
 		"user-pwdchange": {
 			script: "auth/userinfo/alterpwd",
 			tpl: "scripts/biz/auth/userinfo/tpl/alterpwd.tpl",
-			menuSelect: ["", "imgMgr"]
+			isMax: true,
+			menuSelect: ["", "pwd_edit"]
 		}
 			
 	};

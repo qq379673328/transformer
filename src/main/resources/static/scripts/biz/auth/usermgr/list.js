@@ -66,7 +66,8 @@ define(["core", "tplengine"], function(core, tplengine){
 					+ '<a onclick="APP.P.resetpwd(' + idx + ');" title="重置密码" class="grid-icon"><span class="fa fa-key"></span><span>重置密码</span></a>'
 					+ '<a onclick="APP.P.enable(' + idx + ');" title="启用" class="grid-icon"><span class="fa fa-check"></span><span>启用</span></a>'
 					+ '<a onclick="APP.P.disable(' + idx + ');" title="禁用" class="grid-icon"><span class="fa fa-ban"></span><span>禁用</span></a>'
-					+ '<a onclick="APP.P.del(' + idx + ');" title="删除" class="grid-icon"><span class="fa fa-close"></span><span>删除</span></a>'
+					+ '<a onclick="APP.P.perm(' + idx + ');" title="分配角色" class="grid-icon"><span class="fa fa-edit"></span><span>分配角色</span></a>'
+					//+ '<a onclick="APP.P.del(' + idx + ');" title="删除" class="grid-icon"><span class="fa fa-close"></span><span>删除</span></a>'
 					;
 				}}
 			]],
@@ -83,7 +84,7 @@ define(["core", "tplengine"], function(core, tplengine){
 	}
 	
 	//删除
-	APP.P.del = function(){
+	APP.P.del = function(idx){
 		$.messager.confirm('确认','确定删除所选记录?',function(r){
 			if (r){
 				core.submitAjax({
@@ -165,12 +166,14 @@ define(["core", "tplengine"], function(core, tplengine){
 	}
 	
 	//为用户分配角色
-	APP.P.perm = function(){
+	APP.P.perm = function(idx){
 		tplengine.openWinWithEdit({
 			tpl: "scripts/biz/auth/usermgr/tpl/userrole.tpl",
 			type: "1",
-			width:450,
-			height:450,
+			dialogConfig: {
+				width:450,
+				height:450,
+			},
 			data: {
 				userId: getRowByIdx(idx).id
 			},
@@ -178,19 +181,24 @@ define(["core", "tplengine"], function(core, tplengine){
 			title: "分配角色",
 			tplsuccess: function($form){
 				//加载角色信息并生成
-				core.submitAjax({
-					url: "auth/usermgr/getRoleInfo",
+				$.ajax({
+					url: "auth/rolemgr/getRolesByUserId",
+					type: 'post',
 					data: {
 						userId: getRowByIdx(idx).id
 					},
 					success: function(data){
 						var $ul = $("<ul class='user-role-mgr'>").appendTo($form.find("#rolelist"));
 						for(var idx in data){
-							var $input = $("<input type='radio' value='"+data[idx].ID+"' name='roleId' />");
-							$("<li>").append($input).append(data[idx]['roleName']+"<br/>")
+							var item = data[idx];
+							var $input = $("<input type='radio' value='"+item.ID+"' name='roleIds' />");
+							if(item.isown == '1'){
+								$input.attr("checked", true);
+							}
+							$("<li>").append($input).append(item['ROLE_NAME']+"<br/>")
 							.appendTo($ul);
 						}
-				 }
+					}
 				});
 			},
 			success: function(data, $win){

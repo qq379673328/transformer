@@ -11,13 +11,13 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.com.sinosoft.bomsmgr.dao.AuthMapper;
 import cn.com.sinosoft.bomsmgr.dao.ge.TAuthRmMapper;
 import cn.com.sinosoft.bomsmgr.dao.ge.TAuthRoleMapper;
 import cn.com.sinosoft.bomsmgr.entity.ge.TAuthRmExample;
 import cn.com.sinosoft.bomsmgr.entity.ge.TAuthRole;
 import cn.com.sinosoft.bomsmgr.entity.ge.TAuthRoleExample;
 import cn.com.sinosoft.bomsmgr.service.common.CommonUserService;
-import cn.com.sinosoft.tbf.auth.AuthMapper;
 import cn.com.sinosoft.tbf.common.ServiceException;
 import cn.com.sinosoft.tbf.common.util.KeyGenerateUtil;
 import cn.com.sinosoft.tbf.common.util.StrUtils;
@@ -186,7 +186,7 @@ public class RoleMgrService {
 				childrenMenus.add(newItem);
 			}
 		}
-		if (menu.get("ISOWN") != null && menu.get("ISOWN").toString().equals("1") && childrenMenus.size() == 0) {
+		if (menu.get("isown") != null && menu.get("isown").toString().equals("1") && childrenMenus.size() == 0) {
 			ret.put("checked", true);
 		}
 		if (childrenMenus.size() > 0) {
@@ -230,11 +230,23 @@ public class RoleMgrService {
 	private TAuthRoleMapper getRoleMapper() {
 		return dao.getMapper(TAuthRoleMapper.class);
 	}
+
 	private TAuthRmMapper getRmMapper() {
 		return dao.getMapper(TAuthRmMapper.class);
 	}
+
 	private AuthMapper getAuthMapper() {
 		return dao.getMapper(AuthMapper.class);
+	}
+
+	/**
+	 * 根据用户id获取角色信息
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public List<Map<String, Object>> getRolesByUserId(String userId) {
+		return getAuthMapper().getRolesByUserId(userId);
 	}
 
 }

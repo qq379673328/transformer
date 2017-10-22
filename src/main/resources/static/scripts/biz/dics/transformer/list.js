@@ -131,7 +131,14 @@ define(["core", "tplengine"], function(core, tplengine){
 		tplengine.openWinWithEdit($.extend({}, addEditConfig, {
 			title: "编辑变电站",
 			surl: "api/transformer/edit",
-			data: row
+			data: row,
+			tplsuccess: function($form){
+				$form.find('input[name=type]').each(function(){
+					if($(this).val() == row.type){
+						$(this).attr("checked", true);
+					}
+				});
+			}
 		}));
 	};
 	

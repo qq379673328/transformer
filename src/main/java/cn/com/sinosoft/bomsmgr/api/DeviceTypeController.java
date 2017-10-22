@@ -37,7 +37,7 @@ public class DeviceTypeController {
 	public APIResult<List<Map<String, Object>>> getList(@RequestParam Map<String, Object> params) {
 		return new APIResult<List<Map<String, Object>>>(service.getList(params));
 	}
-
+	
 	/**
 	 * 添加
 	 *

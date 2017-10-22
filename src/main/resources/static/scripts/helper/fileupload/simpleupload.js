@@ -49,7 +49,9 @@ define(["jquery","jquery.ui.widget","transport","fileupload"],function($){
 		$div.after($uploadinfo);
 		
 		if(defaultValue){// 有默认值-提示已有文件
-			$uploadinfo.html("已上传文件");
+			//$uploadinfo.html("已上传文件");
+			// 显示默认图片
+			showImg($uploadinfo, defaultValue);
 		}
 		
 		// 默认隐藏进度条
@@ -98,6 +100,8 @@ define(["jquery","jquery.ui.widget","transport","fileupload"],function($){
 				if(data.result.success){
 					$uploadinfo.html(fileName + " 上传成功");
 					hid_file_id.val(data.result.fileId);
+					// 显示默认图片
+					showImg($uploadinfo, data.result.fileId);
 					if(qp.success){
 						qp.success(data);
 					}
@@ -116,6 +120,29 @@ define(["jquery","jquery.ui.widget","transport","fileupload"],function($){
 			}
 		});
 	}
+	
+	// 在容器中根据id显示图片
+	function showImg($tag, fileId){
+		$tag.html('');
+		if(!fileId){
+			$tag.html('文件不存在');
+			return;
+		}
+		$.ajax({
+			url: 'file/getFilePathById',
+			data: {
+				fileId: fileId
+			},
+			success: function(data){
+				if(data && data.path){
+					$tag.append('<img src="'+ data.path +'" width=150 />')
+				}else{
+					$tag.html('文件不存在');
+				}
+			}
+		})
+	}
+	
 	return {
 		simpleupload:simpleupload
 	};

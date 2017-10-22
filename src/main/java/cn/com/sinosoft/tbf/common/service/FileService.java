@@ -101,7 +101,7 @@ public class FileService {
 			return null;
 		String fileAbsPath = file.getPath();
 		fileAbsPath = fileAbsPath.replaceAll("\\\\", "/");
-		return fileConfig.getDowload() + "/" + fileAbsPath;
+		return fileConfig.getDownload() + "/" + fileAbsPath;
 	}
 
 	private String getTodayString() {

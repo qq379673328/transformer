@@ -11,11 +11,12 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="td-odd">类型</td>
+			<td class="td-odd"><font color="red">*</font>类型</td>
 			<td class="td-even">
-				<select name="typeId">
-					<option value="1">变压器</option>
-				</select>
+				<input name="typeId" value="<%=data.typeId%>" 
+					class="spe-tag"
+					data-spe='{"type":"select-device-type","required":"true"}'/>
+					
 			</td>
 		</tr>
 		<tr>

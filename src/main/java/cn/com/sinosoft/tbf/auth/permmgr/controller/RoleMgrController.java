@@ -81,6 +81,17 @@ public class RoleMgrController {
 	public Object getPermsAll(String roleId) {
 		return roleMgrService.getPermsAll(roleId);
 	}
+	
+	/**
+	 * 获取用户角色
+	 *
+	 * @param roleId
+	 * @return
+	 */
+	@PostMapping("getRolesByUserId")
+	public List<Map<String, Object>> getRolesByUserId(String userId) {
+		return roleMgrService.getRolesByUserId(userId);
+	}
 
 	/**
 	 * 为角色分配权限
@@ -89,8 +100,9 @@ public class RoleMgrController {
 	 * @return
 	 */
 	@PostMapping("setPerms")
-	public APIResult<String> setPerms(String roleId, String[] ids) {
-		roleMgrService.setPerms(roleId, ids);
+	public APIResult<String> setPerms(String roleId, String ids) {
+		String[] idsSplit = ids == null ? new String[]{} : ids.split("&");
+		roleMgrService.setPerms(roleId, idsSplit);
 		return new APIResult<String>(null, "操作成功", true);
 	}
 

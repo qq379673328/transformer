@@ -19,7 +19,7 @@
 		<if test="id != null">
 			and t.id = #{id}
 		</if>
-		ORDER BY t.create_time desc
+		ORDER BY t.type, t.create_time
 	</select>
 	
 	<!-- 批量删除 -->

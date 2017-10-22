@@ -123,16 +123,16 @@ public class CommonBaseService {
 	/**
 	 * 获取用户所有具有权限的菜单功能点
 	 *
-	 * @param userName
-	 *            用户名
+	 * @param userId
+	 *            用户id
 	 * @param type
 	 *            类型：1-菜单、2-功能点
 	 * @return
 	 * @author <a href="mailto:nytclizy@gmail.com">李志勇</a>
 	 */
-	public MFTreeVO getUserMF(String userName, String type) {
+	public MFTreeVO getUserMF(String userId, String type) {
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("userName", userName);
+		params.put("userId", userId);
 		params.put("type", type);
 		List<TAuthMenufun> items = dao.queryList(NAMESPACE_BASE_DEFAULT + "menu-fun-list", params);
 		// 将菜单和功能点组装成一棵树

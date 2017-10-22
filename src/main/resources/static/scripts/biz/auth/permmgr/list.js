@@ -165,16 +165,19 @@ define(["core", "tplengine"],
 		tplengine.openWinWithEdit({
 			tpl: "scripts/biz/auth/permmgr/tpl/roleperm.tpl",
 			type: "1",
-			width:450,
-			height:450,
+			dialogConfig: {
+				width:450,
+				height:450,
+			},
 			data: {roleId: row.ID},
 			surl: "auth/rolemgr/setPerms",
 			title: "角色授权",
 			tplsuccess: function($form){
 				//加载权限信息并生成
-				core.submitAjax({
+				$.ajax({
 					url: "auth/rolemgr/getPermsAll",
 					data: {roleId: row.ID},
+					type: 'get',
 					success: function(data){
 						$curTree = $("<ul>").appendTo($form.find("#permtree"));
 						$curTree.tree({

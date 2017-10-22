@@ -62,4 +62,4 @@ audience:
 # 文件上传
 filepath:
     save: c:\\transformer\\upfiles
-    download: http://localhost:9201/transformer/upfiles/
+    download: upfiles

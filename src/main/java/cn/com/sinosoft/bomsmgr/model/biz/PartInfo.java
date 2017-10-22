@@ -22,6 +22,11 @@ public class PartInfo extends TBizPart {
 	 * 图片上传人描述
 	 */
 	private String uploadUserDesc;
+	
+	/**
+	 * 图片存储路径
+	 */
+	private String path;
 
 	public String getCreateUserDesc() {
 		return createUserDesc;
@@ -41,6 +46,14 @@ public class PartInfo extends TBizPart {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 }

@@ -30,7 +30,10 @@ requirejs.config({
 		simpleupload: "scripts/helper/fileupload/simpleupload",
 		"jquery.ui.widget": "scripts/libs/jquery-upload/jquery.ui.widget",
 		fileupload:"scripts/libs/jquery-upload/jquery.fileupload",
-		transport: "scripts/libs/jquery-upload/jquery.iframe-transport"
+		transport: "scripts/libs/jquery-upload/jquery.iframe-transport",
+		
+		// 业务
+		selectDeviceType: "scripts/biz/common/select_devicetype"
 	
 	},
 	shim : {

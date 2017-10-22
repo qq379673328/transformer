@@ -44,6 +44,18 @@
 		  MF_LEVEL
 		FROM t_auth_menufun
 		where 1=1
+		
+		<if test="type != null">
+		    AND MF_TYPE = #{type}
+		</if>
+		<if test="userId != null">
+		    AND (MF_ID in (
+		    	SELECT rm.`MF_ID` FROM `t_auth_rm` rm WHERE rm.`ROLE_ID` IN (
+				SELECT ur.`ROLE_ID` FROM t_auth_ur ur WHERE ur.`USER_ID` = #{userId}
+				)
+		    ) )
+		</if>
+		
 		ORDER BY MF_RANK
 	</select>
 	

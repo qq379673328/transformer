@@ -18,6 +18,7 @@
 				<input id="tag-select-wg"/>
 				
 				<div id="btn-wd-add" class="fa fa-plus btn btn-add">&nbsp;&nbsp;添加接线图</div>
+				<div id="btn-wd-save" class="fa fa-save btn btn-save hide float-left">&nbsp;&nbsp;保存</div>
 				
 			</div>
 			
@@ -27,11 +28,10 @@
 					style="position: relative; margin: 0 auto;"></div>
 			</div>
 			<div id="im-wg-nodata" class="align-center margin">
-				无接线图信息，请点击【添加接线图】按钮添加。
+				无接线图信息
 			</div>
 			<div class="im-center-title">&nbsp;</div>
 		</div>
-		
 		
 		<div class="im-right">
 			
@@ -103,6 +103,7 @@
 				<input id="tag-select-device"/>
 				
 				<div id="btn-deviceimg-add" class="fa fa-plus btn btn-add">&nbsp;&nbsp;添加设备图</div>
+				<div id="btn-deviceimg-save" class="fa fa-save btn btn-save hide float-left">&nbsp;&nbsp;保存</div>
 				
 			</div>
 			
@@ -112,7 +113,7 @@
 					style="position: relative; margin: 0 auto;"></div>
 			</div>
 			<div id="im-deviceimg-nodata" class="align-center margin">
-				无设备图信息，请点击【添加设备图】按钮添加。
+				无设备图信息
 			</div>
 			<div class="im-center-title">&nbsp;</div>
 		</div>

@@ -11,10 +11,10 @@
 		<tr>
 			<td class="td-odd"><font color="red">*</font>分组</td>
 			<td class="td-even">
-				<select name="type">
-					<option selected>公司属变电站</option>
-					<option>用户属变电站</option>
-				</select>
+				<input name="type" type="radio" value="公司属变电站" />
+				公司属变电站
+				<input name="type" type="radio" value="用户属变电站" />
+				用户属变电站
 			</td>
 		</tr>
 		<tr>

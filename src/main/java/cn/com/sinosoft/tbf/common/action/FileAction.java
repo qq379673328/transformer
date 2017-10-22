@@ -73,5 +73,20 @@ public class FileAction {
 		}
 		return mav;
 	}
+	
+	/**
+	 * 根据文件id获取path
+	 *
+	 * @param fileId
+	 * @return
+	 */
+	@RequestMapping("getFilePathById")
+	@ResponseBody
+	public Map<String, Object> getFilePathById(String fileId) {
+		Map<String, Object> ret = new HashMap<String, Object>();
+		String downloadPath = fileService.getFileDownloadPathById(fileId);
+		ret.put("path", downloadPath);
+		return ret;
+	}
 
 }
