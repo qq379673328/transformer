@@ -26,9 +26,9 @@ public interface TAuthRmMapper {
 
     @Delete({
         "delete from t_auth_rm",
-        "where ID = #{id,jdbcType=CHAR}"
+        "where ID = #{id,jdbcType=INTEGER}"
     })
-    int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKey(Integer id);
 
     @Insert({
         "insert into t_auth_rm (CREATE_USER, CREATE_TIME, ",
@@ -36,16 +36,16 @@ public interface TAuthRmMapper {
         "values (#{createUser,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, ",
         "#{roleId,jdbcType=CHAR}, #{mfId,jdbcType=CHAR})"
     })
-    @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=String.class)
+    @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insert(TAuthRm record);
 
     @InsertProvider(type=TAuthRmSqlProvider.class, method="insertSelective")
-    @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=String.class)
+    @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insertSelective(TAuthRm record);
 
     @SelectProvider(type=TAuthRmSqlProvider.class, method="selectByExample")
     @Results({
-        @Result(column="ID", property="id", jdbcType=JdbcType.CHAR, id=true),
+        @Result(column="ID", property="id", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="CREATE_USER", property="createUser", jdbcType=JdbcType.CHAR),
         @Result(column="CREATE_TIME", property="createTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="ROLE_ID", property="roleId", jdbcType=JdbcType.CHAR),
@@ -57,16 +57,16 @@ public interface TAuthRmMapper {
         "select",
         "ID, CREATE_USER, CREATE_TIME, ROLE_ID, MF_ID",
         "from t_auth_rm",
-        "where ID = #{id,jdbcType=CHAR}"
+        "where ID = #{id,jdbcType=INTEGER}"
     })
     @Results({
-        @Result(column="ID", property="id", jdbcType=JdbcType.CHAR, id=true),
+        @Result(column="ID", property="id", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="CREATE_USER", property="createUser", jdbcType=JdbcType.CHAR),
         @Result(column="CREATE_TIME", property="createTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="ROLE_ID", property="roleId", jdbcType=JdbcType.CHAR),
         @Result(column="MF_ID", property="mfId", jdbcType=JdbcType.CHAR)
     })
-    TAuthRm selectByPrimaryKey(String id);
+    TAuthRm selectByPrimaryKey(Integer id);
 
     @UpdateProvider(type=TAuthRmSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") TAuthRm record, @Param("example") TAuthRmExample example);
@@ -83,7 +83,7 @@ public interface TAuthRmMapper {
           "CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},",
           "ROLE_ID = #{roleId,jdbcType=CHAR},",
           "MF_ID = #{mfId,jdbcType=CHAR}",
-        "where ID = #{id,jdbcType=CHAR}"
+        "where ID = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(TAuthRm record);
 }

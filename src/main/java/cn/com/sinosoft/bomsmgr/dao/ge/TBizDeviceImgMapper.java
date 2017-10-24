@@ -33,10 +33,14 @@ public interface TBizDeviceImgMapper {
     @Insert({
         "insert into t_biz_device_img (`desc`, create_time, ",
         "create_user, img_id, ",
-        "device_id)",
+        "device_id, verify_status, ",
+        "verify_time, verify_user, ",
+        "verify_content)",
         "values (#{desc,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, ",
         "#{createUser,jdbcType=VARCHAR}, #{imgId,jdbcType=VARCHAR}, ",
-        "#{deviceId,jdbcType=INTEGER})"
+        "#{deviceId,jdbcType=INTEGER}, #{verifyStatus,jdbcType=VARCHAR}, ",
+        "#{verifyTime,jdbcType=TIMESTAMP}, #{verifyUser,jdbcType=VARCHAR}, ",
+        "#{verifyContent,jdbcType=VARCHAR})"
     })
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insert(TBizDeviceImg record);
@@ -52,13 +56,18 @@ public interface TBizDeviceImgMapper {
         @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="create_user", property="createUser", jdbcType=JdbcType.VARCHAR),
         @Result(column="img_id", property="imgId", jdbcType=JdbcType.VARCHAR),
-        @Result(column="device_id", property="deviceId", jdbcType=JdbcType.INTEGER)
+        @Result(column="device_id", property="deviceId", jdbcType=JdbcType.INTEGER),
+        @Result(column="verify_status", property="verifyStatus", jdbcType=JdbcType.VARCHAR),
+        @Result(column="verify_time", property="verifyTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="verify_user", property="verifyUser", jdbcType=JdbcType.VARCHAR),
+        @Result(column="verify_content", property="verifyContent", jdbcType=JdbcType.VARCHAR)
     })
     List<TBizDeviceImg> selectByExample(TBizDeviceImgExample example);
 
     @Select({
         "select",
-        "id, `desc`, create_time, create_user, img_id, device_id",
+        "id, `desc`, create_time, create_user, img_id, device_id, verify_status, verify_time, ",
+        "verify_user, verify_content",
         "from t_biz_device_img",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -68,7 +77,11 @@ public interface TBizDeviceImgMapper {
         @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="create_user", property="createUser", jdbcType=JdbcType.VARCHAR),
         @Result(column="img_id", property="imgId", jdbcType=JdbcType.VARCHAR),
-        @Result(column="device_id", property="deviceId", jdbcType=JdbcType.INTEGER)
+        @Result(column="device_id", property="deviceId", jdbcType=JdbcType.INTEGER),
+        @Result(column="verify_status", property="verifyStatus", jdbcType=JdbcType.VARCHAR),
+        @Result(column="verify_time", property="verifyTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="verify_user", property="verifyUser", jdbcType=JdbcType.VARCHAR),
+        @Result(column="verify_content", property="verifyContent", jdbcType=JdbcType.VARCHAR)
     })
     TBizDeviceImg selectByPrimaryKey(Integer id);
 
@@ -87,7 +100,11 @@ public interface TBizDeviceImgMapper {
           "create_time = #{createTime,jdbcType=TIMESTAMP},",
           "create_user = #{createUser,jdbcType=VARCHAR},",
           "img_id = #{imgId,jdbcType=VARCHAR},",
-          "device_id = #{deviceId,jdbcType=INTEGER}",
+          "device_id = #{deviceId,jdbcType=INTEGER},",
+          "verify_status = #{verifyStatus,jdbcType=VARCHAR},",
+          "verify_time = #{verifyTime,jdbcType=TIMESTAMP},",
+          "verify_user = #{verifyUser,jdbcType=VARCHAR},",
+          "verify_content = #{verifyContent,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(TBizDeviceImg record);

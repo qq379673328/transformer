@@ -10,7 +10,7 @@ import cn.com.sinosoft.bomsmgr.entity.ge.TBizDeviceImg;
  *
  */
 public class DeviceImgInfo extends TBizDeviceImg{
-	
+
 	/** serialVersionUID*/
 	private static final long serialVersionUID = 1L;
 
@@ -33,6 +33,16 @@ public class DeviceImgInfo extends TBizDeviceImg{
 	 * 图片存储路径
 	 */
 	private String path;
+
+	/**
+	 * 审核人描述
+	 */
+	private String verifyUserDesc;
+
+	/**
+	 * 审核状态
+	 */
+	private String verifyStatusDesc;
 
 	public String getCreateUserDesc() {
 		return createUserDesc;
@@ -68,6 +78,22 @@ public class DeviceImgInfo extends TBizDeviceImg{
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public String getVerifyUserDesc() {
+		return verifyUserDesc;
+	}
+
+	public void setVerifyUserDesc(String verifyUserDesc) {
+		this.verifyUserDesc = verifyUserDesc;
+	}
+
+	public String getVerifyStatusDesc() {
+		return verifyStatusDesc;
+	}
+
+	public void setVerifyStatusDesc(String verifyStatusDesc) {
+		this.verifyStatusDesc = verifyStatusDesc;
 	}
 
 }

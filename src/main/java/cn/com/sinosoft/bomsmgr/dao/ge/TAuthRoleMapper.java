@@ -26,31 +26,31 @@ public interface TAuthRoleMapper {
 
     @Delete({
         "delete from t_auth_role",
-        "where ID = #{id,jdbcType=CHAR}"
+        "where ID = #{id,jdbcType=INTEGER}"
     })
-    int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKey(Integer id);
 
     @Insert({
         "insert into t_auth_role (CREATE_USER, CREATE_TIME, ",
         "UPDATE_USER, UPDATE_TIME, ",
         "ROLE_NAME, ROLE_DESC)",
-        "values (#{createUser,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, ",
-        "#{updateUser,jdbcType=CHAR}, #{updateTime,jdbcType=TIMESTAMP}, ",
+        "values (#{createUser,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, ",
+        "#{updateUser,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, ",
         "#{roleName,jdbcType=CHAR}, #{roleDesc,jdbcType=CHAR})"
     })
-    @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=String.class)
+    @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insert(TAuthRole record);
 
     @InsertProvider(type=TAuthRoleSqlProvider.class, method="insertSelective")
-    @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=String.class)
+    @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insertSelective(TAuthRole record);
 
     @SelectProvider(type=TAuthRoleSqlProvider.class, method="selectByExample")
     @Results({
-        @Result(column="ID", property="id", jdbcType=JdbcType.CHAR, id=true),
-        @Result(column="CREATE_USER", property="createUser", jdbcType=JdbcType.CHAR),
+        @Result(column="ID", property="id", jdbcType=JdbcType.INTEGER, id=true),
+        @Result(column="CREATE_USER", property="createUser", jdbcType=JdbcType.INTEGER),
         @Result(column="CREATE_TIME", property="createTime", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="UPDATE_USER", property="updateUser", jdbcType=JdbcType.CHAR),
+        @Result(column="UPDATE_USER", property="updateUser", jdbcType=JdbcType.INTEGER),
         @Result(column="UPDATE_TIME", property="updateTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="ROLE_NAME", property="roleName", jdbcType=JdbcType.CHAR),
         @Result(column="ROLE_DESC", property="roleDesc", jdbcType=JdbcType.CHAR)
@@ -61,18 +61,18 @@ public interface TAuthRoleMapper {
         "select",
         "ID, CREATE_USER, CREATE_TIME, UPDATE_USER, UPDATE_TIME, ROLE_NAME, ROLE_DESC",
         "from t_auth_role",
-        "where ID = #{id,jdbcType=CHAR}"
+        "where ID = #{id,jdbcType=INTEGER}"
     })
     @Results({
-        @Result(column="ID", property="id", jdbcType=JdbcType.CHAR, id=true),
-        @Result(column="CREATE_USER", property="createUser", jdbcType=JdbcType.CHAR),
+        @Result(column="ID", property="id", jdbcType=JdbcType.INTEGER, id=true),
+        @Result(column="CREATE_USER", property="createUser", jdbcType=JdbcType.INTEGER),
         @Result(column="CREATE_TIME", property="createTime", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="UPDATE_USER", property="updateUser", jdbcType=JdbcType.CHAR),
+        @Result(column="UPDATE_USER", property="updateUser", jdbcType=JdbcType.INTEGER),
         @Result(column="UPDATE_TIME", property="updateTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="ROLE_NAME", property="roleName", jdbcType=JdbcType.CHAR),
         @Result(column="ROLE_DESC", property="roleDesc", jdbcType=JdbcType.CHAR)
     })
-    TAuthRole selectByPrimaryKey(String id);
+    TAuthRole selectByPrimaryKey(Integer id);
 
     @UpdateProvider(type=TAuthRoleSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") TAuthRole record, @Param("example") TAuthRoleExample example);
@@ -85,13 +85,13 @@ public interface TAuthRoleMapper {
 
     @Update({
         "update t_auth_role",
-        "set CREATE_USER = #{createUser,jdbcType=CHAR},",
+        "set CREATE_USER = #{createUser,jdbcType=INTEGER},",
           "CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},",
-          "UPDATE_USER = #{updateUser,jdbcType=CHAR},",
+          "UPDATE_USER = #{updateUser,jdbcType=INTEGER},",
           "UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},",
           "ROLE_NAME = #{roleName,jdbcType=CHAR},",
           "ROLE_DESC = #{roleDesc,jdbcType=CHAR}",
-        "where ID = #{id,jdbcType=CHAR}"
+        "where ID = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(TAuthRole record);
 }

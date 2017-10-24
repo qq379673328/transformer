@@ -20,7 +20,7 @@ public class LoginUserInfo implements Serializable {
 	/**
 	 * 用户id
 	 */
-	private String id;
+	private Integer id;
 	/**
 	 * 用户名
 	 */
@@ -49,10 +49,10 @@ public class LoginUserInfo implements Serializable {
 	 */
 	private List<TAuthMenufun> mfListVO;
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getUserName() {

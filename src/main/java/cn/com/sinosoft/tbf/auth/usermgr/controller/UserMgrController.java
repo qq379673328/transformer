@@ -30,6 +30,8 @@ public class UserMgrController {
 
 	@Resource
 	UserMgrService userMgrService;
+	@Resource
+	CommonUserService commonUserService;
 
 	/**
 	 * 列表
@@ -80,7 +82,7 @@ public class UserMgrController {
 	 *
 	 */
 	@PostMapping("del")
-	public APIResult<String> delUser(String id) {
+	public APIResult<String> delUser(Integer id) {
 		userMgrService.delUser(id);
 		return new APIResult<String>(null, "删除成功", true);
 	}
@@ -92,7 +94,7 @@ public class UserMgrController {
 	 * @return
 	 */
 	@PostMapping("disable")
-	public APIResult<String> disableUser(String id) {
+	public APIResult<String> disableUser(Integer id) {
 		userMgrService.disableUser(id);
 		return new APIResult<String>(null, "禁用成功", true);
 	}
@@ -104,7 +106,7 @@ public class UserMgrController {
 	 * @return
 	 */
 	@PostMapping("enable")
-	public APIResult<String> enableUser(String id) {
+	public APIResult<String> enableUser(Integer id) {
 		userMgrService.enableUser(id);
 		return new APIResult<String>(null, "启用成功", true);
 	}
@@ -116,7 +118,7 @@ public class UserMgrController {
 	 * @return
 	 */
 	@PostMapping("resetPwd")
-	public APIResult<String> resetPwd(String ids) {
+	public APIResult<String> resetPwd(Integer ids) {
 		String pwd = userMgrService.resetPwd(ids);
 		return new APIResult<String>(null, "密码重置为 " + pwd, true);
 	}
@@ -129,9 +131,19 @@ public class UserMgrController {
 	 * @return
 	 */
 	@PostMapping("setRole")
-	public APIResult<String> setRole(String userId, String roleIds) {
+	public APIResult<String> setRole(Integer userId, String roleIds) {
 		userMgrService.setRole(userId, roleIds);
 		return new APIResult<String>(null, "角色分配成功", true);
+	}
+
+	/**
+	 * 获取登录用户权限
+	 *
+	 * @return
+	 */
+	@GetMapping("getMyPermissions")
+	public Object getMyPermissions() {
+		return commonUserService.getRequestUser().getMfListVO();
 	}
 
 }

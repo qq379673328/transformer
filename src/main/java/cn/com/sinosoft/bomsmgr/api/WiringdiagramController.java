@@ -17,6 +17,7 @@ import cn.com.sinosoft.bomsmgr.entity.ge.TBizWiringdiagram;
 import cn.com.sinosoft.bomsmgr.model.biz.ItemXyWh;
 import cn.com.sinosoft.bomsmgr.model.biz.WiringdiagramDetail;
 import cn.com.sinosoft.bomsmgr.model.biz.WiringdiagramInfo;
+import cn.com.sinosoft.bomsmgr.model.dic.DicVerifyStatus;
 import cn.com.sinosoft.bomsmgr.service.WiringdiagramService;
 import cn.com.sinosoft.tbf.domain.common.APIResult;
 
@@ -78,7 +79,7 @@ public class WiringdiagramController {
 		service.update(item);
 		return new APIResult<Object>();
 	}
-	
+
 	/**
 	 * 删除
 	 *
@@ -90,16 +91,34 @@ public class WiringdiagramController {
 	public APIResult<Integer> del(@RequestParam(required = true) Integer[] ids) {
 		return new APIResult<Integer>(service.del(ids), "删除成功", true);
 	}
-	
+
 	/**
 	 * 更新接线图中所有设备的大小位置信息
 	 *
 	 * @param items
-	 * @return 
+	 * @return
 	 */
 	@PostMapping("updateXyWh")
 	public APIResult<Integer> updateXyWh(@RequestBody List<ItemXyWh> items) {
 		return new APIResult<Integer>(service.updateXyWh(items), "更新成功", true);
+	}
+
+	/**
+	 * 审核
+	 *
+	 * @param id
+	 * @return
+	 */
+	@PostMapping("verify")
+	public APIResult<Object> verify(Integer id, String status, String content) {
+		if (DicVerifyStatus.PASS.getCode().equals(status)) {
+			service.updateVerifyStatusPass(id, content);
+		} else if (DicVerifyStatus.FAIL.getCode().equals(status)) {
+			service.updateVerifyStatusFail(id, content);
+		} else if (DicVerifyStatus.READY.getCode().equals(status)) {
+			service.updateVerifyStatusReady(id);
+		}
+		return new APIResult<Object>();
 	}
 
 }

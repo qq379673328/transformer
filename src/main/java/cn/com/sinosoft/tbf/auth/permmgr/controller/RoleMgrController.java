@@ -66,7 +66,7 @@ public class RoleMgrController {
 	 * @return
 	 */
 	@PostMapping("del")
-	public APIResult<String> delRole(String ids) {
+	public APIResult<String> delRole(Integer ids) {
 		roleMgrService.delRole(ids);
 		return new APIResult<String>(null, "操作成功", true);
 	}
@@ -81,7 +81,7 @@ public class RoleMgrController {
 	public Object getPermsAll(String roleId) {
 		return roleMgrService.getPermsAll(roleId);
 	}
-	
+
 	/**
 	 * 获取用户角色
 	 *

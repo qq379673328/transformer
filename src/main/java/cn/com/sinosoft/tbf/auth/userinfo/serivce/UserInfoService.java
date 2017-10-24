@@ -34,7 +34,7 @@ public class UserInfoService {
 	 * @return
 	 */
 	public TAuthUser getUserInfo() {
-		String userId = commonUserService.getRequestUserId();
+		Integer userId = commonUserService.getRequestUserIdInt();
 		return getUserMapper().selectByPrimaryKey(userId);
 	}
 

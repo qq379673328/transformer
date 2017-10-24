@@ -489,15 +489,15 @@ define(
 	var permissions = null;
 	var hasPermission = function(id) {
 		if (permissions == null) {
-			submitAjax({
-				url: "api/system/user/getMyPermissions",
+			$.ajax({
+				url: "auth/usermgr/getMyPermissions",
 				type: "get",
 				async: false,
 				success: function(data) {
 					permissions = !data ? [] : data;
 					var temp = {};
 					for (var i in permissions) {
-						temp[permissions[i].mfKey] = true;
+						temp[permissions[i].mfId] = true;
 					}
 					permissions = temp;
 				}

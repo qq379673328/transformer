@@ -2,21 +2,21 @@ package cn.com.sinosoft.bomsmgr.model.biz;
 
 /**
  * 更新位置信息对象
- * 
+ *
  * @author lizhiyong
  *
  */
 public class ItemXyWh {
 
-	private String id;
+	private Integer id;
 	private String x;
 	private String y;
 	private String w;
 	private String h;
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getX() {

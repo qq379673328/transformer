@@ -86,7 +86,7 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
 			}
 
 			LoginUserInfo loginUserInfo = new LoginUserInfo();
-			loginUserInfo.setId(userInfo.getId().toString());
+			loginUserInfo.setId(userInfo.getId());
 			loginUserInfo.setUserName(userInfo.getLoginName());
 			loginUserInfo.setPassWord(userInfo.getPassWord());
 			loginUserInfo.setUser(userInfo);
@@ -94,9 +94,9 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
 			request.getSession().setAttribute(CommonUserService.SESSION_NAME_USERINFO, loginUserInfo);
 
 			// 树状菜单权限
-			loginUserInfo.setMfTreeVo(commonBaseService.getUserMF(userInfo.getId(), "0"));
+			loginUserInfo.setMfTreeVo(commonBaseService.getUserMF(String.valueOf(userInfo.getId()), "0"));
 			// 列表权限-带功能点
-			loginUserInfo.setMfListVO(systemUserService.getUserMf(userInfo.getId(), null));
+			loginUserInfo.setMfListVO(systemUserService.getUserMf(String.valueOf(userInfo.getId()), null));
 
 			// 授权
 			Collection<? extends GrantedAuthority> authorities = null;

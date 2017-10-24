@@ -13,7 +13,9 @@
 		  getusername(t.create_user) createUserDesc,
 		  getusername(f.create_user) uploadUserDesc,
 		  f.create_time uploadTime,
-		  f.path
+		  f.path,
+		  getusername(t.verify_user) verifyUserDesc,
+		  getDicValue(t.verify_status, 'common.verify') verifyStatusDesc
 		FROM t_biz_device_img t
 			left join t_biz_files f on t.img_id = f.id
 		where 1=1
@@ -22,6 +24,9 @@
 		</if>
 		<if test="deviceId != null">
 			and t.device_id = #{deviceId}
+		</if>
+		<if test="verifyStatus != null">
+			and t.verify_status = #{verifyStatus}
 		</if>
 		ORDER BY t.create_time desc
 	</select>

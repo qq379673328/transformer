@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -19,7 +18,6 @@ import cn.com.sinosoft.bomsmgr.entity.ge.TAuthUser;
 import cn.com.sinosoft.bomsmgr.entity.ge.TAuthUserExample;
 import cn.com.sinosoft.bomsmgr.service.common.CommonUserService;
 import cn.com.sinosoft.tbf.common.ServiceException;
-import cn.com.sinosoft.tbf.common.util.KeyGenerateUtil;
 import cn.com.sinosoft.tbf.common.util.StrUtils;
 import cn.com.sinosoft.tbf.common.util.security.MD5Util;
 import cn.com.sinosoft.tbf.dao.BaseDao;
@@ -85,7 +83,6 @@ public class UserMgrService {
 			if (isLoginNameExist(user.getLoginName())) {
 				throw new ServiceException("登录名已存在");
 			}
-			user.setId(KeyGenerateUtil.genetatePk());
 			user.setCreateUser(commonUserService.getRequestUserId());
 			user.setCreateTime(new Date());
 			user.setPassWord(MD5Util.digestMD5(user.getPassWord()));
@@ -104,7 +101,7 @@ public class UserMgrService {
 	 * @return
 	 */
 	@Transactional
-	public void delUser(String id) {
+	public void delUser(Integer id) {
 
 		// 删除用户
 		getUserMapper().deleteByPrimaryKey(id);
@@ -119,7 +116,7 @@ public class UserMgrService {
 	 * @param userId
 	 */
 	@Transactional
-	public void delUserRolesById(String userId) {
+	public void delUserRolesById(Integer userId) {
 		TAuthUrExample ex = new TAuthUrExample();
 		ex.createCriteria().andUserIdEqualTo(userId);
 		getUrMapper().deleteByExample(ex);
@@ -128,11 +125,11 @@ public class UserMgrService {
 	/**
 	 * 禁用用户
 	 *
-	 * @param ids
+	 * @param id
 	 * @return
 	 */
 	@Transactional
-	public void disableUser(String id) {
+	public void disableUser(Integer id) {
 		TAuthUser user = new TAuthUser();
 		user.setId(id);
 		user.setIsUsed("02");
@@ -146,7 +143,7 @@ public class UserMgrService {
 	 * @return
 	 */
 	@Transactional
-	public void enableUser(String id) {
+	public void enableUser(Integer id) {
 		TAuthUser user = new TAuthUser();
 		user.setId(id);
 		user.setIsUsed("01");
@@ -160,7 +157,7 @@ public class UserMgrService {
 	 * @return 重置之后密码
 	 */
 	@Transactional
-	public String resetPwd(String id) {
+	public String resetPwd(Integer id) {
 		String pwdDefault = CommonUserService.USER_PWD_DEFAULT;
 		TAuthUser user = new TAuthUser();
 		user.setId(id);
@@ -177,7 +174,7 @@ public class UserMgrService {
 	 * @return
 	 */
 	@Transactional
-	public void setRole(String userId, String roleIds) {
+	public void setRole(Integer userId, String roleIds) {
 		// 删除用户旧的角色信息
 		delUserRolesById(userId);
 
@@ -186,8 +183,7 @@ public class UserMgrService {
 			TAuthUr ur = new TAuthUr();
 			ur.setCreateUser(commonUserService.getRequestUserId());
 			ur.setUserId(userId);
-			ur.setRoleId(item);
-			ur.setId(UUID.randomUUID().toString());
+			ur.setRoleId(Integer.valueOf(item));
 			getUrMapper().insert(ur);
 		}
 	}
@@ -201,7 +197,7 @@ public class UserMgrService {
 	 *            角色ids
 	 */
 	@Transactional
-	public void setUserRoles(String userId, String[] ids) {
+	public void setUserRoles(Integer userId, String[] ids) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("userId", userId);
 		params.put("ids", ids);

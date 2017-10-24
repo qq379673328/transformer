@@ -48,6 +48,22 @@ public class TBizDeviceImgSqlProvider {
             sql.VALUES("device_id", "#{deviceId,jdbcType=INTEGER}");
         }
         
+        if (record.getVerifyStatus() != null) {
+            sql.VALUES("verify_status", "#{verifyStatus,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getVerifyTime() != null) {
+            sql.VALUES("verify_time", "#{verifyTime,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getVerifyUser() != null) {
+            sql.VALUES("verify_user", "#{verifyUser,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getVerifyContent() != null) {
+            sql.VALUES("verify_content", "#{verifyContent,jdbcType=VARCHAR}");
+        }
+        
         return sql.toString();
     }
 
@@ -63,6 +79,10 @@ public class TBizDeviceImgSqlProvider {
         sql.SELECT("create_user");
         sql.SELECT("img_id");
         sql.SELECT("device_id");
+        sql.SELECT("verify_status");
+        sql.SELECT("verify_time");
+        sql.SELECT("verify_user");
+        sql.SELECT("verify_content");
         sql.FROM("t_biz_device_img");
         applyWhere(sql, example, false);
         
@@ -104,6 +124,22 @@ public class TBizDeviceImgSqlProvider {
             sql.SET("device_id = #{record.deviceId,jdbcType=INTEGER}");
         }
         
+        if (record.getVerifyStatus() != null) {
+            sql.SET("verify_status = #{record.verifyStatus,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getVerifyTime() != null) {
+            sql.SET("verify_time = #{record.verifyTime,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getVerifyUser() != null) {
+            sql.SET("verify_user = #{record.verifyUser,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getVerifyContent() != null) {
+            sql.SET("verify_content = #{record.verifyContent,jdbcType=VARCHAR}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -118,6 +154,10 @@ public class TBizDeviceImgSqlProvider {
         sql.SET("create_user = #{record.createUser,jdbcType=VARCHAR}");
         sql.SET("img_id = #{record.imgId,jdbcType=VARCHAR}");
         sql.SET("device_id = #{record.deviceId,jdbcType=INTEGER}");
+        sql.SET("verify_status = #{record.verifyStatus,jdbcType=VARCHAR}");
+        sql.SET("verify_time = #{record.verifyTime,jdbcType=TIMESTAMP}");
+        sql.SET("verify_user = #{record.verifyUser,jdbcType=VARCHAR}");
+        sql.SET("verify_content = #{record.verifyContent,jdbcType=VARCHAR}");
         
         TBizDeviceImgExample example = (TBizDeviceImgExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -146,6 +186,22 @@ public class TBizDeviceImgSqlProvider {
         
         if (record.getDeviceId() != null) {
             sql.SET("device_id = #{deviceId,jdbcType=INTEGER}");
+        }
+        
+        if (record.getVerifyStatus() != null) {
+            sql.SET("verify_status = #{verifyStatus,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getVerifyTime() != null) {
+            sql.SET("verify_time = #{verifyTime,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getVerifyUser() != null) {
+            sql.SET("verify_user = #{verifyUser,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getVerifyContent() != null) {
+            sql.SET("verify_content = #{verifyContent,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class TAuthRole implements Serializable {
-    private String id;
+    private Integer id;
 
-    private String createUser;
+    private Integer createUser;
 
     private Date createTime;
 
-    private String updateUser;
+    private Integer updateUser;
 
     private Date updateTime;
 
@@ -20,20 +20,20 @@ public class TAuthRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getCreateUser() {
+    public Integer getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(String createUser) {
-        this.createUser = createUser == null ? null : createUser.trim();
+    public void setCreateUser(Integer createUser) {
+        this.createUser = createUser;
     }
 
     public Date getCreateTime() {
@@ -44,12 +44,12 @@ public class TAuthRole implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getUpdateUser() {
+    public Integer getUpdateUser() {
         return updateUser;
     }
 
-    public void setUpdateUser(String updateUser) {
-        this.updateUser = updateUser == null ? null : updateUser.trim();
+    public void setUpdateUser(Integer updateUser) {
+        this.updateUser = updateUser;
     }
 
     public Date getUpdateTime() {

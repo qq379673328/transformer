@@ -111,7 +111,7 @@ public class TAuthUserSqlProvider {
         sql.UPDATE("t_auth_user");
         
         if (record.getId() != null) {
-            sql.SET("ID = #{record.id,jdbcType=CHAR}");
+            sql.SET("ID = #{record.id,jdbcType=INTEGER}");
         }
         
         if (record.getCreateUser() != null) {
@@ -166,7 +166,7 @@ public class TAuthUserSqlProvider {
         SQL sql = new SQL();
         sql.UPDATE("t_auth_user");
         
-        sql.SET("ID = #{record.id,jdbcType=CHAR}");
+        sql.SET("ID = #{record.id,jdbcType=INTEGER}");
         sql.SET("CREATE_USER = #{record.createUser,jdbcType=CHAR}");
         sql.SET("CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}");
         sql.SET("UPDATE_USER = #{record.updateUser,jdbcType=CHAR}");
@@ -232,7 +232,7 @@ public class TAuthUserSqlProvider {
             sql.SET("PHONE = #{phone,jdbcType=CHAR}");
         }
         
-        sql.WHERE("ID = #{id,jdbcType=CHAR}");
+        sql.WHERE("ID = #{id,jdbcType=INTEGER}");
         
         return sql.toString();
     }

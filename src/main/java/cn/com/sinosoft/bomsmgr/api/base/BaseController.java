@@ -55,7 +55,7 @@ public class BaseController {
 	@GetMapping("getUserId")
 	public APIResult<String> getUserId() {
 		LoginUserInfo info = commonUserService.getRequestUser();
-		return new APIResult<String>(info.getUser().getId());
+		return new APIResult<String>(String.valueOf(info.getUser().getId()));
 	}
 
 	/**

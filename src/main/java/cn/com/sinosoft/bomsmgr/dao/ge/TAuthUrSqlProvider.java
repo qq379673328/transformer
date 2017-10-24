@@ -37,11 +37,11 @@ public class TAuthUrSqlProvider {
         }
         
         if (record.getUserId() != null) {
-            sql.VALUES("USER_ID", "#{userId,jdbcType=CHAR}");
+            sql.VALUES("USER_ID", "#{userId,jdbcType=INTEGER}");
         }
         
         if (record.getRoleId() != null) {
-            sql.VALUES("ROLE_ID", "#{roleId,jdbcType=CHAR}");
+            sql.VALUES("ROLE_ID", "#{roleId,jdbcType=INTEGER}");
         }
         
         return sql.toString();
@@ -76,7 +76,7 @@ public class TAuthUrSqlProvider {
         sql.UPDATE("t_auth_ur");
         
         if (record.getId() != null) {
-            sql.SET("ID = #{record.id,jdbcType=CHAR}");
+            sql.SET("ID = #{record.id,jdbcType=INTEGER}");
         }
         
         if (record.getCreateUser() != null) {
@@ -88,11 +88,11 @@ public class TAuthUrSqlProvider {
         }
         
         if (record.getUserId() != null) {
-            sql.SET("USER_ID = #{record.userId,jdbcType=CHAR}");
+            sql.SET("USER_ID = #{record.userId,jdbcType=INTEGER}");
         }
         
         if (record.getRoleId() != null) {
-            sql.SET("ROLE_ID = #{record.roleId,jdbcType=CHAR}");
+            sql.SET("ROLE_ID = #{record.roleId,jdbcType=INTEGER}");
         }
         
         applyWhere(sql, example, true);
@@ -103,11 +103,11 @@ public class TAuthUrSqlProvider {
         SQL sql = new SQL();
         sql.UPDATE("t_auth_ur");
         
-        sql.SET("ID = #{record.id,jdbcType=CHAR}");
+        sql.SET("ID = #{record.id,jdbcType=INTEGER}");
         sql.SET("CREATE_USER = #{record.createUser,jdbcType=CHAR}");
         sql.SET("CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}");
-        sql.SET("USER_ID = #{record.userId,jdbcType=CHAR}");
-        sql.SET("ROLE_ID = #{record.roleId,jdbcType=CHAR}");
+        sql.SET("USER_ID = #{record.userId,jdbcType=INTEGER}");
+        sql.SET("ROLE_ID = #{record.roleId,jdbcType=INTEGER}");
         
         TAuthUrExample example = (TAuthUrExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -127,14 +127,14 @@ public class TAuthUrSqlProvider {
         }
         
         if (record.getUserId() != null) {
-            sql.SET("USER_ID = #{userId,jdbcType=CHAR}");
+            sql.SET("USER_ID = #{userId,jdbcType=INTEGER}");
         }
         
         if (record.getRoleId() != null) {
-            sql.SET("ROLE_ID = #{roleId,jdbcType=CHAR}");
+            sql.SET("ROLE_ID = #{roleId,jdbcType=INTEGER}");
         }
         
-        sql.WHERE("ID = #{id,jdbcType=CHAR}");
+        sql.WHERE("ID = #{id,jdbcType=INTEGER}");
         
         return sql.toString();
     }

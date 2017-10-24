@@ -78,7 +78,7 @@ public class PubController {
 			// 置空密码
 			userInfo.setPassWord(null);
 			LoginUserInfo loginUserInfo = new LoginUserInfo();
-			loginUserInfo.setId(userInfo.getId().toString());
+			loginUserInfo.setId(userInfo.getId());
 			loginUserInfo.setUserName(userInfo.getLoginName());
 			loginUserInfo.setUser(userInfo);
 
@@ -89,9 +89,9 @@ public class PubController {
 			loginUserInfo.setToken(token);
 
 			// 菜单功能点
-			loginUserInfo.setMfTreeVo(commonBaseService.getUserMF(userInfo.getId(), "1"));
+			loginUserInfo.setMfTreeVo(commonBaseService.getUserMF(String.valueOf(userInfo.getId()), "1"));
 			// 列表权限-带功能点
-			loginUserInfo.setMfListVO(systemUserService.getUserMf(userInfo.getId(), null));
+			loginUserInfo.setMfListVO(systemUserService.getUserMf(String.valueOf(userInfo.getId()), null));
 
 			// token以及用户信息放入缓存中
 			tokenCache.put(token, loginUserInfo);

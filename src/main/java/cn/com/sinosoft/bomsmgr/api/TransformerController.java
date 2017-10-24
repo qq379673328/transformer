@@ -47,8 +47,9 @@ public class TransformerController {
 	 * @return
 	 */
 	@GetMapping("getDetailById/{id}")
-	public APIResult<TransformerDetail> getDetailById(@PathVariable Integer id) {
-		return new APIResult<TransformerDetail>(service.getDetailById(id));
+	public APIResult<TransformerDetail> getDetailById(@PathVariable Integer id,
+			@RequestParam(defaultValue = "false") Boolean isView) {
+		return new APIResult<TransformerDetail>(service.getDetailById(id, isView));
 	}
 
 	/**
@@ -112,7 +113,5 @@ public class TransformerController {
 	public APIResult<Object> disable(@RequestParam(required = true) Integer[] ids) {
 		return new APIResult<Object>(service.disable(ids), "禁用成功", true);
 	}
-
-
 
 }

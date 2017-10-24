@@ -101,7 +101,7 @@ public class SystemUserService {
 	@Transactional
 	public int update(UserEdit item) {
 		TAuthUser newItem = new TAuthUser();
-		newItem.setId(item.getId());
+		newItem.setId(Integer.valueOf(item.getId()));
 		newItem.setName(item.getName());
 		newItem.setUpdateUser(commonUserService.getRequestUserId());
 		newItem.setUpdateTime(new Date());

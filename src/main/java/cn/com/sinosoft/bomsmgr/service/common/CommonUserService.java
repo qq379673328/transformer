@@ -90,6 +90,15 @@ public class CommonUserService {
 	 * @return 用户id
 	 */
 	public String getRequestUserId() {
+		return String.valueOf(getRequestUserIdInt());
+	}
+
+	/**
+	 * 获取请求用户id
+	 *
+	 * @return 用户id
+	 */
+	public Integer getRequestUserIdInt() {
 		LoginUserInfo userInfo = getRequestUser();
 		if (userInfo == null)
 			return null;

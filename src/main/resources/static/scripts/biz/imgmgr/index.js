@@ -16,7 +16,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 	var IS_VIEW = core.getQueryString("IS_VIEW");
 	// 隐藏相关操作
 	if(IS_VIEW){
-		$('.btn-add,.btn-danger,.btn-edit,.btn-save').remove();
+		$('.btn-add,.btn-danger,.btn-edit,.btn-save,.zone-verify').remove();
 	}
 	
 	// 调整宽度
@@ -43,9 +43,18 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		$zonePart = $("#zone-part"),// 区域-部件管理
 		
 		$btnWdSave = $("#btn-wd-save"),// 按钮-保存接线图位置大小
-		$btnDeviceImgSave = $("#btn-deviceimg-save")// 按钮-保存接线图位置大小
+		$btnDeviceImgSave = $("#btn-deviceimg-save"),// 按钮-保存接线图位置大小
+		
+		$btnVerifyWd = $("#btn-verify-wd"),// 审核-接线图
+		$btnVerifyDeviceImg = $("#btn-verify-deviceImg")// 审核-设备图
 		
 		;
+	
+	// 权限按钮
+	if(!core.hasPermission('img_mgr_verify')){
+		$btnVerifyWd.remove();
+		$btnVerifyDeviceImg.remove();
+	}
 	
 	// 切换显示状态
 	function changeStateTransformer(){
@@ -66,6 +75,8 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 	
 	// 返回-设备管理
 	$("#btn-back-device").click(function(){
+		CURRENT_PART = null;
+		CURRENT_DEVICE_IMG = null;
 		changeStateTransformer();
 		refreshLocation();
 	});
@@ -193,6 +204,9 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			core.submitAjax({
 				url: 'api/transformer/getDetailById/' + tfId,
 				type: 'get',
+				data: {
+					isView: IS_VIEW
+				},
 				success: function(data){
 					// 接线图信息
 					var wgs = data.wiringdiagrams || [];
@@ -208,20 +222,64 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 							changeWg(record);
 						}
 					});
-					// 默认显示第一个
-					if(wgs.length > 0){
-						$("#tag-select-wg").combobox('setValue', wgs[0].id);
-						// 切换接线图
-						changeWg(wgs[0]);
-					}else{
-						changeWg();
+					// 默认显示
+					var DEFAULT_TRANS = null;
+					if(CURRENT_WD){
+						for(var i in wgs){
+							if(wgs[i].id == CURRENT_WD.id){
+								DEFAULT_TRANS = wgs[i];
+							}
+						}
 					}
+					if(!DEFAULT_TRANS){
+						DEFAULT_TRANS = wgs.length > 0 ? wgs[0] : null;
+					}
+					if(DEFAULT_TRANS){
+						$("#tag-select-wg").combobox('setValue', DEFAULT_TRANS.id);
+					}
+					// 切换接线图
+					changeWg(DEFAULT_TRANS);
 				}
 			});
 		}else{// 无变电站
 			changeWg();
 		}
 	}
+	
+	/**
+	 * 审核接线图
+	 */
+	$btnVerifyWd.click(function(){
+		tplengine.openWinWithEdit({
+			title: '审核-接线图',
+			tpl: 'scripts/biz/imgmgr/tpl/verify.tpl',
+			data: {
+				id: CURRENT_WD.id
+			},
+			surl: 'api/wiringdiagram/verify',
+			success: function(data, $win){
+				refreshWg(CURRENT_TRANSFORMER.id);
+				$win.dialog("close");
+			}
+		})
+	});
+	/**
+	 * 审核设备图
+	 */
+	$btnVerifyDeviceImg.click(function(){
+		tplengine.openWinWithEdit({
+			title: '审核-设备图',
+			tpl: 'scripts/biz/imgmgr/tpl/verify.tpl',
+			data: {
+				id: CURRENT_DEVICE_IMG.id
+			},
+			surl: 'api/deviceimg/verify',
+			success: function(data, $win){
+				refreshDeviceImg(CURRENT_DEVICE.id);
+				$win.dialog("close");
+			}
+		})
+	});
 	
 	// 切换接线图
 	function changeWg(item){
@@ -261,11 +319,16 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 				;
 			
 			// 显示接线图信息
+			var verifyStatus = item.verifyStatus;
 			$("#tag-img-info-nodata").hide();
 			$("#tag-img-info-withdata").show();
 			$("#wd-info-uploadTime").html(core.transTimeStamp(wgUploadTime));
 			$("#wd-info-user").html(wgUploadUser);
 			$("#wd-info-desc").html(wgDesc);
+			$("#wd-info-verifyStatus").html(item.verifyStatusDesc);
+			$("#wd-info-verifyUser").html(item.verifyUserDesc);
+			$("#wd-info-verifyContent").html(item.verifyContent);
+			$("#wd-info-verifyTime").html(core.transTimeStamp(item.verifyTime));
 			
 			// 加载接线图设备列表信息
 			core.submitAjax({
@@ -503,7 +566,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 						ids: CURRENT_DEVICE.id
 					},
 					success: function(data){
-						delDevice(CURRENT_DEVICE);
+						removeDevice(CURRENT_DEVICE);
 					}
 				});
 			}
@@ -652,7 +715,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		// 数据
 		for(var i in ITEMS){
 			if(ITEMS[i].id == item.id){
-				ITEMS.splic(i, 1);
+				ITEMS.splice(i, 1);
 				break;
 			}
 		}
@@ -670,6 +733,10 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 				$(this).remove();
 			}
 		});
+		
+		// 刷新信息
+		showCurrentItem();
+		
 	}
 	
 	// 更新一个设备
@@ -785,6 +852,9 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			// 加载设备详情
 			core.submitAjax({
 				url: 'api/device/getDetailById/' + id,
+				data: {
+					isView: IS_VIEW
+				},
 				type: 'get',
 				success: function(data){
 					// 设备图信息
@@ -801,14 +871,25 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 							changeDeviceImg(record);
 						}
 					});
-					// 默认显示第一个
-					if(deviceImgs.length > 0){
-						$("#tag-select-device").combobox('setValue', deviceImgs[0].id);
-						// 切换设备图
-						changeDeviceImg(deviceImgs[0]);
-					}else{
-						changeDeviceImg();
+					
+					// 默认显示
+					var DEFAULT_DI = null;
+					if(CURRENT_DEVICE_IMG){
+						for(var i in deviceImgs){
+							if(deviceImgs[i].id == CURRENT_DEVICE_IMG.id){
+								DEFAULT_DI = deviceImgs[i];
+							}
+						}
 					}
+					if(!DEFAULT_DI){
+						DEFAULT_DI = deviceImgs.length > 0 ? deviceImgs[0] : null;
+					}
+					if(DEFAULT_DI){
+						$("#tag-select-device").combobox('setValue', DEFAULT_DI.id);
+					}
+					// 切换接线图
+					changeDeviceImg(DEFAULT_DI);
+					
 				}
 			});
 		}else{// 无设备
@@ -854,6 +935,10 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			$("#wd-info-device-uploadTime").html(core.transTimeStamp(deviceImgUploadTime));
 			$("#wd-info-device-user").html(deviceImgUploadUser);
 			$("#wd-info-device-desc").html(deviceImgDesc);
+			$("#wd-info-device-verifyStatus").html(item.verifyStatusDesc);
+			$("#wd-info-device-verifyUser").html(item.verifyUserDesc);
+			$("#wd-info-device-verifyContent").html(item.verifyContent);
+			$("#wd-info-device-verifyTime").html(core.transTimeStamp(item.verifyTime));
 			
 			// 加载设备图部件列表信息
 			core.submitAjax({
@@ -1067,7 +1152,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 						ids: CURRENT_PART.id
 					},
 					success: function(data){
-						delPart(CURRENT_PART);
+						removePart(CURRENT_PART);
 					}
 				});
 			}
@@ -1242,7 +1327,7 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 		// 数据
 		for(var i in ITEMS_PART){
 			if(ITEMS_PART[i].id == item.id){
-				ITEMS_PART.splic(i, 1);
+				ITEMS_PART.splice(i, 1);
 				break;
 			}
 		}
@@ -1260,6 +1345,9 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 				$(this).remove();
 			}
 		});
+		
+		showCurrentItemPart();
+		
 	}
 	
 	// 更新一个部件

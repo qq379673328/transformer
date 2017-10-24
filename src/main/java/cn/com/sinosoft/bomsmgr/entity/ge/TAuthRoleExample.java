@@ -115,62 +115,52 @@ public class TAuthRoleExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(String value) {
+        public Criteria andIdEqualTo(Integer value) {
             addCriterion("ID =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(String value) {
+        public Criteria andIdNotEqualTo(Integer value) {
             addCriterion("ID <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(String value) {
+        public Criteria andIdGreaterThan(Integer value) {
             addCriterion("ID >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(String value) {
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("ID >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(String value) {
+        public Criteria andIdLessThan(Integer value) {
             addCriterion("ID <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(String value) {
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
             addCriterion("ID <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLike(String value) {
-            addCriterion("ID like", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdNotLike(String value) {
-            addCriterion("ID not like", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdIn(List<String> values) {
+        public Criteria andIdIn(List<Integer> values) {
             addCriterion("ID in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<String> values) {
+        public Criteria andIdNotIn(List<Integer> values) {
             addCriterion("ID not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(String value1, String value2) {
+        public Criteria andIdBetween(Integer value1, Integer value2) {
             addCriterion("ID between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(String value1, String value2) {
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
             addCriterion("ID not between", value1, value2, "id");
             return (Criteria) this;
         }
@@ -185,62 +175,52 @@ public class TAuthRoleExample {
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserEqualTo(String value) {
+        public Criteria andCreateUserEqualTo(Integer value) {
             addCriterion("CREATE_USER =", value, "createUser");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserNotEqualTo(String value) {
+        public Criteria andCreateUserNotEqualTo(Integer value) {
             addCriterion("CREATE_USER <>", value, "createUser");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserGreaterThan(String value) {
+        public Criteria andCreateUserGreaterThan(Integer value) {
             addCriterion("CREATE_USER >", value, "createUser");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserGreaterThanOrEqualTo(String value) {
+        public Criteria andCreateUserGreaterThanOrEqualTo(Integer value) {
             addCriterion("CREATE_USER >=", value, "createUser");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserLessThan(String value) {
+        public Criteria andCreateUserLessThan(Integer value) {
             addCriterion("CREATE_USER <", value, "createUser");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserLessThanOrEqualTo(String value) {
+        public Criteria andCreateUserLessThanOrEqualTo(Integer value) {
             addCriterion("CREATE_USER <=", value, "createUser");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserLike(String value) {
-            addCriterion("CREATE_USER like", value, "createUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserNotLike(String value) {
-            addCriterion("CREATE_USER not like", value, "createUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIn(List<String> values) {
+        public Criteria andCreateUserIn(List<Integer> values) {
             addCriterion("CREATE_USER in", values, "createUser");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserNotIn(List<String> values) {
+        public Criteria andCreateUserNotIn(List<Integer> values) {
             addCriterion("CREATE_USER not in", values, "createUser");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserBetween(String value1, String value2) {
+        public Criteria andCreateUserBetween(Integer value1, Integer value2) {
             addCriterion("CREATE_USER between", value1, value2, "createUser");
             return (Criteria) this;
         }
 
-        public Criteria andCreateUserNotBetween(String value1, String value2) {
+        public Criteria andCreateUserNotBetween(Integer value1, Integer value2) {
             addCriterion("CREATE_USER not between", value1, value2, "createUser");
             return (Criteria) this;
         }
@@ -315,62 +295,52 @@ public class TAuthRoleExample {
             return (Criteria) this;
         }
 
-        public Criteria andUpdateUserEqualTo(String value) {
+        public Criteria andUpdateUserEqualTo(Integer value) {
             addCriterion("UPDATE_USER =", value, "updateUser");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateUserNotEqualTo(String value) {
+        public Criteria andUpdateUserNotEqualTo(Integer value) {
             addCriterion("UPDATE_USER <>", value, "updateUser");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateUserGreaterThan(String value) {
+        public Criteria andUpdateUserGreaterThan(Integer value) {
             addCriterion("UPDATE_USER >", value, "updateUser");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateUserGreaterThanOrEqualTo(String value) {
+        public Criteria andUpdateUserGreaterThanOrEqualTo(Integer value) {
             addCriterion("UPDATE_USER >=", value, "updateUser");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateUserLessThan(String value) {
+        public Criteria andUpdateUserLessThan(Integer value) {
             addCriterion("UPDATE_USER <", value, "updateUser");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateUserLessThanOrEqualTo(String value) {
+        public Criteria andUpdateUserLessThanOrEqualTo(Integer value) {
             addCriterion("UPDATE_USER <=", value, "updateUser");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateUserLike(String value) {
-            addCriterion("UPDATE_USER like", value, "updateUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateUserNotLike(String value) {
-            addCriterion("UPDATE_USER not like", value, "updateUser");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateUserIn(List<String> values) {
+        public Criteria andUpdateUserIn(List<Integer> values) {
             addCriterion("UPDATE_USER in", values, "updateUser");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateUserNotIn(List<String> values) {
+        public Criteria andUpdateUserNotIn(List<Integer> values) {
             addCriterion("UPDATE_USER not in", values, "updateUser");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateUserBetween(String value1, String value2) {
+        public Criteria andUpdateUserBetween(Integer value1, Integer value2) {
             addCriterion("UPDATE_USER between", value1, value2, "updateUser");
             return (Criteria) this;
         }
 
-        public Criteria andUpdateUserNotBetween(String value1, String value2) {
+        public Criteria andUpdateUserNotBetween(Integer value1, Integer value2) {
             addCriterion("UPDATE_USER not between", value1, value2, "updateUser");
             return (Criteria) this;
         }

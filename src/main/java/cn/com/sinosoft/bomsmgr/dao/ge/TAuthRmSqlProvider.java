@@ -76,7 +76,7 @@ public class TAuthRmSqlProvider {
         sql.UPDATE("t_auth_rm");
         
         if (record.getId() != null) {
-            sql.SET("ID = #{record.id,jdbcType=CHAR}");
+            sql.SET("ID = #{record.id,jdbcType=INTEGER}");
         }
         
         if (record.getCreateUser() != null) {
@@ -103,7 +103,7 @@ public class TAuthRmSqlProvider {
         SQL sql = new SQL();
         sql.UPDATE("t_auth_rm");
         
-        sql.SET("ID = #{record.id,jdbcType=CHAR}");
+        sql.SET("ID = #{record.id,jdbcType=INTEGER}");
         sql.SET("CREATE_USER = #{record.createUser,jdbcType=CHAR}");
         sql.SET("CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}");
         sql.SET("ROLE_ID = #{record.roleId,jdbcType=CHAR}");
@@ -134,7 +134,7 @@ public class TAuthRmSqlProvider {
             sql.SET("MF_ID = #{mfId,jdbcType=CHAR}");
         }
         
-        sql.WHERE("ID = #{id,jdbcType=CHAR}");
+        sql.WHERE("ID = #{id,jdbcType=INTEGER}");
         
         return sql.toString();
     }

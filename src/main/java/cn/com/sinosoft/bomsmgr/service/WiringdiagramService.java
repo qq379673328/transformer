@@ -1,5 +1,6 @@
 package cn.com.sinosoft.bomsmgr.service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,11 +10,13 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.com.sinosoft.bomsmgr.dao.BizExtMapper;
 import cn.com.sinosoft.bomsmgr.dao.ge.TBizWiringdiagramMapper;
 import cn.com.sinosoft.bomsmgr.entity.ge.TBizWiringdiagram;
 import cn.com.sinosoft.bomsmgr.model.biz.ItemXyWh;
 import cn.com.sinosoft.bomsmgr.model.biz.WiringdiagramDetail;
 import cn.com.sinosoft.bomsmgr.model.biz.WiringdiagramInfo;
+import cn.com.sinosoft.bomsmgr.model.dic.DicVerifyStatus;
 import cn.com.sinosoft.bomsmgr.service.common.CommonUserService;
 import cn.com.sinosoft.tbf.dao.BaseDao;
 
@@ -95,6 +98,7 @@ public class WiringdiagramService {
 	 */
 	@Transactional
 	public int update(TBizWiringdiagram item) {
+		updateVerifyStatusReady(item.getId());
 		return getMapper().updateByPrimaryKeySelective(item);
 	}
 
@@ -127,7 +131,60 @@ public class WiringdiagramService {
 			return 0;
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("items", items);
+
+		if (items != null && items.size() > 0) {
+			updateVerifyStatusReady(deviceService.getById(items.get(0).getId()).getWiringdiagramId());
+		}
+
 		return baseDao.delete(NAMESPACE_BASE + "updateXyWh", params);
+	}
+
+	/**
+	 * 更新审核状态-待审核
+	 *
+	 * @param id
+	 *            对象id
+	 */
+	public void updateVerifyStatusReady(Integer id) {
+		TBizWiringdiagram item = new TBizWiringdiagram();
+		item.setId(id);
+		item.setVerifyStatus(DicVerifyStatus.READY.getCode());
+		item.setVerifyTime(null);
+		item.setVerifyUser(null);
+		item.setVerifyContent(null);
+		getBizExtMapper().verifyWd(item);
+	}
+
+	/**
+	 * 更新审核状态-通过
+	 *
+	 * @param id
+	 *            对象id
+	 */
+	public void updateVerifyStatusPass(Integer id, String content) {
+		TBizWiringdiagram item = new TBizWiringdiagram();
+		item.setId(id);
+		item.setVerifyStatus(DicVerifyStatus.PASS.getCode());
+		item.setVerifyTime(new Date());
+		item.setVerifyUser(commonUserService.getRequestUserId());
+		item.setVerifyContent(content);
+		getBizExtMapper().verifyWd(item);
+	}
+
+	/**
+	 * 更新审核状态-未通过
+	 *
+	 * @param id
+	 *            对象id
+	 */
+	public void updateVerifyStatusFail(Integer id, String content) {
+		TBizWiringdiagram item = new TBizWiringdiagram();
+		item.setId(id);
+		item.setVerifyStatus(DicVerifyStatus.FAIL.getCode());
+		item.setVerifyTime(new Date());
+		item.setVerifyUser(commonUserService.getRequestUserId());
+		item.setVerifyContent(content);
+		getBizExtMapper().verifyWd(item);
 	}
 
 	/**
@@ -137,6 +194,15 @@ public class WiringdiagramService {
 	 */
 	private TBizWiringdiagramMapper getMapper() {
 		return baseDao.getMapper(TBizWiringdiagramMapper.class);
+	}
+
+	/**
+	 * 获取mapper
+	 *
+	 * @return
+	 */
+	private BizExtMapper getBizExtMapper() {
+		return baseDao.getMapper(BizExtMapper.class);
 	}
 
 }

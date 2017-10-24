@@ -31,6 +31,8 @@ public class PartService {
 	BaseDao baseDao;
 	@Resource
 	CommonUserService commonUserService;
+	@Resource
+	DeviceImgService deviceImgService;
 
 	/**
 	 * 获取所有
@@ -40,7 +42,7 @@ public class PartService {
 	public List<PartInfo> getList(Map<String, Object> params) {
 		return baseDao.queryList(NAMESPACE_BASE + "get-list", params);
 	}
-	
+
 	/**
 	 * 根据id获取
 	 *
@@ -65,7 +67,9 @@ public class PartService {
 	public PartInfo add(TBizPart item) {
 		item.setCreateUser(commonUserService.getRequestUserId());
 		getMapper().insertSelective(item);
-		
+
+		deviceImgService.updateVerifyStatusReady(item.getDeviceImgId());
+
 		return getById(item.getId());
 	}
 
@@ -79,6 +83,9 @@ public class PartService {
 	@Transactional
 	public PartInfo update(TBizPart item) {
 		getMapper().updateByPrimaryKeySelective(item);
+
+		deviceImgService.updateVerifyStatusReady(item.getDeviceImgId());
+
 		return getById(item.getId());
 	}
 
@@ -97,7 +104,7 @@ public class PartService {
 		params.put("ids", ids);
 		return baseDao.delete(NAMESPACE_BASE + "del", params);
 	}
-	
+
 	/**
 	 * 更新位置大小信息
 	 *
@@ -111,6 +118,11 @@ public class PartService {
 			return 0;
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("items", items);
+
+		if (items != null && items.size() > 0) {
+			deviceImgService.updateVerifyStatusReady(getById(items.get(0).getId()).getDeviceImgId());
+		}
+
 		return baseDao.delete(NAMESPACE_BASE + "updateXyWh", params);
 	}
 

@@ -13,6 +13,7 @@ import cn.com.sinosoft.bomsmgr.dao.ge.TBizDeviceMapper;
 import cn.com.sinosoft.bomsmgr.entity.ge.TBizDevice;
 import cn.com.sinosoft.bomsmgr.model.biz.DeviceDetail;
 import cn.com.sinosoft.bomsmgr.model.biz.DeviceInfo;
+import cn.com.sinosoft.bomsmgr.model.dic.DicVerifyStatus;
 import cn.com.sinosoft.bomsmgr.service.common.CommonUserService;
 import cn.com.sinosoft.tbf.dao.BaseDao;
 
@@ -64,26 +65,32 @@ public class DeviceService {
 	 * @param id
 	 * @return
 	 */
-	public DeviceInfo getById(Integer id){
-		if(id == null) return null;
+	public DeviceInfo getById(Integer id) {
+		if (id == null)
+			return null;
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
 		List<DeviceInfo> infos = getList(params);
 		return infos.size() > 0 ? infos.get(0) : null;
 	}
-	
+
 	/**
 	 * 根据设备id获取设备详情
 	 *
 	 * @param id
 	 * @return
 	 */
-	public DeviceDetail getDetailById(Integer id) {
+	public DeviceDetail getDetailById(Integer id, Boolean isView) {
 		DeviceDetail detail = new DeviceDetail();
 		detail.setDevice(getById(id));
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("deviceId", id);
+
+		if (isView) {// 查询-过滤审核通过
+			params.put("verifyStatus", DicVerifyStatus.PASS.getCode());
+		}
+
 		detail.setDeviceImgs(deviceImgService.getList(params));
 		return detail;
 	}

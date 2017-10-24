@@ -58,14 +58,6 @@ define(["core", "tplengine"],
 				handler:function(){
 					add();
 				}
-			},
-			{
-				iconCls:'icon-shanchu',
-				id:'auth_permmgr_bjjs',
-				text:"批量删除",
-				handler:function(){
-					delBatch();
-				}
 			}]
 		});
 		

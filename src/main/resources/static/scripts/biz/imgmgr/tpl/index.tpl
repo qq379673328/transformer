@@ -56,6 +56,18 @@
 					<b>接线图说明：</b>
 					<br/>
 					<span id="wd-info-desc"></span>
+					
+					<div class="zone-verify">
+						<b>审核信息：</b>
+						<span id="wd-info-verifyStatus"></span>
+						&nbsp;&nbsp;
+						<span id="wd-info-verifyUser"></span>&nbsp;&nbsp;
+						<span id="wd-info-verifyTime"></span>
+						&nbsp;&nbsp;
+						<span id="wd-info-verifyContent"></span>
+						<br/>
+						<span class="btn btn-edit fa fa-pencil" id="btn-verify-wd">&nbsp;&nbsp;审核</span>
+					</div>
 				</div>
 			</div>
 			
@@ -137,6 +149,19 @@
 					<b>设备图说明：</b>
 					<br/>
 					<span id="wd-info-device-desc"></span>
+					
+					<div class="zone-verify">
+						<b>审核信息：</b>
+						<span id="wd-info-device-verifyStatus"></span>
+						&nbsp;&nbsp;
+						<span id="wd-info-device-verifyUser"></span>&nbsp;&nbsp;
+						<span id="wd-info-device-verifyTime"></span>
+						&nbsp;&nbsp;
+						<span id="wd-info-device-verifyContent"></span>
+						<br/>
+						<span class="btn btn-edit fa fa-pencil" id="btn-verify-deviceImg">&nbsp;&nbsp;审核</span>
+					</div>
+					
 				</div>
 			</div>
 			

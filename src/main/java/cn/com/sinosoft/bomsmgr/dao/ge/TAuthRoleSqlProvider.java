@@ -29,7 +29,7 @@ public class TAuthRoleSqlProvider {
         sql.INSERT_INTO("t_auth_role");
         
         if (record.getCreateUser() != null) {
-            sql.VALUES("CREATE_USER", "#{createUser,jdbcType=CHAR}");
+            sql.VALUES("CREATE_USER", "#{createUser,jdbcType=INTEGER}");
         }
         
         if (record.getCreateTime() != null) {
@@ -37,7 +37,7 @@ public class TAuthRoleSqlProvider {
         }
         
         if (record.getUpdateUser() != null) {
-            sql.VALUES("UPDATE_USER", "#{updateUser,jdbcType=CHAR}");
+            sql.VALUES("UPDATE_USER", "#{updateUser,jdbcType=INTEGER}");
         }
         
         if (record.getUpdateTime() != null) {
@@ -86,11 +86,11 @@ public class TAuthRoleSqlProvider {
         sql.UPDATE("t_auth_role");
         
         if (record.getId() != null) {
-            sql.SET("ID = #{record.id,jdbcType=CHAR}");
+            sql.SET("ID = #{record.id,jdbcType=INTEGER}");
         }
         
         if (record.getCreateUser() != null) {
-            sql.SET("CREATE_USER = #{record.createUser,jdbcType=CHAR}");
+            sql.SET("CREATE_USER = #{record.createUser,jdbcType=INTEGER}");
         }
         
         if (record.getCreateTime() != null) {
@@ -98,7 +98,7 @@ public class TAuthRoleSqlProvider {
         }
         
         if (record.getUpdateUser() != null) {
-            sql.SET("UPDATE_USER = #{record.updateUser,jdbcType=CHAR}");
+            sql.SET("UPDATE_USER = #{record.updateUser,jdbcType=INTEGER}");
         }
         
         if (record.getUpdateTime() != null) {
@@ -121,10 +121,10 @@ public class TAuthRoleSqlProvider {
         SQL sql = new SQL();
         sql.UPDATE("t_auth_role");
         
-        sql.SET("ID = #{record.id,jdbcType=CHAR}");
-        sql.SET("CREATE_USER = #{record.createUser,jdbcType=CHAR}");
+        sql.SET("ID = #{record.id,jdbcType=INTEGER}");
+        sql.SET("CREATE_USER = #{record.createUser,jdbcType=INTEGER}");
         sql.SET("CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}");
-        sql.SET("UPDATE_USER = #{record.updateUser,jdbcType=CHAR}");
+        sql.SET("UPDATE_USER = #{record.updateUser,jdbcType=INTEGER}");
         sql.SET("UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}");
         sql.SET("ROLE_NAME = #{record.roleName,jdbcType=CHAR}");
         sql.SET("ROLE_DESC = #{record.roleDesc,jdbcType=CHAR}");
@@ -139,7 +139,7 @@ public class TAuthRoleSqlProvider {
         sql.UPDATE("t_auth_role");
         
         if (record.getCreateUser() != null) {
-            sql.SET("CREATE_USER = #{createUser,jdbcType=CHAR}");
+            sql.SET("CREATE_USER = #{createUser,jdbcType=INTEGER}");
         }
         
         if (record.getCreateTime() != null) {
@@ -147,7 +147,7 @@ public class TAuthRoleSqlProvider {
         }
         
         if (record.getUpdateUser() != null) {
-            sql.SET("UPDATE_USER = #{updateUser,jdbcType=CHAR}");
+            sql.SET("UPDATE_USER = #{updateUser,jdbcType=INTEGER}");
         }
         
         if (record.getUpdateTime() != null) {
@@ -162,7 +162,7 @@ public class TAuthRoleSqlProvider {
             sql.SET("ROLE_DESC = #{roleDesc,jdbcType=CHAR}");
         }
         
-        sql.WHERE("ID = #{id,jdbcType=CHAR}");
+        sql.WHERE("ID = #{id,jdbcType=INTEGER}");
         
         return sql.toString();
     }

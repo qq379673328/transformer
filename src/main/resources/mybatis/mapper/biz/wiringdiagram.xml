@@ -13,7 +13,9 @@
 		  getusername(t.create_user) createUserDesc,
 		  getusername(f.create_user) uploadUserDesc,
 		  f.create_time uploadTime,
-		  f.path
+		  f.path,
+		  getusername(t.verify_user) verifyUserDesc,
+		  getDicValue(t.verify_status, 'common.verify') verifyStatusDesc
 		FROM t_biz_wiringdiagram t
 			left join t_biz_files f on t.img_id = f.id
 		where 1=1
@@ -23,8 +25,20 @@
 		<if test="transformerId != null">
 			and t.transformer_id = #{transformerId}
 		</if>
+		<if test="verifyStatus != null">
+			and t.verify_status = #{verifyStatus}
+		</if>
 		ORDER BY t.create_time desc
 	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="del">
+		delete from t_biz_wiringdiagram 
+			where id in 
+			<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+			 #{item}
+			</foreach>
+	</delete>
 	
 	<!-- 批量更新位置信息 -->
 	<update id="updateXyWh" parameterType="java.util.List">

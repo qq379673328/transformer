@@ -45,7 +45,7 @@ public class UserInfoController {
 	 */
 	@PostMapping("edit")
 	public APIResult<String> editUser(TAuthUser user) {
-		user.setId(commonUserService.getRequestUserId());
+		user.setId(commonUserService.getRequestUserIdInt());
 		userInfoService.editUser(user);
 		return new APIResult<String>(null, "修改成功", true);
 	}

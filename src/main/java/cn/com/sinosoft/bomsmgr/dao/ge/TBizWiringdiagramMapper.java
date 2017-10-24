@@ -33,10 +33,14 @@ public interface TBizWiringdiagramMapper {
     @Insert({
         "insert into t_biz_wiringdiagram (`desc`, create_time, ",
         "create_user, img_id, ",
-        "transformer_id)",
+        "transformer_id, verify_status, ",
+        "verify_time, verify_user, ",
+        "verify_content)",
         "values (#{desc,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, ",
         "#{createUser,jdbcType=VARCHAR}, #{imgId,jdbcType=VARCHAR}, ",
-        "#{transformerId,jdbcType=INTEGER})"
+        "#{transformerId,jdbcType=INTEGER}, #{verifyStatus,jdbcType=VARCHAR}, ",
+        "#{verifyTime,jdbcType=TIMESTAMP}, #{verifyUser,jdbcType=VARCHAR}, ",
+        "#{verifyContent,jdbcType=VARCHAR})"
     })
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insert(TBizWiringdiagram record);
@@ -52,13 +56,18 @@ public interface TBizWiringdiagramMapper {
         @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="create_user", property="createUser", jdbcType=JdbcType.VARCHAR),
         @Result(column="img_id", property="imgId", jdbcType=JdbcType.VARCHAR),
-        @Result(column="transformer_id", property="transformerId", jdbcType=JdbcType.INTEGER)
+        @Result(column="transformer_id", property="transformerId", jdbcType=JdbcType.INTEGER),
+        @Result(column="verify_status", property="verifyStatus", jdbcType=JdbcType.VARCHAR),
+        @Result(column="verify_time", property="verifyTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="verify_user", property="verifyUser", jdbcType=JdbcType.VARCHAR),
+        @Result(column="verify_content", property="verifyContent", jdbcType=JdbcType.VARCHAR)
     })
     List<TBizWiringdiagram> selectByExample(TBizWiringdiagramExample example);
 
     @Select({
         "select",
-        "id, `desc`, create_time, create_user, img_id, transformer_id",
+        "id, `desc`, create_time, create_user, img_id, transformer_id, verify_status, ",
+        "verify_time, verify_user, verify_content",
         "from t_biz_wiringdiagram",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -68,7 +77,11 @@ public interface TBizWiringdiagramMapper {
         @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="create_user", property="createUser", jdbcType=JdbcType.VARCHAR),
         @Result(column="img_id", property="imgId", jdbcType=JdbcType.VARCHAR),
-        @Result(column="transformer_id", property="transformerId", jdbcType=JdbcType.INTEGER)
+        @Result(column="transformer_id", property="transformerId", jdbcType=JdbcType.INTEGER),
+        @Result(column="verify_status", property="verifyStatus", jdbcType=JdbcType.VARCHAR),
+        @Result(column="verify_time", property="verifyTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="verify_user", property="verifyUser", jdbcType=JdbcType.VARCHAR),
+        @Result(column="verify_content", property="verifyContent", jdbcType=JdbcType.VARCHAR)
     })
     TBizWiringdiagram selectByPrimaryKey(Integer id);
 
@@ -87,7 +100,11 @@ public interface TBizWiringdiagramMapper {
           "create_time = #{createTime,jdbcType=TIMESTAMP},",
           "create_user = #{createUser,jdbcType=VARCHAR},",
           "img_id = #{imgId,jdbcType=VARCHAR},",
-          "transformer_id = #{transformerId,jdbcType=INTEGER}",
+          "transformer_id = #{transformerId,jdbcType=INTEGER},",
+          "verify_status = #{verifyStatus,jdbcType=VARCHAR},",
+          "verify_time = #{verifyTime,jdbcType=TIMESTAMP},",
+          "verify_user = #{verifyUser,jdbcType=VARCHAR},",
+          "verify_content = #{verifyContent,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(TBizWiringdiagram record);

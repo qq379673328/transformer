@@ -40,15 +40,16 @@ public class DeviceController {
 	public APIResult<List<DeviceInfo>> getList(@RequestParam Map<String, Object> params) {
 		return new APIResult<List<DeviceInfo>>(service.getList(params));
 	}
-	
+
 	/**
 	 * 设备详情
 	 *
 	 * @return
 	 */
 	@GetMapping("getDetailById/{id}")
-	public APIResult<DeviceDetail> getDetailById(@PathVariable Integer id) {
-		return new APIResult<DeviceDetail>(service.getDetailById(id));
+	public APIResult<DeviceDetail> getDetailById(@PathVariable Integer id,
+			@RequestParam(defaultValue = "false") Boolean isView) {
+		return new APIResult<DeviceDetail>(service.getDetailById(id, isView));
 	}
 
 	/**

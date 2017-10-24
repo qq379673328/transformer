@@ -14,6 +14,7 @@ import cn.com.sinosoft.bomsmgr.dao.ge.TBizTransformerMapper;
 import cn.com.sinosoft.bomsmgr.entity.ge.TBizTransformer;
 import cn.com.sinosoft.bomsmgr.model.biz.TransformerDetail;
 import cn.com.sinosoft.bomsmgr.model.biz.TransformerInfo;
+import cn.com.sinosoft.bomsmgr.model.dic.DicVerifyStatus;
 import cn.com.sinosoft.bomsmgr.service.common.CommonUserService;
 import cn.com.sinosoft.tbf.dao.BaseDao;
 
@@ -146,14 +147,21 @@ public class TransformerService {
 	 * 根据变电站id获取变电站详情
 	 *
 	 * @param id
+	 * @param isView
 	 * @return
 	 */
-	public TransformerDetail getDetailById(Integer id) {
+	public TransformerDetail getDetailById(Integer id, Boolean isView) {
 		TransformerDetail detail = new TransformerDetail();
 		detail.setTransformer(getById(id));
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("transformerId", id);
+
+		if(isView){// 查询-过滤审核通过
+			params.put("verifyStatus", DicVerifyStatus.PASS.getCode());
+		}
+
+		// 接线图信息
 		detail.setWiringdiagrams(wiringdiagramService.getList(params));
 		return detail;
 	}

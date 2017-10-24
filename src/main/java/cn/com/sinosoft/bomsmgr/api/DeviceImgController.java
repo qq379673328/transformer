@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.com.sinosoft.bomsmgr.entity.ge.TBizDeviceImg;
 import cn.com.sinosoft.bomsmgr.model.biz.DeviceImgDetail;
 import cn.com.sinosoft.bomsmgr.model.biz.DeviceImgInfo;
+import cn.com.sinosoft.bomsmgr.model.dic.DicVerifyStatus;
 import cn.com.sinosoft.bomsmgr.service.DeviceImgService;
 import cn.com.sinosoft.tbf.domain.common.APIResult;
 
@@ -87,6 +88,24 @@ public class DeviceImgController {
 	@PostMapping("del")
 	public APIResult<Integer> del(@RequestParam(required = true) Integer[] ids) {
 		return new APIResult<Integer>(service.del(ids), "删除成功", true);
+	}
+
+	/**
+	 * 审核
+	 *
+	 * @param id
+	 * @return
+	 */
+	@PostMapping("verify")
+	public APIResult<Object> verifyPass(Integer id, String status, String content) {
+		if (DicVerifyStatus.PASS.getCode().equals(status)) {
+			service.updateVerifyStatusPass(id, content);
+		} else if (DicVerifyStatus.FAIL.getCode().equals(status)) {
+			service.updateVerifyStatusFail(id, content);
+		} else if (DicVerifyStatus.READY.getCode().equals(status)) {
+			service.updateVerifyStatusReady(id);
+		}
+		return new APIResult<Object>();
 	}
 
 }

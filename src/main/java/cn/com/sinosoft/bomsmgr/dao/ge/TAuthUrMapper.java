@@ -26,30 +26,30 @@ public interface TAuthUrMapper {
 
     @Delete({
         "delete from t_auth_ur",
-        "where ID = #{id,jdbcType=CHAR}"
+        "where ID = #{id,jdbcType=INTEGER}"
     })
-    int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKey(Integer id);
 
     @Insert({
         "insert into t_auth_ur (CREATE_USER, CREATE_TIME, ",
         "USER_ID, ROLE_ID)",
         "values (#{createUser,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, ",
-        "#{userId,jdbcType=CHAR}, #{roleId,jdbcType=CHAR})"
+        "#{userId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER})"
     })
-    @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=String.class)
+    @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insert(TAuthUr record);
 
     @InsertProvider(type=TAuthUrSqlProvider.class, method="insertSelective")
-    @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=String.class)
+    @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insertSelective(TAuthUr record);
 
     @SelectProvider(type=TAuthUrSqlProvider.class, method="selectByExample")
     @Results({
-        @Result(column="ID", property="id", jdbcType=JdbcType.CHAR, id=true),
+        @Result(column="ID", property="id", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="CREATE_USER", property="createUser", jdbcType=JdbcType.CHAR),
         @Result(column="CREATE_TIME", property="createTime", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="USER_ID", property="userId", jdbcType=JdbcType.CHAR),
-        @Result(column="ROLE_ID", property="roleId", jdbcType=JdbcType.CHAR)
+        @Result(column="USER_ID", property="userId", jdbcType=JdbcType.INTEGER),
+        @Result(column="ROLE_ID", property="roleId", jdbcType=JdbcType.INTEGER)
     })
     List<TAuthUr> selectByExample(TAuthUrExample example);
 
@@ -57,16 +57,16 @@ public interface TAuthUrMapper {
         "select",
         "ID, CREATE_USER, CREATE_TIME, USER_ID, ROLE_ID",
         "from t_auth_ur",
-        "where ID = #{id,jdbcType=CHAR}"
+        "where ID = #{id,jdbcType=INTEGER}"
     })
     @Results({
-        @Result(column="ID", property="id", jdbcType=JdbcType.CHAR, id=true),
+        @Result(column="ID", property="id", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="CREATE_USER", property="createUser", jdbcType=JdbcType.CHAR),
         @Result(column="CREATE_TIME", property="createTime", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="USER_ID", property="userId", jdbcType=JdbcType.CHAR),
-        @Result(column="ROLE_ID", property="roleId", jdbcType=JdbcType.CHAR)
+        @Result(column="USER_ID", property="userId", jdbcType=JdbcType.INTEGER),
+        @Result(column="ROLE_ID", property="roleId", jdbcType=JdbcType.INTEGER)
     })
-    TAuthUr selectByPrimaryKey(String id);
+    TAuthUr selectByPrimaryKey(Integer id);
 
     @UpdateProvider(type=TAuthUrSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") TAuthUr record, @Param("example") TAuthUrExample example);
@@ -81,9 +81,9 @@ public interface TAuthUrMapper {
         "update t_auth_ur",
         "set CREATE_USER = #{createUser,jdbcType=CHAR},",
           "CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},",
-          "USER_ID = #{userId,jdbcType=CHAR},",
-          "ROLE_ID = #{roleId,jdbcType=CHAR}",
-        "where ID = #{id,jdbcType=CHAR}"
+          "USER_ID = #{userId,jdbcType=INTEGER},",
+          "ROLE_ID = #{roleId,jdbcType=INTEGER}",
+        "where ID = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(TAuthUr record);
 }

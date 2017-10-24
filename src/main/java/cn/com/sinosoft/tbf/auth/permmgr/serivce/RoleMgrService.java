@@ -19,7 +19,6 @@ import cn.com.sinosoft.bomsmgr.entity.ge.TAuthRole;
 import cn.com.sinosoft.bomsmgr.entity.ge.TAuthRoleExample;
 import cn.com.sinosoft.bomsmgr.service.common.CommonUserService;
 import cn.com.sinosoft.tbf.common.ServiceException;
-import cn.com.sinosoft.tbf.common.util.KeyGenerateUtil;
 import cn.com.sinosoft.tbf.common.util.StrUtils;
 import cn.com.sinosoft.tbf.dao.BaseDao;
 import cn.com.sinosoft.tbf.domain.common.PageParam;
@@ -82,12 +81,11 @@ public class RoleMgrService {
 			if (isRoleNameExist(role.getRoleName())) {
 				throw new ServiceException("角色名已存在");
 			}
-			role.setId(KeyGenerateUtil.genetatePk());
-			role.setCreateUser(commonUserService.getRequestUserId());
+			role.setCreateUser(commonUserService.getRequestUserIdInt());
 			role.setCreateTime(new Date());
 			getRoleMapper().insert(role);
 		} else {// 更新
-			role.setUpdateUser(commonUserService.getRequestUserId());
+			role.setUpdateUser(commonUserService.getRequestUserIdInt());
 			role.setUpdateTime(new Date());
 			getRoleMapper().updateByPrimaryKeySelective(role);
 		}
@@ -100,7 +98,7 @@ public class RoleMgrService {
 	 * @return
 	 */
 	@Transactional
-	public void delRole(String id) {
+	public void delRole(Integer id) {
 		getRoleMapper().deleteByPrimaryKey(id);
 	}
 
@@ -241,7 +239,7 @@ public class RoleMgrService {
 
 	/**
 	 * 根据用户id获取角色信息
-	 * 
+	 *
 	 * @param userId
 	 * @return
 	 */

@@ -16,6 +16,14 @@ public class TBizWiringdiagram implements Serializable {
 
     private Integer transformerId;
 
+    private String verifyStatus;
+
+    private Date verifyTime;
+
+    private String verifyUser;
+
+    private String verifyContent;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -66,6 +74,38 @@ public class TBizWiringdiagram implements Serializable {
         this.transformerId = transformerId;
     }
 
+    public String getVerifyStatus() {
+        return verifyStatus;
+    }
+
+    public void setVerifyStatus(String verifyStatus) {
+        this.verifyStatus = verifyStatus == null ? null : verifyStatus.trim();
+    }
+
+    public Date getVerifyTime() {
+        return verifyTime;
+    }
+
+    public void setVerifyTime(Date verifyTime) {
+        this.verifyTime = verifyTime;
+    }
+
+    public String getVerifyUser() {
+        return verifyUser;
+    }
+
+    public void setVerifyUser(String verifyUser) {
+        this.verifyUser = verifyUser == null ? null : verifyUser.trim();
+    }
+
+    public String getVerifyContent() {
+        return verifyContent;
+    }
+
+    public void setVerifyContent(String verifyContent) {
+        this.verifyContent = verifyContent == null ? null : verifyContent.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -83,7 +123,11 @@ public class TBizWiringdiagram implements Serializable {
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getCreateUser() == null ? other.getCreateUser() == null : this.getCreateUser().equals(other.getCreateUser()))
             && (this.getImgId() == null ? other.getImgId() == null : this.getImgId().equals(other.getImgId()))
-            && (this.getTransformerId() == null ? other.getTransformerId() == null : this.getTransformerId().equals(other.getTransformerId()));
+            && (this.getTransformerId() == null ? other.getTransformerId() == null : this.getTransformerId().equals(other.getTransformerId()))
+            && (this.getVerifyStatus() == null ? other.getVerifyStatus() == null : this.getVerifyStatus().equals(other.getVerifyStatus()))
+            && (this.getVerifyTime() == null ? other.getVerifyTime() == null : this.getVerifyTime().equals(other.getVerifyTime()))
+            && (this.getVerifyUser() == null ? other.getVerifyUser() == null : this.getVerifyUser().equals(other.getVerifyUser()))
+            && (this.getVerifyContent() == null ? other.getVerifyContent() == null : this.getVerifyContent().equals(other.getVerifyContent()));
     }
 
     @Override
@@ -96,6 +140,10 @@ public class TBizWiringdiagram implements Serializable {
         result = prime * result + ((getCreateUser() == null) ? 0 : getCreateUser().hashCode());
         result = prime * result + ((getImgId() == null) ? 0 : getImgId().hashCode());
         result = prime * result + ((getTransformerId() == null) ? 0 : getTransformerId().hashCode());
+        result = prime * result + ((getVerifyStatus() == null) ? 0 : getVerifyStatus().hashCode());
+        result = prime * result + ((getVerifyTime() == null) ? 0 : getVerifyTime().hashCode());
+        result = prime * result + ((getVerifyUser() == null) ? 0 : getVerifyUser().hashCode());
+        result = prime * result + ((getVerifyContent() == null) ? 0 : getVerifyContent().hashCode());
         return result;
     }
 }
