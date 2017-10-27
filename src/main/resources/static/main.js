@@ -20,6 +20,7 @@ requirejs.config({
 		backbone: "scripts/libs/backbone-1.3.3.min",
 		easyui: "scripts/libs/jquery-easyui-1.4/jquery.easyui.min",
 		"jquery.form": "scripts/libs/jquery.form",
+		"jquery.lightbox": "scripts/libs/jquery-lightbox-0.5/js/jquery.lightbox-0.5",
 		json2: "scripts/libs/json2",
 	
 		// 公共
@@ -39,7 +40,8 @@ requirejs.config({
 	shim : {
 		easyui: {deps : ["jquery"]},
 		backbone: {deps : ["underscore"]},
-		"jquery.form": {deps : ["jquery"]}
+		"jquery.form": {deps : ["jquery"]},
+		"jquery.lightbox": {deps : ["jquery"]}
 	}
 });
 

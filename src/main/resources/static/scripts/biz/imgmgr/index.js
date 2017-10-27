@@ -2,7 +2,7 @@
 /**
  * 编辑
  */
-define(["jquery", "core", "tplengine", "simpleupload"],
+define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 	function($, core, tplengine, simpleupload) {
 	
 	/**
@@ -1526,25 +1526,29 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 			success: function(data){
 				$partList.html('');
 				$('#part-pp').pagination('refresh', {
-					total: data.total
+					total: data.total,
+					pageNumber: params.page
 				});
 				for(var i in data.rows){
 					var item = data.rows[i];
+					var imgPath = item.path ? "upfiles/" + item.path : 'images/blank.jpg';
+					var content = item.content;
+					var createTime = core.transTimeStamp(item.createTime);
 					var $item = $("<div class='part-his-item'></div>")
 						.data('data', item)
-						
 						// 图片
-						.append('<img class="his-item-left" width=100% src="'+ ("upfiles/" + item.path) +'" />')
+						.append('<img class="his-item-left" width=100% src="'+ imgPath +'" />')
 						.append($("<div class='his-item-center'></div>")
 							// 创建时间
-							.append(core.transTimeStamp(item.createTime))
+							.append(createTime)
 							.append('<br/><br/>')
 							// 描述
-							.append(item.content)
+							.append(content)
 						)
 						.append($("<div class='his-item-right'></div>")
 							// 查看
-							.append($('<div class="btn btn-view">查看</div>').data('data', item).click(function(){
+							.append($('<div class="btn btn-view" href="'+ imgPath +'" title="'+ createTime +'&nbsp;&nbsp;' + content 
+									+'" >查看</div>').data('data', item).click(function(){
 								var item = $(this).data('data');
 								tplengine.openWin({
 									title: '查看',
@@ -1586,12 +1590,13 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 							// 删除
 							.append(IS_VIEW ? null : $('<div class="btn btn-danger">删除</div>').data('data', item).click(function(){
 								
+								var item = $(this).data('data');
 								$.messager.confirm('确认','确定删除?删除后不可撤销。',function(r){
 									if (r){
 										core.submitAjax({
 											url: "api/parthis/del",
 											data: {
-												ids: $(this).data('data').id
+												ids: item.id
 											},
 											success: function(){
 												refreshPartHisInfos();
@@ -1604,6 +1609,13 @@ define(["jquery", "core", "tplengine", "simpleupload"],
 						;
 					$partList.append($item);
 				}
+				
+				// 灯箱效果
+				$(".his-item-right .btn-view").lightBox({
+					fixedNavigation: true,
+					txtImage: '',
+					txtOf: '/'
+				});
 			}
 		});
 	}

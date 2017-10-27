@@ -3,12 +3,12 @@
 	<input type="hidden" name="partId" value="<%=data.partId%>"/>
 	<table>
 		<tr>
-			<td class="td-odd">内容</td>
+			<td class="td-odd"><font color="red">*</font>内容</td>
 			<td class="td-even">
 				<textarea name="content"
 					rows=5
 					cols=60
-					class="easyui-validatebox" data-options="validType:'maxLength[500]'"><%=data.content%></textarea>
+					class="easyui-validatebox" data-options="validType:'maxLength[500]',required: true"><%=data.content%></textarea>
 			</td>
 		</tr>
 		<tr>
