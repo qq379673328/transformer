@@ -44,7 +44,7 @@ define(["core", "tplengine"],
 				{field: "ROLE_NAME", title: "角色名称", width: 150},
 				{field: "ROLE_DESC", title: "角色描述", width: 500},
 				{field: "HD", title: "操作", width: 200, formatter: function(val, row, idx){
-					if(row.id == '1'){
+					if(row.ID == '1'){
 						return '禁止操作';
 					}
 					return '<a onclick="APP.P.view(' + idx + ');" title="查看" class="grid-icon"><span class="fa fa-eye"></span><span>查看</span></a>'
