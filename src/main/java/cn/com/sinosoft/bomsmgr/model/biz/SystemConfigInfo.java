@@ -17,6 +17,11 @@ public class SystemConfigInfo extends TSystemConfig {
 	 * 更新人描述
 	 */
 	private String updateUserDesc;
+	
+	/**
+	 * 图片路径
+	 */
+	private String filePath;
 
 	public String getUpdateUserDesc() {
 		return updateUserDesc;
@@ -24,6 +29,14 @@ public class SystemConfigInfo extends TSystemConfig {
 
 	public void setUpdateUserDesc(String updateUserDesc) {
 		this.updateUserDesc = updateUserDesc;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 
 }

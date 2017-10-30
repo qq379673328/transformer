@@ -8,7 +8,7 @@
 			
 		</pre>
 		<div style="width: 47%; background-color: #fff; float: right;"
-			id="index-content-left">
+			id="index-content-right">
 		</div>
 	</div>
 </div>

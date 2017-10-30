@@ -65,23 +65,31 @@ define(["core", "tplengine"], function(core, tplengine){
 					if(row.id == '1'){
 						return '禁止操作';
 					}
-					return '<a onclick="APP.P.edit(' + idx + ');" title="编辑" class="grid-icon"><span class="fa fa-edit"></span><span>编辑</span></a>'
-					+ '<a onclick="APP.P.resetpwd(' + idx + ');" title="重置密码" class="grid-icon"><span class="fa fa-key"></span><span>重置密码</span></a>'
-					+ '<a onclick="APP.P.enable(' + idx + ');" title="启用" class="grid-icon"><span class="fa fa-check"></span><span>启用</span></a>'
-					+ '<a onclick="APP.P.disable(' + idx + ');" title="禁用" class="grid-icon"><span class="fa fa-ban"></span><span>禁用</span></a>'
-					+ '<a onclick="APP.P.perm(' + idx + ');" title="分配角色" class="grid-icon"><span class="fa fa-edit"></span><span>分配角色</span></a>'
+					var ret = '';
+					if(core.hasPermission('system_mgr_auth_user_edit')) 
+						ret += '<a onclick="APP.P.edit(' + idx + ');" title="编辑" class="grid-icon"><span class="fa fa-edit"></span><span>编辑</span></a>';
+					if(core.hasPermission('system_mgr_auth_user_resetpwd')) 
+						ret += '<a onclick="APP.P.resetpwd(' + idx + ');" title="重置密码" class="grid-icon"><span class="fa fa-key"></span><span>重置密码</span></a>';
+					if(core.hasPermission('system_mgr_auth_user_enable')) 
+						ret += '<a onclick="APP.P.enable(' + idx + ');" title="启用" class="grid-icon"><span class="fa fa-check"></span><span>启用</span></a>';
+					if(core.hasPermission('system_mgr_auth_user_disable')) 
+						ret += '<a onclick="APP.P.disable(' + idx + ');" title="禁用" class="grid-icon"><span class="fa fa-ban"></span><span>禁用</span></a>';
+					if(core.hasPermission('system_mgr_auth_user_setrole')) 
+						ret += '<a onclick="APP.P.perm(' + idx + ');" title="分配角色" class="grid-icon"><span class="fa fa-edit"></span><span>分配角色</span></a>';
 					//+ '<a onclick="APP.P.del(' + idx + ');" title="删除" class="grid-icon"><span class="fa fa-close"></span><span>删除</span></a>'
 					;
+					return ret;
 				}}
 			]],
-			toolbar:[{
-				iconCls:'icon-xinzeng',
-				id:'auth_usermgr_tjyh',
-				text:"新增",
-				handler:function(){
-					add();
-				}
-			}]
+			toolbar: core.hasPermission('system_mgr_auth_user_add') ? 
+				[{
+					iconCls:'icon-xinzeng',
+					id:'auth_usermgr_tjyh',
+					text:"新增",
+					handler:function(){
+						add();
+					}
+				}] : []
 		});
 		
 	}

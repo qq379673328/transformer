@@ -55,13 +55,15 @@ define(["core", "tplengine", "simpleupload"],
 					if(row.type == '1'){
 						return val;
 					}else if(row.type == '2'){
-						var srcPath = 'upload/' + val;
+						var srcPath = 'upfiles/' + row.filePath;
 						return '<img width="100" src="' + srcPath + '" />';
 					}
 				}},
 				{field: "HD", title: "操作", width: 100, formatter: function(val, row, idx){
-					return '<a onclick="APP.P.edit(' + idx + ');" title="编辑" class="grid-icon"><span class="fa fa-edit"></span><span>编辑</span></a>';
-					;
+					var ret = '';
+					if(core.hasPermission('system_mgr_config_params_edit'))
+						ret += '<a onclick="APP.P.edit(' + idx + ');" title="编辑" class="grid-icon"><span class="fa fa-edit"></span><span>编辑</span></a>';
+					return ret;
 				}}
 			]]
 		});
@@ -98,7 +100,8 @@ define(["core", "tplengine", "simpleupload"],
 					filetype: ["png", "PNG", "jpg", "JPG"],
 					filemax: 20 * 1024 * 1024,
 					progressbar: $("#progress-bar"),
-					hidFileId: "content"
+					hidFileId: "content",
+					defaultValue: data.content
 				});
 			}
 		}

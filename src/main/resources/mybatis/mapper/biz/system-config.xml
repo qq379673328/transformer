@@ -10,8 +10,10 @@
 		resultType="cn.com.sinosoft.bomsmgr.model.biz.SystemConfigInfo">
 		SELECT
 		  t.*,
-		  getusername(t.update_user) updateUserDesc
+		  getusername(t.update_user) updateUserDesc,
+		  f.path filePath
 		FROM t_system_config t
+			left join t_biz_files f on t.content = f.id
 		where 1=1
 		<if test="id != null">
 			and t.id = #{id}
