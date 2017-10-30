@@ -62,6 +62,9 @@ define(["core", "tplengine"], function(core, tplengine){
 					return val;
 				}},
 				{field: "HD", title: "操作", width: 100, formatter: function(val, row, idx){
+					if(row.id == '1'){
+						return '禁止操作';
+					}
 					return '<a onclick="APP.P.edit(' + idx + ');" title="编辑" class="grid-icon"><span class="fa fa-edit"></span><span>编辑</span></a>'
 					+ '<a onclick="APP.P.resetpwd(' + idx + ');" title="重置密码" class="grid-icon"><span class="fa fa-key"></span><span>重置密码</span></a>'
 					+ '<a onclick="APP.P.enable(' + idx + ');" title="启用" class="grid-icon"><span class="fa fa-check"></span><span>启用</span></a>'
