@@ -424,6 +424,276 @@ public class TBizPartHisExample {
             addCriterion("part_id not between", value1, value2, "partId");
             return (Criteria) this;
         }
+
+        public Criteria andVerifyTimeIsNull() {
+            addCriterion("verify_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyTimeIsNotNull() {
+            addCriterion("verify_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyTimeEqualTo(Date value) {
+            addCriterion("verify_time =", value, "verifyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyTimeNotEqualTo(Date value) {
+            addCriterion("verify_time <>", value, "verifyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyTimeGreaterThan(Date value) {
+            addCriterion("verify_time >", value, "verifyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("verify_time >=", value, "verifyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyTimeLessThan(Date value) {
+            addCriterion("verify_time <", value, "verifyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyTimeLessThanOrEqualTo(Date value) {
+            addCriterion("verify_time <=", value, "verifyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyTimeIn(List<Date> values) {
+            addCriterion("verify_time in", values, "verifyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyTimeNotIn(List<Date> values) {
+            addCriterion("verify_time not in", values, "verifyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyTimeBetween(Date value1, Date value2) {
+            addCriterion("verify_time between", value1, value2, "verifyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyTimeNotBetween(Date value1, Date value2) {
+            addCriterion("verify_time not between", value1, value2, "verifyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyStatusIsNull() {
+            addCriterion("verify_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyStatusIsNotNull() {
+            addCriterion("verify_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyStatusEqualTo(String value) {
+            addCriterion("verify_status =", value, "verifyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyStatusNotEqualTo(String value) {
+            addCriterion("verify_status <>", value, "verifyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyStatusGreaterThan(String value) {
+            addCriterion("verify_status >", value, "verifyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyStatusGreaterThanOrEqualTo(String value) {
+            addCriterion("verify_status >=", value, "verifyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyStatusLessThan(String value) {
+            addCriterion("verify_status <", value, "verifyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyStatusLessThanOrEqualTo(String value) {
+            addCriterion("verify_status <=", value, "verifyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyStatusLike(String value) {
+            addCriterion("verify_status like", value, "verifyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyStatusNotLike(String value) {
+            addCriterion("verify_status not like", value, "verifyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyStatusIn(List<String> values) {
+            addCriterion("verify_status in", values, "verifyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyStatusNotIn(List<String> values) {
+            addCriterion("verify_status not in", values, "verifyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyStatusBetween(String value1, String value2) {
+            addCriterion("verify_status between", value1, value2, "verifyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyStatusNotBetween(String value1, String value2) {
+            addCriterion("verify_status not between", value1, value2, "verifyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyUserIsNull() {
+            addCriterion("verify_user is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyUserIsNotNull() {
+            addCriterion("verify_user is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyUserEqualTo(String value) {
+            addCriterion("verify_user =", value, "verifyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyUserNotEqualTo(String value) {
+            addCriterion("verify_user <>", value, "verifyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyUserGreaterThan(String value) {
+            addCriterion("verify_user >", value, "verifyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyUserGreaterThanOrEqualTo(String value) {
+            addCriterion("verify_user >=", value, "verifyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyUserLessThan(String value) {
+            addCriterion("verify_user <", value, "verifyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyUserLessThanOrEqualTo(String value) {
+            addCriterion("verify_user <=", value, "verifyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyUserLike(String value) {
+            addCriterion("verify_user like", value, "verifyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyUserNotLike(String value) {
+            addCriterion("verify_user not like", value, "verifyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyUserIn(List<String> values) {
+            addCriterion("verify_user in", values, "verifyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyUserNotIn(List<String> values) {
+            addCriterion("verify_user not in", values, "verifyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyUserBetween(String value1, String value2) {
+            addCriterion("verify_user between", value1, value2, "verifyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyUserNotBetween(String value1, String value2) {
+            addCriterion("verify_user not between", value1, value2, "verifyUser");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyContentIsNull() {
+            addCriterion("verify_content is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyContentIsNotNull() {
+            addCriterion("verify_content is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyContentEqualTo(String value) {
+            addCriterion("verify_content =", value, "verifyContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyContentNotEqualTo(String value) {
+            addCriterion("verify_content <>", value, "verifyContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyContentGreaterThan(String value) {
+            addCriterion("verify_content >", value, "verifyContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyContentGreaterThanOrEqualTo(String value) {
+            addCriterion("verify_content >=", value, "verifyContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyContentLessThan(String value) {
+            addCriterion("verify_content <", value, "verifyContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyContentLessThanOrEqualTo(String value) {
+            addCriterion("verify_content <=", value, "verifyContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyContentLike(String value) {
+            addCriterion("verify_content like", value, "verifyContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyContentNotLike(String value) {
+            addCriterion("verify_content not like", value, "verifyContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyContentIn(List<String> values) {
+            addCriterion("verify_content in", values, "verifyContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyContentNotIn(List<String> values) {
+            addCriterion("verify_content not in", values, "verifyContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyContentBetween(String value1, String value2) {
+            addCriterion("verify_content between", value1, value2, "verifyContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerifyContentNotBetween(String value1, String value2) {
+            addCriterion("verify_content not between", value1, value2, "verifyContent");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

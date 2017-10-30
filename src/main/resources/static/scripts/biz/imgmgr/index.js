@@ -23,6 +23,7 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 	var centerWidth = $(window).width() - $(".im-left").width() - $(".im-right").width() - 50;
 	$(".im-location").width(centerWidth);
 	$(".im-center").width(centerWidth);
+	$(".im-center-max").width($(window).width() - $(".im-left").width() - 50);
 	
 	// 页面元素
 	var $tagImgWrap = $('#tag-wrap'),// 中间图片容器-变电站
@@ -50,10 +51,13 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 		
 		;
 	
-	// 权限按钮
-	if(!core.hasPermission('img_mgr_verify')){
+	// 权限按钮-审核
+	var IS_VERIFY = false;
+	if(IS_VIEW || !core.hasPermission('img_mgr_verify')){// 无权限
 		$btnVerifyWd.remove();
 		$btnVerifyDeviceImg.remove();
+	}else{
+		IS_VERIFY = true;
 	}
 	
 	// 切换显示状态
@@ -253,6 +257,10 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 		tplengine.openWinWithEdit({
 			title: '审核-接线图',
 			tpl: 'scripts/biz/imgmgr/tpl/verify.tpl',
+			dialogConfig:{
+				width: 500,
+				height: 300
+			},
 			data: {
 				id: CURRENT_WD.id
 			},
@@ -263,6 +271,7 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 			}
 		})
 	});
+	
 	/**
 	 * 审核设备图
 	 */
@@ -270,6 +279,10 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 		tplengine.openWinWithEdit({
 			title: '审核-设备图',
 			tpl: 'scripts/biz/imgmgr/tpl/verify.tpl',
+			dialogConfig:{
+				width: 500,
+				height: 300
+			},
 			data: {
 				id: CURRENT_DEVICE_IMG.id
 			},
@@ -280,6 +293,26 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 			}
 		})
 	});
+	
+	/**
+	 * 审核部件历史
+	 */
+	function verifyPartHis(item, cb){
+		tplengine.openWinWithEdit({
+			title: '审核',
+			tpl: 'scripts/biz/imgmgr/tpl/verify.tpl',
+			dialogConfig:{
+				width: 500,
+				height: 300
+			},
+			data: item,
+			surl: 'api/parthis/verify',
+			success: function(data, $win){
+				if(cb) cb(item);
+				$win.dialog("close");
+			}
+		})
+	}
 	
 	// 切换接线图
 	function changeWg(item){
@@ -649,7 +682,7 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 				.html(item.name)
 				.attr('title', item.name)
 				.prepend(
-					$('<i class="fa fa-eye im-view-detail">详情</i>')
+					$('<i class="fa fa-eye im-view-detail">&nbsp;&nbsp;详情</i>')
 						.data('data', item)
 						.click(function(){
 							// 查看设备管理
@@ -1471,7 +1504,8 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 			page: 1,
 			rows: 10,
 			timeBegin: $("#date-begin").datebox('getValue'),
-			timeEnd: $("#date-end").datebox('getValue')
+			timeEnd: $("#date-end").datebox('getValue'),
+			verifyStatus: $("select[name=verifyStatus]").val()
 		});
 	});
 	// 添加-部件历史信息
@@ -1519,6 +1553,10 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 		}
 		params.partId = CURRENT_PART.id;
 		
+		if(IS_VIEW){// 查看只显示已审核通过
+			params.verifyStatus = '1';
+		}
+		
 		core.submitAjax({
 			url: "api/parthis/list",
 			type: 'get',
@@ -1536,19 +1574,21 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 					var createTime = core.transTimeStamp(item.createTime);
 					var $item = $("<div class='part-his-item'></div>")
 						.data('data', item)
+						// 审核信息
+						.append(!IS_VIEW ? '<div class="his-item-verify" title="'+ ('' + item.verifyUserDesc + '/' + core.transTimeStamp(item.verifyTime) + '/' + item.verifyContent) + '"><span class="fa fa-eye"></span>' + item.verifyStatusDesc + '</div>' : '')
 						// 图片
-						.append('<img class="his-item-left" width=100% src="'+ imgPath +'" />')
+						.append('<img class="his-item-left" src="'+ imgPath +'" />')
 						.append($("<div class='his-item-center'></div>")
 							// 创建时间
 							.append(createTime)
 							.append('<br/><br/>')
 							// 描述
-							.append(content)
+							.append('<span title="' + content + '">' + content + '</span>')
 						)
 						.append($("<div class='his-item-right'></div>")
 							// 查看
 							.append($('<div class="btn btn-view" href="'+ imgPath +'" title="'+ createTime +'&nbsp;&nbsp;' + content 
-									+'" >查看</div>').data('data', item).click(function(){
+									+'" ><i class="fa fa-eye"></i>&nbsp;&nbsp;查看</div>').data('data', item).click(function(){
 								var item = $(this).data('data');
 								tplengine.openWin({
 									title: '查看',
@@ -1562,7 +1602,7 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 								})
 							}))
 							// 编辑
-							.append(IS_VIEW ? null : $('<div class="btn btn-edit">编辑</div>').data('data', item).click(function(){
+							.append(IS_VIEW ? null : $('<div class="btn btn-edit"><i class="fa fa-pencil"></i>&nbsp;&nbsp;编辑</div>').data('data', item).click(function(){
 								var item = $(this).data('data');
 								tplengine.openWinWithEdit({
 									title: '编辑',
@@ -1588,7 +1628,7 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 								})
 							}))
 							// 删除
-							.append(IS_VIEW ? null : $('<div class="btn btn-danger">删除</div>').data('data', item).click(function(){
+							.append(IS_VIEW ? null : $('<div class="btn btn-danger"><i class="fa fa-remove"></i>&nbsp;&nbsp;删除</div>').data('data', item).click(function(){
 								
 								var item = $(this).data('data');
 								$.messager.confirm('确认','确定删除?删除后不可撤销。',function(r){
@@ -1603,6 +1643,13 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 											}
 										});
 									}
+								});
+							}))
+							// 审核
+							.append(!IS_VERIFY ? null : $('<div class="btn btn-edit"><i class="fa fa-check"></i>&nbsp;&nbsp;审核</div>').data('data', item).click(function(){
+								var item = $(this).data('data');
+								verifyPartHis(item, function(srcItem){
+									refreshPartHisInfos();
 								});
 							}))
 						)

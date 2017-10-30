@@ -66,7 +66,7 @@
 						&nbsp;&nbsp;
 						<span id="wd-info-verifyContent"></span>
 						<br/>
-						<span class="btn btn-edit fa fa-pencil" id="btn-verify-wd">&nbsp;&nbsp;审核</span>
+						<span class="btn btn-edit fa fa-check" id="btn-verify-wd">&nbsp;&nbsp;审核</span>
 					</div>
 				</div>
 			</div>
@@ -159,7 +159,7 @@
 						&nbsp;&nbsp;
 						<span id="wd-info-device-verifyContent"></span>
 						<br/>
-						<span class="btn btn-edit fa fa-pencil" id="btn-verify-deviceImg">&nbsp;&nbsp;审核</span>
+						<span class="btn btn-edit fa fa-check" id="btn-verify-deviceImg">&nbsp;&nbsp;审核</span>
 					</div>
 					
 				</div>
@@ -198,16 +198,25 @@
 	
 	<div id="zone-part" style="display: none;">
 		
-		<div class="im-center">
+		<div class="im-center im-center-max">
 			<div class="btn btn-back" id="btn-back-part"><i class="fa fa-reply"></i>&nbsp;&nbsp;返回</div>
 			<div>
+				<div class="btn btn-add" id="btn-parthis-add">添加</div>
+				
+				审核状态：
+				<select name="verifyStatus">
+					<option value="">全部</option>
+					<option value="0">待审核</option>
+					<option value="1">审核通过</option>
+					<option value="9">审核未通过</option>
+				</select>
+				
 				上传日期：
 				<input id="date-begin" />
 				至
 				<input id="date-end" />
 				
 				<div class="btn btn-search" id="btn-parthis-search">查询</div>
-				<div class="btn btn-add" id="btn-parthis-add">添加</div>
 			</div>
 			
 			<div id="part-pp" style="background:#efefef;border:1px solid #ccc;"></div>

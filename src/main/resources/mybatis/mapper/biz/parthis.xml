@@ -13,7 +13,9 @@
 		  getusername(t.create_user) createUserDesc,
 		  getusername(f.create_user) uploadUserDesc,
 		  f.create_time uploadTime,
-		  f.path
+		  f.path,
+		  getusername(t.verify_user) verifyUserDesc,
+		  getDicValue(t.verify_status, 'common.verify') verifyStatusDesc
 		FROM t_biz_part_his t
 			left join t_biz_files f on t.img_id = f.id
 		where 1=1
@@ -28,6 +30,9 @@
 		</if>
 		<if test="timeEnd != null and timeEnd != ''">
 			<![CDATA[AND STR_TO_DATE(CONCAT(#{timeEnd}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s') >= t.create_time]]>
+		</if>
+		<if test="verifyStatus != null and verifyStatus != ''">
+			and t.verify_status = #{verifyStatus}
 		</if>
 		ORDER BY t.create_time desc
 	</select>

@@ -61,7 +61,14 @@ define(["underscore", "mc", "backbone"], function(_, mc, backbone){
 			tpl: "scripts/biz/auth/userinfo/tpl/alterpwd.tpl",
 			isMax: true,
 			menuSelect: ["", "pwd_edit"]
-		}
+		},
+		
+		// 系统配置-系统参数
+		"system-config-params": {
+			script: "system/config/list",
+			tpl: "scripts/biz/system/config/tpl/list.tpl",
+			menuSelect: ["system_mgr_config_params", "system_mgr"]
+		},
 			
 	};
 	//页面元素

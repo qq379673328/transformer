@@ -32,9 +32,13 @@ public interface TBizPartHisMapper {
 
     @Insert({
         "insert into t_biz_part_his (create_time, create_user, ",
-        "img_id, part_id, content)",
+        "img_id, part_id, verify_time, ",
+        "verify_status, verify_user, ",
+        "verify_content, content)",
         "values (#{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, ",
-        "#{imgId,jdbcType=VARCHAR}, #{partId,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})"
+        "#{imgId,jdbcType=VARCHAR}, #{partId,jdbcType=INTEGER}, #{verifyTime,jdbcType=TIMESTAMP}, ",
+        "#{verifyStatus,jdbcType=VARCHAR}, #{verifyUser,jdbcType=VARCHAR}, ",
+        "#{verifyContent,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})"
     })
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insert(TBizPartHis record);
@@ -50,6 +54,10 @@ public interface TBizPartHisMapper {
         @Result(column="create_user", property="createUser", jdbcType=JdbcType.VARCHAR),
         @Result(column="img_id", property="imgId", jdbcType=JdbcType.VARCHAR),
         @Result(column="part_id", property="partId", jdbcType=JdbcType.INTEGER),
+        @Result(column="verify_time", property="verifyTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="verify_status", property="verifyStatus", jdbcType=JdbcType.VARCHAR),
+        @Result(column="verify_user", property="verifyUser", jdbcType=JdbcType.VARCHAR),
+        @Result(column="verify_content", property="verifyContent", jdbcType=JdbcType.VARCHAR),
         @Result(column="content", property="content", jdbcType=JdbcType.LONGVARCHAR)
     })
     List<TBizPartHis> selectByExampleWithBLOBs(TBizPartHisExample example);
@@ -60,13 +68,18 @@ public interface TBizPartHisMapper {
         @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="create_user", property="createUser", jdbcType=JdbcType.VARCHAR),
         @Result(column="img_id", property="imgId", jdbcType=JdbcType.VARCHAR),
-        @Result(column="part_id", property="partId", jdbcType=JdbcType.INTEGER)
+        @Result(column="part_id", property="partId", jdbcType=JdbcType.INTEGER),
+        @Result(column="verify_time", property="verifyTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="verify_status", property="verifyStatus", jdbcType=JdbcType.VARCHAR),
+        @Result(column="verify_user", property="verifyUser", jdbcType=JdbcType.VARCHAR),
+        @Result(column="verify_content", property="verifyContent", jdbcType=JdbcType.VARCHAR)
     })
     List<TBizPartHis> selectByExample(TBizPartHisExample example);
 
     @Select({
         "select",
-        "id, create_time, create_user, img_id, part_id, content",
+        "id, create_time, create_user, img_id, part_id, verify_time, verify_status, verify_user, ",
+        "verify_content, content",
         "from t_biz_part_his",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -76,6 +89,10 @@ public interface TBizPartHisMapper {
         @Result(column="create_user", property="createUser", jdbcType=JdbcType.VARCHAR),
         @Result(column="img_id", property="imgId", jdbcType=JdbcType.VARCHAR),
         @Result(column="part_id", property="partId", jdbcType=JdbcType.INTEGER),
+        @Result(column="verify_time", property="verifyTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="verify_status", property="verifyStatus", jdbcType=JdbcType.VARCHAR),
+        @Result(column="verify_user", property="verifyUser", jdbcType=JdbcType.VARCHAR),
+        @Result(column="verify_content", property="verifyContent", jdbcType=JdbcType.VARCHAR),
         @Result(column="content", property="content", jdbcType=JdbcType.LONGVARCHAR)
     })
     TBizPartHis selectByPrimaryKey(Integer id);
@@ -98,6 +115,10 @@ public interface TBizPartHisMapper {
           "create_user = #{createUser,jdbcType=VARCHAR},",
           "img_id = #{imgId,jdbcType=VARCHAR},",
           "part_id = #{partId,jdbcType=INTEGER},",
+          "verify_time = #{verifyTime,jdbcType=TIMESTAMP},",
+          "verify_status = #{verifyStatus,jdbcType=VARCHAR},",
+          "verify_user = #{verifyUser,jdbcType=VARCHAR},",
+          "verify_content = #{verifyContent,jdbcType=VARCHAR},",
           "content = #{content,jdbcType=LONGVARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -108,7 +129,11 @@ public interface TBizPartHisMapper {
         "set create_time = #{createTime,jdbcType=TIMESTAMP},",
           "create_user = #{createUser,jdbcType=VARCHAR},",
           "img_id = #{imgId,jdbcType=VARCHAR},",
-          "part_id = #{partId,jdbcType=INTEGER}",
+          "part_id = #{partId,jdbcType=INTEGER},",
+          "verify_time = #{verifyTime,jdbcType=TIMESTAMP},",
+          "verify_status = #{verifyStatus,jdbcType=VARCHAR},",
+          "verify_user = #{verifyUser,jdbcType=VARCHAR},",
+          "verify_content = #{verifyContent,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(TBizPartHis record);

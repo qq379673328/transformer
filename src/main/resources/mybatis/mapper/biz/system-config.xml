@@ -1,0 +1,24 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 系统配置 -->
+<mapper namespace="cn.com.sinosoft.systemconfig">
+
+	<!-- 获取列表 -->
+	<select id="get-list"
+		resultType="cn.com.sinosoft.bomsmgr.model.biz.SystemConfigInfo">
+		SELECT
+		  t.*,
+		  getusername(t.update_user) updateUserDesc
+		FROM t_system_config t
+		where 1=1
+		<if test="id != null">
+			and t.id = #{id}
+		</if>
+		<if test="moduleId != null and moduleId != ''">
+			and t.module_id = #{moduleId}
+		</if>
+	</select>
+	
+</mapper>

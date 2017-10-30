@@ -1,63 +1,55 @@
 package cn.com.sinosoft.bomsmgr.dao.ge;
 
-import cn.com.sinosoft.bomsmgr.entity.ge.TBizPartHis;
-import cn.com.sinosoft.bomsmgr.entity.ge.TBizPartHisExample.Criteria;
-import cn.com.sinosoft.bomsmgr.entity.ge.TBizPartHisExample.Criterion;
-import cn.com.sinosoft.bomsmgr.entity.ge.TBizPartHisExample;
+import cn.com.sinosoft.bomsmgr.entity.ge.TSystemConfig;
+import cn.com.sinosoft.bomsmgr.entity.ge.TSystemConfigExample.Criteria;
+import cn.com.sinosoft.bomsmgr.entity.ge.TSystemConfigExample.Criterion;
+import cn.com.sinosoft.bomsmgr.entity.ge.TSystemConfigExample;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.jdbc.SQL;
 
-public class TBizPartHisSqlProvider {
+public class TSystemConfigSqlProvider {
 
-    public String countByExample(TBizPartHisExample example) {
+    public String countByExample(TSystemConfigExample example) {
         SQL sql = new SQL();
-        sql.SELECT("count(*)").FROM("t_biz_part_his");
+        sql.SELECT("count(*)").FROM("t_system_config");
         applyWhere(sql, example, false);
         return sql.toString();
     }
 
-    public String deleteByExample(TBizPartHisExample example) {
+    public String deleteByExample(TSystemConfigExample example) {
         SQL sql = new SQL();
-        sql.DELETE_FROM("t_biz_part_his");
+        sql.DELETE_FROM("t_system_config");
         applyWhere(sql, example, false);
         return sql.toString();
     }
 
-    public String insertSelective(TBizPartHis record) {
+    public String insertSelective(TSystemConfig record) {
         SQL sql = new SQL();
-        sql.INSERT_INTO("t_biz_part_his");
+        sql.INSERT_INTO("t_system_config");
         
-        if (record.getCreateTime() != null) {
-            sql.VALUES("create_time", "#{createTime,jdbcType=TIMESTAMP}");
+        if (record.getUpdateTime() != null) {
+            sql.VALUES("update_time", "#{updateTime,jdbcType=TIMESTAMP}");
         }
         
-        if (record.getCreateUser() != null) {
-            sql.VALUES("create_user", "#{createUser,jdbcType=VARCHAR}");
+        if (record.getUpdateUser() != null) {
+            sql.VALUES("update_user", "#{updateUser,jdbcType=VARCHAR}");
         }
         
-        if (record.getImgId() != null) {
-            sql.VALUES("img_id", "#{imgId,jdbcType=VARCHAR}");
+        if (record.getModuleId() != null) {
+            sql.VALUES("module_id", "#{moduleId,jdbcType=VARCHAR}");
         }
         
-        if (record.getPartId() != null) {
-            sql.VALUES("part_id", "#{partId,jdbcType=INTEGER}");
+        if (record.getModuleDesc() != null) {
+            sql.VALUES("module_desc", "#{moduleDesc,jdbcType=VARCHAR}");
         }
         
-        if (record.getVerifyTime() != null) {
-            sql.VALUES("verify_time", "#{verifyTime,jdbcType=TIMESTAMP}");
+        if (record.getType() != null) {
+            sql.VALUES("`type`", "#{type,jdbcType=VARCHAR}");
         }
         
-        if (record.getVerifyStatus() != null) {
-            sql.VALUES("verify_status", "#{verifyStatus,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getVerifyUser() != null) {
-            sql.VALUES("verify_user", "#{verifyUser,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getVerifyContent() != null) {
-            sql.VALUES("verify_content", "#{verifyContent,jdbcType=VARCHAR}");
+        if (record.getKey() != null) {
+            sql.VALUES("`key`", "#{key,jdbcType=VARCHAR}");
         }
         
         if (record.getContent() != null) {
@@ -67,23 +59,21 @@ public class TBizPartHisSqlProvider {
         return sql.toString();
     }
 
-    public String selectByExampleWithBLOBs(TBizPartHisExample example) {
+    public String selectByExampleWithBLOBs(TSystemConfigExample example) {
         SQL sql = new SQL();
         if (example != null && example.isDistinct()) {
             sql.SELECT_DISTINCT("id");
         } else {
             sql.SELECT("id");
         }
-        sql.SELECT("create_time");
-        sql.SELECT("create_user");
-        sql.SELECT("img_id");
-        sql.SELECT("part_id");
-        sql.SELECT("verify_time");
-        sql.SELECT("verify_status");
-        sql.SELECT("verify_user");
-        sql.SELECT("verify_content");
+        sql.SELECT("update_time");
+        sql.SELECT("update_user");
+        sql.SELECT("module_id");
+        sql.SELECT("module_desc");
+        sql.SELECT("`type`");
+        sql.SELECT("`key`");
         sql.SELECT("content");
-        sql.FROM("t_biz_part_his");
+        sql.FROM("t_system_config");
         applyWhere(sql, example, false);
         
         if (example != null && example.getOrderByClause() != null) {
@@ -93,22 +83,20 @@ public class TBizPartHisSqlProvider {
         return sql.toString();
     }
 
-    public String selectByExample(TBizPartHisExample example) {
+    public String selectByExample(TSystemConfigExample example) {
         SQL sql = new SQL();
         if (example != null && example.isDistinct()) {
             sql.SELECT_DISTINCT("id");
         } else {
             sql.SELECT("id");
         }
-        sql.SELECT("create_time");
-        sql.SELECT("create_user");
-        sql.SELECT("img_id");
-        sql.SELECT("part_id");
-        sql.SELECT("verify_time");
-        sql.SELECT("verify_status");
-        sql.SELECT("verify_user");
-        sql.SELECT("verify_content");
-        sql.FROM("t_biz_part_his");
+        sql.SELECT("update_time");
+        sql.SELECT("update_user");
+        sql.SELECT("module_id");
+        sql.SELECT("module_desc");
+        sql.SELECT("`type`");
+        sql.SELECT("`key`");
+        sql.FROM("t_system_config");
         applyWhere(sql, example, false);
         
         if (example != null && example.getOrderByClause() != null) {
@@ -119,46 +107,38 @@ public class TBizPartHisSqlProvider {
     }
 
     public String updateByExampleSelective(Map<String, Object> parameter) {
-        TBizPartHis record = (TBizPartHis) parameter.get("record");
-        TBizPartHisExample example = (TBizPartHisExample) parameter.get("example");
+        TSystemConfig record = (TSystemConfig) parameter.get("record");
+        TSystemConfigExample example = (TSystemConfigExample) parameter.get("example");
         
         SQL sql = new SQL();
-        sql.UPDATE("t_biz_part_his");
+        sql.UPDATE("t_system_config");
         
         if (record.getId() != null) {
             sql.SET("id = #{record.id,jdbcType=INTEGER}");
         }
         
-        if (record.getCreateTime() != null) {
-            sql.SET("create_time = #{record.createTime,jdbcType=TIMESTAMP}");
+        if (record.getUpdateTime() != null) {
+            sql.SET("update_time = #{record.updateTime,jdbcType=TIMESTAMP}");
         }
         
-        if (record.getCreateUser() != null) {
-            sql.SET("create_user = #{record.createUser,jdbcType=VARCHAR}");
+        if (record.getUpdateUser() != null) {
+            sql.SET("update_user = #{record.updateUser,jdbcType=VARCHAR}");
         }
         
-        if (record.getImgId() != null) {
-            sql.SET("img_id = #{record.imgId,jdbcType=VARCHAR}");
+        if (record.getModuleId() != null) {
+            sql.SET("module_id = #{record.moduleId,jdbcType=VARCHAR}");
         }
         
-        if (record.getPartId() != null) {
-            sql.SET("part_id = #{record.partId,jdbcType=INTEGER}");
+        if (record.getModuleDesc() != null) {
+            sql.SET("module_desc = #{record.moduleDesc,jdbcType=VARCHAR}");
         }
         
-        if (record.getVerifyTime() != null) {
-            sql.SET("verify_time = #{record.verifyTime,jdbcType=TIMESTAMP}");
+        if (record.getType() != null) {
+            sql.SET("`type` = #{record.type,jdbcType=VARCHAR}");
         }
         
-        if (record.getVerifyStatus() != null) {
-            sql.SET("verify_status = #{record.verifyStatus,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getVerifyUser() != null) {
-            sql.SET("verify_user = #{record.verifyUser,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getVerifyContent() != null) {
-            sql.SET("verify_content = #{record.verifyContent,jdbcType=VARCHAR}");
+        if (record.getKey() != null) {
+            sql.SET("`key` = #{record.key,jdbcType=VARCHAR}");
         }
         
         if (record.getContent() != null) {
@@ -171,77 +151,65 @@ public class TBizPartHisSqlProvider {
 
     public String updateByExampleWithBLOBs(Map<String, Object> parameter) {
         SQL sql = new SQL();
-        sql.UPDATE("t_biz_part_his");
+        sql.UPDATE("t_system_config");
         
         sql.SET("id = #{record.id,jdbcType=INTEGER}");
-        sql.SET("create_time = #{record.createTime,jdbcType=TIMESTAMP}");
-        sql.SET("create_user = #{record.createUser,jdbcType=VARCHAR}");
-        sql.SET("img_id = #{record.imgId,jdbcType=VARCHAR}");
-        sql.SET("part_id = #{record.partId,jdbcType=INTEGER}");
-        sql.SET("verify_time = #{record.verifyTime,jdbcType=TIMESTAMP}");
-        sql.SET("verify_status = #{record.verifyStatus,jdbcType=VARCHAR}");
-        sql.SET("verify_user = #{record.verifyUser,jdbcType=VARCHAR}");
-        sql.SET("verify_content = #{record.verifyContent,jdbcType=VARCHAR}");
+        sql.SET("update_time = #{record.updateTime,jdbcType=TIMESTAMP}");
+        sql.SET("update_user = #{record.updateUser,jdbcType=VARCHAR}");
+        sql.SET("module_id = #{record.moduleId,jdbcType=VARCHAR}");
+        sql.SET("module_desc = #{record.moduleDesc,jdbcType=VARCHAR}");
+        sql.SET("`type` = #{record.type,jdbcType=VARCHAR}");
+        sql.SET("`key` = #{record.key,jdbcType=VARCHAR}");
         sql.SET("content = #{record.content,jdbcType=LONGVARCHAR}");
         
-        TBizPartHisExample example = (TBizPartHisExample) parameter.get("example");
+        TSystemConfigExample example = (TSystemConfigExample) parameter.get("example");
         applyWhere(sql, example, true);
         return sql.toString();
     }
 
     public String updateByExample(Map<String, Object> parameter) {
         SQL sql = new SQL();
-        sql.UPDATE("t_biz_part_his");
+        sql.UPDATE("t_system_config");
         
         sql.SET("id = #{record.id,jdbcType=INTEGER}");
-        sql.SET("create_time = #{record.createTime,jdbcType=TIMESTAMP}");
-        sql.SET("create_user = #{record.createUser,jdbcType=VARCHAR}");
-        sql.SET("img_id = #{record.imgId,jdbcType=VARCHAR}");
-        sql.SET("part_id = #{record.partId,jdbcType=INTEGER}");
-        sql.SET("verify_time = #{record.verifyTime,jdbcType=TIMESTAMP}");
-        sql.SET("verify_status = #{record.verifyStatus,jdbcType=VARCHAR}");
-        sql.SET("verify_user = #{record.verifyUser,jdbcType=VARCHAR}");
-        sql.SET("verify_content = #{record.verifyContent,jdbcType=VARCHAR}");
+        sql.SET("update_time = #{record.updateTime,jdbcType=TIMESTAMP}");
+        sql.SET("update_user = #{record.updateUser,jdbcType=VARCHAR}");
+        sql.SET("module_id = #{record.moduleId,jdbcType=VARCHAR}");
+        sql.SET("module_desc = #{record.moduleDesc,jdbcType=VARCHAR}");
+        sql.SET("`type` = #{record.type,jdbcType=VARCHAR}");
+        sql.SET("`key` = #{record.key,jdbcType=VARCHAR}");
         
-        TBizPartHisExample example = (TBizPartHisExample) parameter.get("example");
+        TSystemConfigExample example = (TSystemConfigExample) parameter.get("example");
         applyWhere(sql, example, true);
         return sql.toString();
     }
 
-    public String updateByPrimaryKeySelective(TBizPartHis record) {
+    public String updateByPrimaryKeySelective(TSystemConfig record) {
         SQL sql = new SQL();
-        sql.UPDATE("t_biz_part_his");
+        sql.UPDATE("t_system_config");
         
-        if (record.getCreateTime() != null) {
-            sql.SET("create_time = #{createTime,jdbcType=TIMESTAMP}");
+        if (record.getUpdateTime() != null) {
+            sql.SET("update_time = #{updateTime,jdbcType=TIMESTAMP}");
         }
         
-        if (record.getCreateUser() != null) {
-            sql.SET("create_user = #{createUser,jdbcType=VARCHAR}");
+        if (record.getUpdateUser() != null) {
+            sql.SET("update_user = #{updateUser,jdbcType=VARCHAR}");
         }
         
-        if (record.getImgId() != null) {
-            sql.SET("img_id = #{imgId,jdbcType=VARCHAR}");
+        if (record.getModuleId() != null) {
+            sql.SET("module_id = #{moduleId,jdbcType=VARCHAR}");
         }
         
-        if (record.getPartId() != null) {
-            sql.SET("part_id = #{partId,jdbcType=INTEGER}");
+        if (record.getModuleDesc() != null) {
+            sql.SET("module_desc = #{moduleDesc,jdbcType=VARCHAR}");
         }
         
-        if (record.getVerifyTime() != null) {
-            sql.SET("verify_time = #{verifyTime,jdbcType=TIMESTAMP}");
+        if (record.getType() != null) {
+            sql.SET("`type` = #{type,jdbcType=VARCHAR}");
         }
         
-        if (record.getVerifyStatus() != null) {
-            sql.SET("verify_status = #{verifyStatus,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getVerifyUser() != null) {
-            sql.SET("verify_user = #{verifyUser,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getVerifyContent() != null) {
-            sql.SET("verify_content = #{verifyContent,jdbcType=VARCHAR}");
+        if (record.getKey() != null) {
+            sql.SET("`key` = #{key,jdbcType=VARCHAR}");
         }
         
         if (record.getContent() != null) {
@@ -253,7 +221,7 @@ public class TBizPartHisSqlProvider {
         return sql.toString();
     }
 
-    protected void applyWhere(SQL sql, TBizPartHisExample example, boolean includeExamplePhrase) {
+    protected void applyWhere(SQL sql, TSystemConfigExample example, boolean includeExamplePhrase) {
         if (example == null) {
             return;
         }

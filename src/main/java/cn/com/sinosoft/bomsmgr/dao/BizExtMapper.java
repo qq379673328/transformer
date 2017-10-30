@@ -3,6 +3,7 @@ package cn.com.sinosoft.bomsmgr.dao;
 import org.apache.ibatis.annotations.Update;
 
 import cn.com.sinosoft.bomsmgr.entity.ge.TBizDeviceImg;
+import cn.com.sinosoft.bomsmgr.entity.ge.TBizPartHis;
 import cn.com.sinosoft.bomsmgr.entity.ge.TBizWiringdiagram;
 
 /**
@@ -40,5 +41,19 @@ public interface BizExtMapper {
 	        "where id = #{id,jdbcType=INTEGER}"
 	    })
 	public int verifyWd(TBizWiringdiagram item);
+
+	 /**
+	 * 审核-部件历史
+	 */
+	 @Update({
+        "update t_biz_part_his",
+        "set ",
+          "verify_status = #{verifyStatus,jdbcType=VARCHAR},",
+          "verify_time = #{verifyTime,jdbcType=TIMESTAMP},",
+          "verify_user = #{verifyUser,jdbcType=VARCHAR},",
+          "verify_content = #{verifyContent,jdbcType=VARCHAR}",
+        "where id = #{id,jdbcType=INTEGER}"
+    })
+	public int verifyPartHis(TBizPartHis item);
 
 }

@@ -97,7 +97,7 @@ public class DeviceImgController {
 	 * @return
 	 */
 	@PostMapping("verify")
-	public APIResult<Object> verifyPass(Integer id, String status, String content) {
+	public APIResult<Object> verify(Integer id, String status, String content) {
 		if (DicVerifyStatus.PASS.getCode().equals(status)) {
 			service.updateVerifyStatusPass(id, content);
 		} else if (DicVerifyStatus.FAIL.getCode().equals(status)) {

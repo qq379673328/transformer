@@ -139,8 +139,10 @@ define(["jquery", "underscore", "json2", "core",
 	var createCodeSelect = function(params) {
 		var $tag = params.$tag, //标签
 			codetype = params.codetype; //字典类型码
+		var items = [{codeValue:'', codeDesc: '全部'}];
+		items = items.concat(getTypeCodes(codetype));
 		$tag.combobox({
-			data: getTypeCodes(codetype),
+			data: items,
 			valueField: 'codeValue',
 			textField: 'codeDesc',
 			value: $tag.val(),

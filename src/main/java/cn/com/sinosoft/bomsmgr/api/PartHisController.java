@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.com.sinosoft.bomsmgr.entity.ge.TBizPartHis;
 import cn.com.sinosoft.bomsmgr.model.biz.PartHisInfo;
+import cn.com.sinosoft.bomsmgr.model.dic.DicVerifyStatus;
 import cn.com.sinosoft.bomsmgr.service.PartHisService;
 import cn.com.sinosoft.tbf.domain.common.APIResult;
 import cn.com.sinosoft.tbf.domain.common.PageParam;
@@ -39,7 +40,7 @@ public class PartHisController {
 	public APIResult<PagingResult<PartHisInfo>> getList(@RequestParam Map<String, Object> params, PageParam pageParam) {
 		return new APIResult<PagingResult<PartHisInfo>>(service.getList(params, pageParam));
 	}
-	
+
 	/**
 	 * 添加
 	 *
@@ -76,6 +77,24 @@ public class PartHisController {
 	@PostMapping("del")
 	public APIResult<Integer> del(@RequestParam(required = true) Integer[] ids) {
 		return new APIResult<Integer>(service.del(ids), "删除成功", true);
+	}
+
+	/**
+	 * 审核
+	 *
+	 * @param id
+	 * @return
+	 */
+	@PostMapping("verify")
+	public APIResult<Object> verify(Integer id, String status, String content) {
+		if (DicVerifyStatus.PASS.getCode().equals(status)) {
+			service.updateVerifyStatusPass(id, content);
+		} else if (DicVerifyStatus.FAIL.getCode().equals(status)) {
+			service.updateVerifyStatusFail(id, content);
+		} else if (DicVerifyStatus.READY.getCode().equals(status)) {
+			service.updateVerifyStatusReady(id);
+		}
+		return new APIResult<Object>();
 	}
 
 }

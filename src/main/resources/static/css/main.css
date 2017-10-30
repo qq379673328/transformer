@@ -425,7 +425,7 @@ body {
 .btn-add {background-color: #5485b1;}
 .btn-reset {background-color: #c0c0c0;}
 .btn-cancle {background-color: #463434;}
-.btn-search {background-color: #5489B1;}
+.btn-search {background-color: #016ba9;}
 .btn-danger {background-color: #D80B0B;}
 .btn-edit {background-color: #33CC66;}
 .btn-brown {background-color: #CC9999;}
@@ -1476,20 +1476,26 @@ a {
 .im .his-item-left{
 	float: left;
 	width: 30%;
+	min-height: 10px;
 }
 .im .his-item-center{
 	float: left;
-	width: 33%;
+	width: 36%;
 	padding: 5px;
 	overflow-y: hidden;
 	height: 100px;
 }
 .im .his-item-right{
-	float: left;
+	float: right;
 	width: 30%;
 }
 .im .his-item-right .btn{
-	width: 80px;
+	width: 60px;
+}
+.im .his-item-verify{
+	margin: 10px;
+	color: #016ba9;
+	
 }
 .im .im-left{
 	width: 180px;

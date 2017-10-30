@@ -14,6 +14,14 @@ public class TBizPartHis implements Serializable {
 
     private Integer partId;
 
+    private Date verifyTime;
+
+    private String verifyStatus;
+
+    private String verifyUser;
+
+    private String verifyContent;
+
     private String content;
 
     private static final long serialVersionUID = 1L;
@@ -58,6 +66,38 @@ public class TBizPartHis implements Serializable {
         this.partId = partId;
     }
 
+    public Date getVerifyTime() {
+        return verifyTime;
+    }
+
+    public void setVerifyTime(Date verifyTime) {
+        this.verifyTime = verifyTime;
+    }
+
+    public String getVerifyStatus() {
+        return verifyStatus;
+    }
+
+    public void setVerifyStatus(String verifyStatus) {
+        this.verifyStatus = verifyStatus == null ? null : verifyStatus.trim();
+    }
+
+    public String getVerifyUser() {
+        return verifyUser;
+    }
+
+    public void setVerifyUser(String verifyUser) {
+        this.verifyUser = verifyUser == null ? null : verifyUser.trim();
+    }
+
+    public String getVerifyContent() {
+        return verifyContent;
+    }
+
+    public void setVerifyContent(String verifyContent) {
+        this.verifyContent = verifyContent == null ? null : verifyContent.trim();
+    }
+
     public String getContent() {
         return content;
     }
@@ -83,6 +123,10 @@ public class TBizPartHis implements Serializable {
             && (this.getCreateUser() == null ? other.getCreateUser() == null : this.getCreateUser().equals(other.getCreateUser()))
             && (this.getImgId() == null ? other.getImgId() == null : this.getImgId().equals(other.getImgId()))
             && (this.getPartId() == null ? other.getPartId() == null : this.getPartId().equals(other.getPartId()))
+            && (this.getVerifyTime() == null ? other.getVerifyTime() == null : this.getVerifyTime().equals(other.getVerifyTime()))
+            && (this.getVerifyStatus() == null ? other.getVerifyStatus() == null : this.getVerifyStatus().equals(other.getVerifyStatus()))
+            && (this.getVerifyUser() == null ? other.getVerifyUser() == null : this.getVerifyUser().equals(other.getVerifyUser()))
+            && (this.getVerifyContent() == null ? other.getVerifyContent() == null : this.getVerifyContent().equals(other.getVerifyContent()))
             && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()));
     }
 
@@ -95,6 +139,10 @@ public class TBizPartHis implements Serializable {
         result = prime * result + ((getCreateUser() == null) ? 0 : getCreateUser().hashCode());
         result = prime * result + ((getImgId() == null) ? 0 : getImgId().hashCode());
         result = prime * result + ((getPartId() == null) ? 0 : getPartId().hashCode());
+        result = prime * result + ((getVerifyTime() == null) ? 0 : getVerifyTime().hashCode());
+        result = prime * result + ((getVerifyStatus() == null) ? 0 : getVerifyStatus().hashCode());
+        result = prime * result + ((getVerifyUser() == null) ? 0 : getVerifyUser().hashCode());
+        result = prime * result + ((getVerifyContent() == null) ? 0 : getVerifyContent().hashCode());
         result = prime * result + ((getContent() == null) ? 0 : getContent().hashCode());
         return result;
     }

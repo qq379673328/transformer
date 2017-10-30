@@ -1,5 +1,6 @@
 package cn.com.sinosoft.bomsmgr.service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,9 +9,11 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.com.sinosoft.bomsmgr.dao.BizExtMapper;
 import cn.com.sinosoft.bomsmgr.dao.ge.TBizPartHisMapper;
 import cn.com.sinosoft.bomsmgr.entity.ge.TBizPartHis;
 import cn.com.sinosoft.bomsmgr.model.biz.PartHisInfo;
+import cn.com.sinosoft.bomsmgr.model.dic.DicVerifyStatus;
 import cn.com.sinosoft.bomsmgr.service.common.CommonUserService;
 import cn.com.sinosoft.tbf.dao.BaseDao;
 import cn.com.sinosoft.tbf.domain.common.PageParam;
@@ -41,7 +44,7 @@ public class PartHisService {
 		PagingResult<PartHisInfo> ret = baseDao.pagingSearch(NAMESPACE_BASE + "get-list", params, pageParam);
 		return ret;
 	}
-	
+
 	/**
 	 * 添加
 	 *
@@ -64,6 +67,7 @@ public class PartHisService {
 	 */
 	@Transactional
 	public void update(TBizPartHis item) {
+		updateVerifyStatusReady(item.getId());
 		getMapper().updateByPrimaryKeySelective(item);
 	}
 
@@ -84,12 +88,69 @@ public class PartHisService {
 	}
 
 	/**
+	 * 更新审核状态-待审核
+	 *
+	 * @param id
+	 *            对象id
+	 */
+	public void updateVerifyStatusReady(Integer id) {
+		TBizPartHis item = new TBizPartHis();
+		item.setId(id);
+		item.setVerifyStatus(DicVerifyStatus.READY.getCode());
+		item.setVerifyTime(null);
+		item.setVerifyUser(null);
+		item.setVerifyContent(null);
+		getBizExtMapper().verifyPartHis(item);
+	}
+
+	/**
+	 * 更新审核状态-通过
+	 *
+	 * @param id
+	 *            对象id
+	 */
+	public void updateVerifyStatusPass(Integer id, String content) {
+		TBizPartHis item = new TBizPartHis();
+		item.setId(id);
+		item.setVerifyStatus(DicVerifyStatus.PASS.getCode());
+		item.setVerifyTime(new Date());
+		item.setVerifyUser(commonUserService.getRequestUserId());
+		item.setVerifyContent(content);
+		getBizExtMapper().verifyPartHis(item);
+	}
+
+	/**
+	 * 更新审核状态-未通过
+	 *
+	 * @param id
+	 *            对象id
+	 */
+	public void updateVerifyStatusFail(Integer id, String content) {
+		TBizPartHis item = new TBizPartHis();
+		item.setId(id);
+		item.setVerifyStatus(DicVerifyStatus.FAIL.getCode());
+		item.setVerifyTime(new Date());
+		item.setVerifyUser(commonUserService.getRequestUserId());
+		item.setVerifyContent(content);
+		getBizExtMapper().verifyPartHis(item);
+	}
+
+	/**
 	 * 获取mapper
 	 *
 	 * @return
 	 */
 	private TBizPartHisMapper getMapper() {
 		return baseDao.getMapper(TBizPartHisMapper.class);
+	}
+
+	/**
+	 * 获取mapper
+	 *
+	 * @return
+	 */
+	private BizExtMapper getBizExtMapper() {
+		return baseDao.getMapper(BizExtMapper.class);
 	}
 
 }

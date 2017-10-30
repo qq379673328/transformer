@@ -35,6 +35,32 @@ public class PartHisInfo extends TBizPartHis {
 	 */
 	private String path;
 
+	/**
+	 * 审核人描述
+	 */
+	private String verifyUserDesc;
+
+	/**
+	 * 审核状态
+	 */
+	private String verifyStatusDesc;
+
+	public String getVerifyUserDesc() {
+		return verifyUserDesc;
+	}
+
+	public void setVerifyUserDesc(String verifyUserDesc) {
+		this.verifyUserDesc = verifyUserDesc;
+	}
+
+	public String getVerifyStatusDesc() {
+		return verifyStatusDesc;
+	}
+
+	public void setVerifyStatusDesc(String verifyStatusDesc) {
+		this.verifyStatusDesc = verifyStatusDesc;
+	}
+
 	public String getCreateUserDesc() {
 		return createUserDesc;
 	}
