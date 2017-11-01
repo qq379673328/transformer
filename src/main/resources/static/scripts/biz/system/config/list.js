@@ -51,7 +51,7 @@ define(["core", "tplengine", "simpleupload"],
 						return '图片';
 					}
 				}},
-				{field: "content", title: "内容", width: 100, formatter: function(val, row){
+				{field: "content", title: "内容", width: 800, formatter: function(val, row){
 					if(row.type == '1'){
 						return val;
 					}else if(row.type == '2'){
