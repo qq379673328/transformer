@@ -1,7 +1,7 @@
 define(["jquery","jquery.ui.widget","transport","fileupload"],function($){
 	function simpleupload(qp){
-		var filemax = qp.filemax || 5 * 1024 * 1024;//文件大小的限制默认5M
-		var filetype = qp.filetype || ["png","jepg","jpg","PNG","JPG","JEPG","doc","docx"];//上传文件后缀限制
+		var filemax = qp.filemax || 20 * 1024 * 1024;//文件大小的限制默认20M
+		var filetype = qp.filetype || ["png","PNG","JEPG","jepg","jpg","JPG"];//上传文件后缀限制
 		var $div = qp.$div;//上传的jquery对象一般为input
 		var attachType = qp.attachType;//附件类型-区分是哪个业务上传的
 		var hidFileId = qp.hidFileId || 'hidFileId';//存储返回的附件的Id

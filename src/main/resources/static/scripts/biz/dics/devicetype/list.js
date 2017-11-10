@@ -40,7 +40,8 @@ define(["core", "tplengine"], function(core, tplengine){
 			},
 			columns: [[
 				{field: "id", hidden:true},
-				{field: "name", title: "名称", width: 100},
+				{field: "name", title: "类型", width: 100},
+				{field: "par_name", title: "父级类型", width: 100},
 				{field: "create_time", title: "创建时间", width: 120, formatter: function(val){
 					return core.transTimeStamp(val);
 				}},

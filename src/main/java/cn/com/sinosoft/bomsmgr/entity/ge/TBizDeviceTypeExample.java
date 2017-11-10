@@ -434,6 +434,66 @@ public class TBizDeviceTypeExample {
             addCriterion("`state` not between", value1, value2, "state");
             return (Criteria) this;
         }
+
+        public Criteria andParIdIsNull() {
+            addCriterion("par_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParIdIsNotNull() {
+            addCriterion("par_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParIdEqualTo(Integer value) {
+            addCriterion("par_id =", value, "parId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParIdNotEqualTo(Integer value) {
+            addCriterion("par_id <>", value, "parId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParIdGreaterThan(Integer value) {
+            addCriterion("par_id >", value, "parId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("par_id >=", value, "parId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParIdLessThan(Integer value) {
+            addCriterion("par_id <", value, "parId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParIdLessThanOrEqualTo(Integer value) {
+            addCriterion("par_id <=", value, "parId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParIdIn(List<Integer> values) {
+            addCriterion("par_id in", values, "parId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParIdNotIn(List<Integer> values) {
+            addCriterion("par_id not in", values, "parId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParIdBetween(Integer value1, Integer value2) {
+            addCriterion("par_id between", value1, value2, "parId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("par_id not between", value1, value2, "parId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

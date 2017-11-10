@@ -44,6 +44,10 @@ public class TBizDeviceTypeSqlProvider {
             sql.VALUES("`state`", "#{state,jdbcType=VARCHAR}");
         }
         
+        if (record.getParId() != null) {
+            sql.VALUES("par_id", "#{parId,jdbcType=INTEGER}");
+        }
+        
         return sql.toString();
     }
 
@@ -58,6 +62,7 @@ public class TBizDeviceTypeSqlProvider {
         sql.SELECT("create_time");
         sql.SELECT("create_user");
         sql.SELECT("`state`");
+        sql.SELECT("par_id");
         sql.FROM("t_biz_device_type");
         applyWhere(sql, example, false);
         
@@ -95,6 +100,10 @@ public class TBizDeviceTypeSqlProvider {
             sql.SET("`state` = #{record.state,jdbcType=VARCHAR}");
         }
         
+        if (record.getParId() != null) {
+            sql.SET("par_id = #{record.parId,jdbcType=INTEGER}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -108,6 +117,7 @@ public class TBizDeviceTypeSqlProvider {
         sql.SET("create_time = #{record.createTime,jdbcType=TIMESTAMP}");
         sql.SET("create_user = #{record.createUser,jdbcType=VARCHAR}");
         sql.SET("`state` = #{record.state,jdbcType=VARCHAR}");
+        sql.SET("par_id = #{record.parId,jdbcType=INTEGER}");
         
         TBizDeviceTypeExample example = (TBizDeviceTypeExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -132,6 +142,10 @@ public class TBizDeviceTypeSqlProvider {
         
         if (record.getState() != null) {
             sql.SET("`state` = #{state,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getParId() != null) {
+            sql.SET("par_id = #{parId,jdbcType=INTEGER}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

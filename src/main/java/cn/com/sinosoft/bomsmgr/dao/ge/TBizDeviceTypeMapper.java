@@ -32,9 +32,11 @@ public interface TBizDeviceTypeMapper {
 
     @Insert({
         "insert into t_biz_device_type (`name`, create_time, ",
-        "create_user, `state`)",
+        "create_user, `state`, ",
+        "par_id)",
         "values (#{name,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, ",
-        "#{createUser,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR})"
+        "#{createUser,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, ",
+        "#{parId,jdbcType=INTEGER})"
     })
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insert(TBizDeviceType record);
@@ -49,13 +51,14 @@ public interface TBizDeviceTypeMapper {
         @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
         @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="create_user", property="createUser", jdbcType=JdbcType.VARCHAR),
-        @Result(column="state", property="state", jdbcType=JdbcType.VARCHAR)
+        @Result(column="state", property="state", jdbcType=JdbcType.VARCHAR),
+        @Result(column="par_id", property="parId", jdbcType=JdbcType.INTEGER)
     })
     List<TBizDeviceType> selectByExample(TBizDeviceTypeExample example);
 
     @Select({
         "select",
-        "id, `name`, create_time, create_user, `state`",
+        "id, `name`, create_time, create_user, `state`, par_id",
         "from t_biz_device_type",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -64,7 +67,8 @@ public interface TBizDeviceTypeMapper {
         @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
         @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="create_user", property="createUser", jdbcType=JdbcType.VARCHAR),
-        @Result(column="state", property="state", jdbcType=JdbcType.VARCHAR)
+        @Result(column="state", property="state", jdbcType=JdbcType.VARCHAR),
+        @Result(column="par_id", property="parId", jdbcType=JdbcType.INTEGER)
     })
     TBizDeviceType selectByPrimaryKey(Integer id);
 
@@ -82,7 +86,8 @@ public interface TBizDeviceTypeMapper {
         "set `name` = #{name,jdbcType=VARCHAR},",
           "create_time = #{createTime,jdbcType=TIMESTAMP},",
           "create_user = #{createUser,jdbcType=VARCHAR},",
-          "`state` = #{state,jdbcType=VARCHAR}",
+          "`state` = #{state,jdbcType=VARCHAR},",
+          "par_id = #{parId,jdbcType=INTEGER}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(TBizDeviceType record);

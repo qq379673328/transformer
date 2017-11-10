@@ -426,8 +426,6 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 				simpleupload.simpleupload({
 					$div: $win.find("#fileupload-tag"),
 					attachType: "wg",
-					filetype: ["png", "PNG", "jpg", "JPG"],
-					filemax: 20 * 1024 * 1024,
 					progressbar: $("#progress-bar"),
 					hidFileId: "imgId"
 				});
@@ -463,8 +461,6 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 				simpleupload.simpleupload({
 					$div: $win.find("#fileupload-tag"),
 					attachType: "wg",
-					filetype: ["png", "PNG", "jpg", "JPG"],
-					filemax: 20 * 1024 * 1024,
 					progressbar: $("#progress-bar"),
 					hidFileId: "imgId",
 					defaultValue: CURRENT_WD.imgId
@@ -542,14 +538,12 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 			},
 			tplsuccess: function($win){
 				// 文件上传
-				simpleupload.simpleupload({
+				/*simpleupload.simpleupload({
 					$div: $win.find("#fileupload-tag"),
 					attachType: "device",
-					filetype: ["png", "PNG", "jpg", "JPG"],
-					filemax: 20 * 1024 * 1024,
 					progressbar: $("#progress-bar"),
 					hidFileId: "imgId"
-				});
+				});*/
 			}
 		})
 	});
@@ -575,8 +569,6 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 				simpleupload.simpleupload({
 					$div: $win.find("#fileupload-tag"),
 					attachType: "device",
-					filetype: ["png", "PNG", "jpg", "JPG"],
-					filemax: 20 * 1024 * 1024,
 					progressbar: $("#progress-bar"),
 					hidFileId: "imgId",
 					defaultValue: CURRENT_DEVICE.imgId
@@ -716,7 +708,7 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 		// 提示信息
 		.tooltip({
 			content: item.name 
-				+ (item.path ? ("<br/><img src='upfiles/"+ item.path + "' width=200 />") : '')
+				//+ (item.path ? ("<br/><img src='upfiles/"+ item.path + "' width=200 />") : '')
 				+ "<br/>" + item.desc
 				, 
 			trackMouse: true})
@@ -1036,8 +1028,6 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 				simpleupload.simpleupload({
 					$div: $win.find("#fileupload-tag"),
 					attachType: "deviceimg",
-					filetype: ["png", "PNG", "jpg", "JPG"],
-					filemax: 20 * 1024 * 1024,
 					progressbar: $("#progress-bar"),
 					hidFileId: "imgId"
 				});
@@ -1073,8 +1063,6 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 				simpleupload.simpleupload({
 					$div: $win.find("#fileupload-tag-device"),
 					attachType: "deviceimg",
-					filetype: ["png", "PNG", "jpg", "JPG"],
-					filemax: 20 * 1024 * 1024,
 					progressbar: $("#progress-bar-device"),
 					hidFileId: "imgId",
 					defaultValue: CURRENT_DEVICE_IMG.imgId
@@ -1128,14 +1116,12 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 			},
 			tplsuccess: function($win){
 				// 文件上传
-				simpleupload.simpleupload({
+				/*simpleupload.simpleupload({
 					$div: $win.find("#fileupload-tag"),
 					attachType: "device",
-					filetype: ["png", "PNG", "jpg", "JPG"],
-					filemax: 20 * 1024 * 1024,
 					progressbar: $("#progress-bar"),
 					hidFileId: "imgId"
-				});
+				});*/
 			}
 		})
 	});
@@ -1161,8 +1147,6 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 				simpleupload.simpleupload({
 					$div: $win.find("#fileupload-tag"),
 					attachType: "device",
-					filetype: ["png", "PNG", "jpg", "JPG"],
-					filemax: 20 * 1024 * 1024,
 					progressbar: $("#progress-bar"),
 					hidFileId: "imgId",
 					defaultValue: CURRENT_PART.imgId
@@ -1326,7 +1310,7 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 		// 提示信息
 		.tooltip({
 			content: item.name 
-				+ (item.path ? ("<br/><img src='upfiles/"+ item.path + "' width=200 />") : '')
+				//+ (item.path ? ("<br/><img src='upfiles/"+ item.path + "' width=200 />") : '')
 				+ "<br/>" + item.desc
 				, 
 			trackMouse: true})
@@ -1526,8 +1510,6 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 				simpleupload.simpleupload({
 					$div: $win.find("#fileupload-tag"),
 					attachType: "parthis",
-					filetype: ["png", "PNG", "jpg", "JPG"],
-					filemax: 20 * 1024 * 1024,
 					progressbar: $("#progress-bar"),
 					hidFileId: "imgId"
 				});
@@ -1618,8 +1600,6 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 										simpleupload.simpleupload({
 											$div: $win.find("#fileupload-tag"),
 											attachType: "parthis",
-											filetype: ["png", "PNG", "jpg", "JPG"],
-											filemax: 20 * 1024 * 1024,
 											progressbar: $("#progress-bar"),
 											hidFileId: "imgId",
 											defaultValue: item.imgId

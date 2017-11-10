@@ -53,6 +53,8 @@
 					class="easyui-validatebox" data-options="validType:'maxLength[500]'"><%=data.desc%></textarea>
 			</td>
 		</tr>
+		
+		<!--
 		<tr>
 			<td class="td-odd">部件图片</td>
 			<td class="td-even">
@@ -60,5 +62,7 @@
 				<div id="progress-bar" class="easyui-progressbar" style="width:400px;"></div>
 			</td>
 		</tr>
+		-->
+		
 	</table>
 </form>

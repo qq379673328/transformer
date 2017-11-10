@@ -9,13 +9,19 @@
 	<select id="get-list"
 		resultType="hashmap">
 		SELECT
-		  t.*
+		  t.*,
+		  p.name AS par_name
 		FROM t_biz_device_type t 
+		LEFT JOIN t_biz_device_type p ON t.par_id = p.id
 		where 1=1
 		<if test="state != null">
 			and t.state = #{state}
+			and (p.state is null or p.state = #{state})
 		</if>
-		ORDER BY t.create_time desc
+		<if test="isLevel1 != null">
+			and t.par_id is null
+		</if>
+		ORDER BY t.par_id,t.create_time desc
 	</select>
 	
 	<!-- 批量删除 -->

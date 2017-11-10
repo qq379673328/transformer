@@ -8,6 +8,9 @@ spring:
             charset: UTF-8
         converters:
             preferred-json-mapper: true
+        multipart:
+            max-file-size: 30MB
+            max-request-size: 100MB
     # json转换-请修改自定义json转换CustomConfig
     # 页面模板
     thymeleaf:

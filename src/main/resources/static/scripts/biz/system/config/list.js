@@ -97,8 +97,6 @@ define(["core", "tplengine", "simpleupload"],
 				simpleupload.simpleupload({
 					$div: $win.find("#fileupload-tag"),
 					attachType: "wg",
-					filetype: ["png", "PNG", "jpg", "JPG"],
-					filemax: 20 * 1024 * 1024,
 					progressbar: $("#progress-bar"),
 					hidFileId: "content",
 					defaultValue: data.content

@@ -14,6 +14,8 @@ public class TBizDeviceType implements Serializable {
 
     private String state;
 
+    private Integer parId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -56,6 +58,14 @@ public class TBizDeviceType implements Serializable {
         this.state = state == null ? null : state.trim();
     }
 
+    public Integer getParId() {
+        return parId;
+    }
+
+    public void setParId(Integer parId) {
+        this.parId = parId;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -72,7 +82,8 @@ public class TBizDeviceType implements Serializable {
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getCreateUser() == null ? other.getCreateUser() == null : this.getCreateUser().equals(other.getCreateUser()))
-            && (this.getState() == null ? other.getState() == null : this.getState().equals(other.getState()));
+            && (this.getState() == null ? other.getState() == null : this.getState().equals(other.getState()))
+            && (this.getParId() == null ? other.getParId() == null : this.getParId().equals(other.getParId()));
     }
 
     @Override
@@ -84,6 +95,7 @@ public class TBizDeviceType implements Serializable {
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getCreateUser() == null) ? 0 : getCreateUser().hashCode());
         result = prime * result + ((getState() == null) ? 0 : getState().hashCode());
+        result = prime * result + ((getParId() == null) ? 0 : getParId().hashCode());
         return result;
     }
 }
