@@ -51,14 +51,30 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 		
 		;
 	
-	// 权限按钮-审核
-	var IS_VERIFY = false;
-	if(IS_VIEW || !core.hasPermission('img_mgr_verify')){// 无权限
-		$btnVerifyWd.remove();
-		$btnVerifyDeviceImg.remove();
-	}else{
-		IS_VERIFY = true;
-	}
+	// 接线图
+	if(IS_VIEW || !core.hasPermission('img_mgr_wg_add')){$("#btn-wd-add").remove();}
+	if(IS_VIEW || !core.hasPermission('img_mgr_wg_edit')){$("#btn-wd-edit,#btn-wd-save").remove();}
+	if(IS_VIEW || !core.hasPermission('img_mgr_wg_del')){$("#btn-wd-del").remove();}
+	if(IS_VIEW || !core.hasPermission('img_mgr_wg_verify')){$btnVerifyDeviceImg.remove();}
+	
+	// 设备
+	if(IS_VIEW || !core.hasPermission('img_mgr_device_add')){$("#btn-device-add").remove();}
+	if(IS_VIEW || !core.hasPermission('img_mgr_device_edit')){$("#btn-device-edit").remove();}
+	if(IS_VIEW || !core.hasPermission('img_mgr_device_del')){$("#btn-device-del").remove();}
+	
+	// 设备图
+	if(IS_VIEW || !core.hasPermission('img_mgr_deviceimg_add')){$("#btn-deviceimg-add").remove();}
+	if(IS_VIEW || !core.hasPermission('img_mgr_deviceimg_edit')){$("#btn-deviceimg-edit,#btn-deviceimg-save").remove();}
+	if(IS_VIEW || !core.hasPermission('img_mgr_deviceimg_del')){$("#btn-deviceimg-del").remove();}
+	if(IS_VIEW || !core.hasPermission('img_mgr_deviceimg_verify')){$btnVerifyWd.remove();}
+	
+	// 部件
+	if(IS_VIEW || !core.hasPermission('img_mgr_part_add')){$("#btn-part-add").remove();}
+	if(IS_VIEW || !core.hasPermission('img_mgr_part_edit')){$("#btn-part-edit").remove();}
+	if(IS_VIEW || !core.hasPermission('img_mgr_part_del')){$("#btn-part-del").remove();}
+	
+	// 部件历史
+	if(IS_VIEW || !core.hasPermission('img_mgr_partimg_add')){$("#btn-parthis-add").remove();}
 	
 	// 切换显示状态
 	function changeStateTransformer(){
@@ -190,7 +206,7 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 		}
 		
 		$tagTransformers.find(".lv3").removeClass("select");
-		$tag.addClass("select");
+		if($tag) $tag.addClass("select");
 		// 刷新接线图
 		if(item){
 			refreshWg(item.id);
@@ -1061,9 +1077,9 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 			tplsuccess: function($win){
 				// 文件上传
 				simpleupload.simpleupload({
-					$div: $win.find("#fileupload-tag-device"),
+					$div: $win.find("#fileupload-tag"),
 					attachType: "deviceimg",
-					progressbar: $("#progress-bar-device"),
+					progressbar: $("#progress-bar"),
 					hidFileId: "imgId",
 					defaultValue: CURRENT_DEVICE_IMG.imgId
 				});
@@ -1584,7 +1600,7 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 								})
 							}))
 							// 编辑
-							.append(IS_VIEW ? null : $('<div class="btn btn-edit"><i class="fa fa-pencil"></i>&nbsp;&nbsp;编辑</div>').data('data', item).click(function(){
+							.append(IS_VIEW || !core.hasPermission('img_mgr_partimg_edit') ? null : $('<div class="btn btn-edit"><i class="fa fa-pencil"></i>&nbsp;&nbsp;编辑</div>').data('data', item).click(function(){
 								var item = $(this).data('data');
 								tplengine.openWinWithEdit({
 									title: '编辑',
@@ -1608,7 +1624,7 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 								})
 							}))
 							// 删除
-							.append(IS_VIEW ? null : $('<div class="btn btn-danger"><i class="fa fa-remove"></i>&nbsp;&nbsp;删除</div>').data('data', item).click(function(){
+							.append(IS_VIEW || !core.hasPermission('img_mgr_partimg_del') ? null : $('<div class="btn btn-danger"><i class="fa fa-remove"></i>&nbsp;&nbsp;删除</div>').data('data', item).click(function(){
 								
 								var item = $(this).data('data');
 								$.messager.confirm('确认','确定删除?删除后不可撤销。',function(r){
@@ -1626,7 +1642,7 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 								});
 							}))
 							// 审核
-							.append(!IS_VERIFY ? null : $('<div class="btn btn-edit"><i class="fa fa-check"></i>&nbsp;&nbsp;审核</div>').data('data', item).click(function(){
+							.append(IS_VIEW || !core.hasPermission('img_mgr_partimg_verify') ? null : $('<div class="btn btn-edit"><i class="fa fa-check"></i>&nbsp;&nbsp;审核</div>').data('data', item).click(function(){
 								var item = $(this).data('data');
 								verifyPartHis(item, function(srcItem){
 									refreshPartHisInfos();

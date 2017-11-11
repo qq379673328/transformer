@@ -11,7 +11,7 @@
 		<tr>
 			<td class="td-odd"><font color="red">*</font>分组</td>
 			<td class="td-even">
-				<input name="type" type="radio" value="公司属变电站" />
+				<input name="type" type="radio" value="公司属变电站" checked="checked" />
 				公司属变电站
 				<input name="type" type="radio" value="用户属变电站" />
 				用户属变电站

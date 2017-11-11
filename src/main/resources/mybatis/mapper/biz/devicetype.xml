@@ -34,6 +34,14 @@
 	</delete>
 	
 	<!-- 更新状态 -->
+	<update id="update">
+		update t_biz_device_type set
+			name = #{name},
+			par_id = #{parId}
+		where id = #{id}
+	</update>
+	
+	<!-- 更新状态 -->
 	<update id="change-state">
 		update t_biz_device_type set
 			state = #{state}

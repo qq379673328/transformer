@@ -1,0 +1,10 @@
+DELETE FROM `t_biz_device`;
+DELETE FROM `t_biz_device_img`;
+DELETE FROM `t_biz_device_type`;
+DELETE FROM `t_biz_files`;
+DELETE FROM `t_biz_part`;
+DELETE FROM `t_biz_part_his`;
+DELETE FROM `t_biz_transformer`;
+DELETE FROM `t_biz_wiringdiagram`;
+DELETE FROM `t_system_config`;
+COMMIT;

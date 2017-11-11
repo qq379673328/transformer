@@ -4,7 +4,7 @@
 		<tr>
 			<td class="td-odd">父级类型</td>
 			<td class="td-even">
-				<input name="parId" value="<%=data.parId%>" 
+				<input name="parId" value="<%=data.par_id%>" 
 					class="spe-tag"
 					data-spe='{"type":"select-device-type", "isLevel1": "true"}'/>
 			</td>

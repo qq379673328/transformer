@@ -38,6 +38,8 @@ define(["core", "tplengine"], function(core, tplengine){
 			loadFilter: function(data){
 				return {rows: core.handleAjaxResultData(data)};
 			},
+			idField: 'id',
+			treeField: 'par_id',
 			columns: [[
 				{field: "id", hidden:true},
 				{field: "name", title: "类型", width: 100},

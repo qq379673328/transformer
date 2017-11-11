@@ -117,6 +117,15 @@ define(["core", "tplengine"], function(core, tplengine){
 			width: 500
 		},
 		type: "1",
+		beforeSubmit: function($form){
+			var value = $form.find('input[name=type]:checked').val();
+			if(!value){
+				core.alertMessage("请选择分组");
+				return false;
+			}else{
+				return true;
+			}
+		},
 		success: function(data, $win){
 			reloadList();
 			$win.dialog("destroy");

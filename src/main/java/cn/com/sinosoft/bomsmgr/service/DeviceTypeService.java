@@ -61,7 +61,7 @@ public class DeviceTypeService {
 	 */
 	@Transactional
 	public int update(TBizDeviceType item) {
-		return getMapper().updateByPrimaryKeySelective(item);
+		return baseDao.update(NAMESPACE_BASE + "update", item);
 	}
 
 	/**

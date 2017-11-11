@@ -138,6 +138,12 @@
 					未选择
 				</div>
 				<div id="tag-img-info-device-withdata">
+				
+					<div>
+						<span class="btn btn-edit fa fa-pencil" id="btn-deviceimg-edit">&nbsp;&nbsp;编辑</span>
+						&nbsp;&nbsp;<span class="btn btn-danger fa fa-remove" id="btn-deviceimg-del">&nbsp;&nbsp;删除</span>
+					</div>
+				
 					<b>上传时间：</b>
 					<span id="wd-info-device-uploadTime"></span>
 					<br/>
