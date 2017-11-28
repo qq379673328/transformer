@@ -25,6 +25,10 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 	$(".im-center").width(centerWidth);
 	$(".im-center-max").width($(window).width() - $(".im-left").width() - 50);
 	
+	$(".im-left").height($(window).height() - 150);
+	$(".im-right").height($(window).height() - 150);
+	$(".im-center").height($(window).height() - 150);
+	
 	// 页面元素
 	var $tagImgWrap = $('#tag-wrap'),// 中间图片容器-变电站
 		$tagImgWrapDevice = $('#tag-wrap-device'),// 中间图片容器-设备
@@ -402,7 +406,11 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 				.appendTo($tagImgWrap)
 				.load(function(){
 					// 设置容器宽高
-					$tagImgWrap.width($("#tag-img").width()).height($("#tag-img").height());
+					$tagImgWrap
+						//.width($("#tag-img").width())
+						.width($(".im-center").width())
+						//.height($("#tag-img").height());
+						.height($(window).height() - 220);
 				});
 		}
 		
@@ -1004,7 +1012,13 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 				.appendTo($tagImgWrapDevice)
 				.load(function(){
 					// 设置容器宽高
-					$tagImgWrapDevice.width($("#tag-img-device").width()).height($("#tag-img-device").height());
+					//$tagImgWrapDevice.width($("#tag-img-device").width()).height($("#tag-img-device").height());
+					// 设置容器宽高
+					$tagImgWrapDevice
+						//.width($("#tag-img").width())
+						.width($(".im-center").width())
+						//.height($("#tag-img").height());
+						.height($(window).height() - 250);
 				});
 		}
 		

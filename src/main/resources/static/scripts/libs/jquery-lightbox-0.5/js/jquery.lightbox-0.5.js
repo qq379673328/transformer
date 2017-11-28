@@ -188,8 +188,21 @@ define(["jquery"], function($){
 			var objImagePreloader = new Image();
 			objImagePreloader.onload = function() {
 				$('#lightbox-image').attr('src',settings.imageArray[settings.activeImage][0]);
+				
+				// lizy
+				var imgWidth = objImagePreloader.width;
+				var imgHeight = objImagePreloader.height;
+				var mid = imgWidth/imgHeight;
+				var newHeight = $(window).height() - 150;
+				//var newWidth = $(window).width() - 100;
+				var newWidth = newHeight * mid;
+				$('#lightbox-image').width(newWidth);
+				$('#lightbox-image').height(newHeight);
+				_resize_container_image_box(newWidth, newHeight);
+				// lizy
+				
 				// Perfomance an effect in the image container resizing it
-				_resize_container_image_box(objImagePreloader.width,objImagePreloader.height);
+				//_resize_container_image_box(objImagePreloader.width,objImagePreloader.height);
 				//	clear onLoad, IE behaves irratically with animated gifs otherwise
 				objImagePreloader.onload=function(){};
 			};

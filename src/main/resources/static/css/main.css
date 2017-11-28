@@ -175,7 +175,8 @@ select {
 body {
 	color: #504d4d;
 	background-color: #f9f8f8;
-	padding-bottom: 100px;
+	/* padding-bottom: 100px; */
+	overflow-y: hidden;
 }
 .input-fixwidth {
 	width: 242px;
@@ -1014,7 +1015,7 @@ body {
 }
 #content {
 	min-width: 1280px;
-	margin-bottom: 10px;
+	/* margin-bottom: 10px; */
 }
 #content .left {
 	width: 200px;
@@ -1462,7 +1463,8 @@ a {
 .im .img-wrap{
 	position: relative;
 	margin: 0px auto;
-	border: 1px solid #5485b1
+	border: 1px solid #5485b1;
+	overflow-y: auto;
 }
 .im .part-his-item{
 	width: 46%;
@@ -1475,6 +1477,7 @@ a {
 .im .his-item-left{
 	float: left;
 	width: 30%;
+	height: 160px;
 	min-height: 10px;
 }
 .im .his-item-center{
@@ -1502,6 +1505,7 @@ a {
 	float: left;
 	line-height: 32px;
 	overflow-x: auto;
+	overflow-y: auto;
 	border: 3px solid #016ba9;
 	margin-left: 3px;
 }
@@ -1532,7 +1536,7 @@ a {
 }
 .im .im-center{
 	overflow-x: auto;
-	overflow-y: hidden;
+	overflow-y: auto;
 	float: left;
 	margin-top: 40px;
 	/* border: 2px solid #016ba9; */
@@ -1548,6 +1552,7 @@ a {
 	min-height: 300px;
 	float: right;
 	line-height: 22px;
+	overflow-y: auto;
 }
 .im .im-right>div{
 	border: 2px solid #016ba9;
