@@ -622,17 +622,25 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 		});
 	})
 	
+	var DRAG_TAG = null;
+	
 	// 拖动事件
 	function onDrag(e){
-		var d = e.data;
-		var data = $(e.target).data('data');
-		if (d.left < 0){d.left = 0}
-		if (d.top < 0){d.top = 0}
-		if (d.left + $(d.target).outerWidth() > $(d.parent).width()){
-			d.left = $(d.parent).width() - $(d.target).outerWidth();
+		if(!DRAG_TAG) return;
+		var d = DRAG_TAG.data;
+		var data = $(DRAG_TAG.target).data('data');
+		var $target = $(DRAG_TAG.target);
+		var $parent = $target.siblings('img');
+		
+		if (d.left < 0){$target.css('left', 0)}
+		if (d.top < 0){$target.css('top', 0)}
+		if (d.left + $target.outerWidth() > $parent.width()){
+			d.left = $parent.width() - $target.outerWidth();
+			$target.css('left', d.left);
 		}
-		if (d.top + $(d.target).outerHeight() > $(d.parent).height()){
-			d.top = $(d.parent).height() - $(d.target).outerHeight();
+		if (d.top + $target.outerHeight() > $parent.height()){
+			d.top = $parent.height() - $target.outerHeight();
+			$target.css('top', d.top);
 		}
 		
 		if(data){
@@ -707,7 +715,7 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 				))
 				.data('data', item)
 				.click(function(){
-					selectItem($(this).data('data'));
+					selectItem($(this).data('data'), true);
 				})
 		);
 		
@@ -738,12 +746,15 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 			trackMouse: true})
 		// 点击事件
 		.click(function(){
-			selectItem($(this).data('data'));
+			selectItem($(this).data('data'), false);
 		});
 		if(!IS_VIEW){
 			// 可拖动
 			$item.draggable({
-				onDrag: onDrag,
+				onStartDrag: function(e){
+					DRAG_TAG = e;
+				},
+				onStopDrag: onDrag,
 				disabled: IS_VIEW
 			});
 			// 可调整大小
@@ -837,12 +848,21 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 	}
 	
 	// 选中某一个设备元素
-	function selectItem(item){
+	function selectItem(item, isMove){
 		// 图片中元素
 		$tagImgWrap.find('.select').removeClass('select');
 		$tagImgWrap.find('.item-drag').each(function(){
 			if($(this).data('data').id == item.id){
 				$(this).addClass('select');
+				
+				// 滚动到选中元素
+				if(isMove){
+					$tagImgWrap.animate({
+						scrollTop: $(this).css('top'),
+						scrollLeft: $(this).css('left')
+					}, 300);
+				}
+				
 				return false;
 			}
 		});
@@ -1232,15 +1252,19 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 	
 	// 拖动事件
 	function onDragPart(e){
-		var d = e.data;
-		var data = $(e.target).data('data');
-		if (d.left < 0){d.left = 0}
-		if (d.top < 0){d.top = 0}
-		if (d.left + $(d.target).outerWidth() > $(d.parent).width()){
-			d.left = $(d.parent).width() - $(d.target).outerWidth();
+		if(!DRAG_TAG) return;
+		var d = DRAG_TAG.data;
+		var data = $(DRAG_TAG.target).data('data');
+		var $target = $(DRAG_TAG.target);
+		var $parent = $target.siblings('img');
+		
+		if (d.left < 0){$target.css('left', 0)}
+		if (d.top < 0){$target.css('top', 0)}
+		if (d.left + $target.outerWidth() > $parent.width()){
+			$target.css('left', $parent.width() - $target.outerWidth());
 		}
-		if (d.top + $(d.target).outerHeight() > $(d.parent).height()){
-			d.top = $(d.parent).height() - $(d.target).outerHeight();
+		if (d.top + $target.outerHeight() > $parent.height()){
+			$target.css('top', $parent.height() - $target.outerHeight());
 		}
 		
 		if(data){
@@ -1315,7 +1339,7 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 				))
 				.data('data', item)
 				.click(function(){
-					selectItemPart($(this).data('data'));
+					selectItemPart($(this).data('data'), true);
 				})
 		);
 		
@@ -1346,12 +1370,15 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 			trackMouse: true})
 		// 点击事件
 		.click(function(){
-			selectItemPart($(this).data('data'));
+			selectItemPart($(this).data('data'), false);
 		});
 		if(!IS_VIEW){
 			// 可拖动
 			$item.draggable({
-				onDrag: onDragPart,
+				onStartDrag: function(e){
+					DRAG_TAG = e;
+				},
+				onStopDrag: onDragPart,
 				disabled: IS_VIEW
 			});
 			// 可调整大小
@@ -1446,12 +1473,21 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 	}
 	
 	// 选中某一个部件元素
-	function selectItemPart(item){
+	function selectItemPart(item, isMove){
 		// 图片中元素
 		$tagImgWrapDevice.find('.select').removeClass('select');
 		$tagImgWrapDevice.find('.item-drag').each(function(){
 			if($(this).data('data').id == item.id){
 				$(this).addClass('select');
+				
+				// 滚动到选中元素
+				if(isMove){
+					$tagImgWrapDevice.animate({
+						scrollTop: $(this).css('top'),
+						scrollLeft: $(this).css('left')
+					}, 300);
+				}
+				
 				return false;
 			}
 		});
