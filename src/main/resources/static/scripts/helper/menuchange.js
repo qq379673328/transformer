@@ -111,11 +111,12 @@ define(["jquery", "core", "tplengine", "backbone"], function($, core, tplengine,
 				$navigation.prepend($(
 				'<li class="navli">' +
 					'<a class="item logout" href="#">' +
-						'<i class="fa fa-4x fa-home"></i><br/>' +
-						'<span>首页</span>' +
+						'<i class="fa fa-2x fa-home"></i>' +
 					'</a>' +
 				'</li>').data('item', {mfVO: {mfId: 'index'}}))
 				;
+				
+				$(".menu").show();
 				
 				if(cb) cb(root[0]);
 			}
@@ -158,7 +159,7 @@ define(["jquery", "core", "tplengine", "backbone"], function($, core, tplengine,
 		var link = item.mfLink;
 		
 		var liContent = $("<a href='javascript: void(0);'>"
-				+ "<i class='fa fa-4x " + imgSrc + "'></i><br/>"
+				/*+ "<i class='fa " + imgSrc + "'></i><br/>"*/
 				//+ "<img src='" + imgSrc + "' width='60' height='55' /><br/>"
 				+ item.mfName
 				+ "</a>");
@@ -184,6 +185,11 @@ define(["jquery", "core", "tplengine", "backbone"], function($, core, tplengine,
 			});
 		}else{//链接
 			liContent.attr("href", link);
+			
+			if(item.mfId == 'img_view'){
+				liContent.attr("target", "_blank");
+			}
+			
 		}
 		//文字宽度
 		var liWidthCls = NAV_CONFIG[item.mfId] ? NAV_CONFIG[item.mfId].liWidthCls : DEFAULT_LIWIDTH;

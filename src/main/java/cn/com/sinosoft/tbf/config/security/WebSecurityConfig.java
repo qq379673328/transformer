@@ -32,6 +32,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.csrf().disable()// 禁用csrf
 			.authorizeRequests()// 安全认证
+			
+			.antMatchers("/imgview/**").permitAll()
+			.antMatchers("/**/list*").permitAll()
+			.antMatchers("/**/get*").permitAll()
+			.antMatchers("/**/main.js").permitAll()
+			
 			.antMatchers("/api/**").permitAll()// 通过ApiTokenAuthInterceptor认证
 			.anyRequest().authenticated() // 其它
 			.and().formLogin()// 登录页
@@ -50,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/scripts/**", "/css/**", "/images/**", "/upfiles/**");
+		web.ignoring().antMatchers("/scripts/**", "/css/**", "/images/**", "/upfiles/**", "/fonts/**");
 	}
 
 	/**

@@ -5,6 +5,13 @@
 	</div>
 	<div class="im-location">
 		<i class="fa fa-map-marker"></i>&nbsp;&nbsp;当前选择：<span id="tag-location-infos"></span>
+		
+		<a id="auto-view" 
+			style="float: right; margin-right: 20px; color: #fff;"
+			href="imgview#img-mgr?IS_VIEW=true&IS_AUTO=true"
+			target="_blank">
+			自适应窗口查看
+		</a>
 	</div>
 	<div id="zone-transformer">
 		<div class="im-center" id="im-transformer-nodata">
@@ -57,6 +64,7 @@
 					<br/>
 					<span id="wd-info-desc"></span>
 					
+					<!--
 					<div class="zone-verify">
 						<b>审核信息：</b>
 						<span id="wd-info-verifyStatus"></span>
@@ -68,6 +76,7 @@
 						<br/>
 						<span class="btn btn-edit fa fa-check" id="btn-verify-wd">&nbsp;&nbsp;审核</span>
 					</div>
+					-->
 				</div>
 			</div>
 			
@@ -156,6 +165,7 @@
 					<br/>
 					<span id="wd-info-device-desc"></span>
 					
+					<!--
 					<div class="zone-verify">
 						<b>审核信息：</b>
 						<span id="wd-info-device-verifyStatus"></span>
@@ -167,6 +177,7 @@
 						<br/>
 						<span class="btn btn-edit fa fa-check" id="btn-verify-deviceImg">&nbsp;&nbsp;审核</span>
 					</div>
+					-->
 					
 				</div>
 			</div>

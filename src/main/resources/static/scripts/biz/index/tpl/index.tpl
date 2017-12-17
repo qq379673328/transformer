@@ -7,7 +7,7 @@
 			id="index-content-left">
 			
 		</pre>
-		<div style="width: 57%; background-color: #fff; float: right;"
+		<div style="width: 57%; background-color: #fff; float: right; position: relative;"
 			id="index-content-right">
 		</div>
 	</div>

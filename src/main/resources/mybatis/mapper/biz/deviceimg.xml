@@ -25,9 +25,9 @@
 		<if test="deviceId != null">
 			and t.device_id = #{deviceId}
 		</if>
-		<if test="verifyStatus != null">
+		<!-- <if test="verifyStatus != null">
 			and t.verify_status = #{verifyStatus}
-		</if>
+		</if> -->
 		ORDER BY t.create_time desc
 	</select>
 	

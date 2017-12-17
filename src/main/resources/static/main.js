@@ -157,43 +157,19 @@ define([ "jquery", "core", "router", "mc"],
 			$location2 = $("#location-2"),//位置2
 			$location3 = $("#location-3")//位置3
 			;
-		// 初始化菜单
-		mc.loadMenus(function(mf){
+		
+		// 是否查看
+		var IS_VIEW = core.getQueryString("IS_VIEW");
+		if(IS_VIEW){
 			/*初始化应用路由*/
 			router.init();
-			
-			//若没有导航和菜单被选中,默认跳转第一个导航,第一个菜单
-			/*var $selectMenu = $menus.find(".selected");
-			var $selectNav = $navigation.find(".selected");
-			if($selectMenu.size() == 0 && $selectNav.size() == 0){
-				var toUrl = "";
-				//判断第一个导航是否为链接
-				var dataItem = $navigation.find("li:first").data("item");
-				var firNavLink = dataItem ? dataItem.mfVO.mfLink : null;
-				if(firNavLink){
-					toUrl = firNavLink;
-				}else{
-					toUrl = $menus.find("li:first a").attr("href");
-				}
-				//切换地址
-				APP.R.navigate(toUrl, {trigger: true});
-				//为导航添加样式
-				var $content = $("#main-content");//页面主体
-				var $lisNav = $navigation.find("li");
-					$lisNav.removeClass("selected");
-//				$(this).addClass("selected");
-				$("#location-1").html($("#main-menus").find("li:first a").text());
-				//置空菜单以及内容区域
-				mc.clear();
-				$menus.empty();
-				$content.empty();
-				var item = mf.mfVO;
-				APP.LASTNAV = item.mfId;
-				mc.loadLeftMenu(mf.children, true, item);
-				return;
-			}*/
-
-		});
+		}else{
+			// 初始化菜单
+			mc.loadMenus(function(mf){
+				/*初始化应用路由*/
+				router.init();
+			});
+		}
 
 		//日期框格式化
 		$.fn.datebox.defaults.formatter = function(date){
@@ -379,6 +355,56 @@ define([ "jquery", "core", "router", "mc"],
 			/*var m = Math.pow(10, digit);
 			return parseInt(f * m, 10)/m;*/
 		} 
+		
+		// 全屏按钮
+		$("#window-max").click(function(){
+			fullScreen();
+			$("#window-max").hide();
+			$("#window-restore").show();
+		});
+		// 取消全屏按钮
+		$("#window-restore").click(function(){
+			exitFullScreen();
+			$("#window-max").show();
+			$("#window-restore").hide();
+		});
+		// 全屏
+		function fullScreen() {
+		    var el = document.documentElement,
+		        rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen,
+		        wscript;
+		 
+		    if(typeof rfs != "undefined" && rfs) {
+		        rfs.call(el);
+		        return;
+		    }
+		 
+		    if(typeof window.ActiveXObject != "undefined") {
+		        wscript = new ActiveXObject("WScript.Shell");
+		        if(wscript) {
+		            wscript.SendKeys("{F11}");
+		        }
+		    }
+		}
+		
+		// 退出全屏
+		function exitFullScreen() {
+		    var el = document,
+		        cfs = el.cancelFullScreen || el.webkitCancelFullScreen || el.mozCancelFullScreen || el.exitFullScreen,
+		        wscript;
+		 
+		    if (typeof cfs != "undefined" && cfs) {
+		      cfs.call(el);
+		      return;
+		    }
+		 
+		    if (typeof window.ActiveXObject != "undefined") {
+		        wscript = new ActiveXObject("WScript.Shell");
+		        if (wscript != null) {
+		            wscript.SendKeys("{F11}");
+		        }
+		  }
+		}
 
 	}, function(err) {
 		var errinfo = "";

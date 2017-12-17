@@ -55,5 +55,5 @@ public interface BizExtMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
 	public int verifyPartHis(TBizPartHis item);
-
+	
 }

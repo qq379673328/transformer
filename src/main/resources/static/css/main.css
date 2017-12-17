@@ -913,22 +913,23 @@ body {
 }
 #header {
 	width: 100%;
-	height: 87px;
+	height: 40px;
 	position: relative;
 	margin-bottom: 10px;
 	float: left;
+	background-color: #016ba9;
+	color: #fff;
 }
 #header .logo {
-	height: 87px;
+	height: 40px;
 	background-color: #016ba9;
 	position: absolute;
 	width: 100%;
-	z-index: -1;
 }
 #header .logo h1{
 	color: #fff;
-	font-size: 32px;
-	line-height: 87px;
+	font-size: 18px;
+	line-height: 40px;
 	margin-left: 10px;
 }
 #header .user {
@@ -980,19 +981,21 @@ body {
 }
 #header .menu {
 	list-style: none;
-	height: 87px;
+	height: 40px;
 	position: relative;
 	float: right;
+	padding: 0px;
 }
 #header .menu li {
 	float: left;
-	width: 95px;
-	height: 87px;
-	margin-right: 10px;
+	height: 40px;
+	line-height: 40px;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 #header .menu li:hover,
 #header .menu li.selected {
-	background-color: #fff;
+	background-color: #759efb;
 }
 #header .menu li.li-150 {
 	width: 149px;
@@ -1005,7 +1008,9 @@ body {
 	text-shadow: 1px 1px 1px #000;
 	text-decoration: none;
 	text-align: center;
-	margin-top: 10px;
+}
+#header .menu li a i{
+	margin-top: 7px;
 }
 #header .menu li a img {
 	display: block;
@@ -1202,11 +1207,15 @@ body {
 	color: #4e4e4e;
 	font-size: 14px;
 }
-#footer {
-	height: 55px;
-	line-height: 55px;
+.footer {
+	height: 25px;
+	line-height: 25px;
 	text-align: center;
-	color: #2e2c2c;
+	color: #fff;
+	background-color: #016ba9;
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
 }
 /* profile css >>>*/
 
@@ -1463,7 +1472,7 @@ a {
 .im .img-wrap{
 	position: relative;
 	margin: 0px auto;
-	border: 1px solid #5485b1;
+	/* border: 1px solid #5485b1; */
 	overflow-y: auto;
 }
 .im .part-his-item{
@@ -1473,6 +1482,7 @@ a {
 	margin-top: 10px;
 	margin-left: 10px;
 	padding: 10px;
+	position: relative;
 }
 .im .his-item-left{
 	float: left;
@@ -1508,6 +1518,7 @@ a {
 	overflow-y: auto;
 	border: 3px solid #016ba9;
 	margin-left: 3px;
+	margin-bottom: 25px;
 }
 .im .im-left .lv1{
 	background-color: #016ba9;
@@ -1542,6 +1553,7 @@ a {
 	/* border: 2px solid #016ba9; */
 	margin-left: 12px;
 	padding: 6px;
+	margin-bottom: 25px;
 }
 .im .im-center-title{
 	text-align: center;
@@ -1553,6 +1565,7 @@ a {
 	float: right;
 	line-height: 22px;
 	overflow-y: auto;
+	margin-bottom: 25px;
 }
 .im .im-right>div{
 	border: 2px solid #016ba9;
@@ -1611,6 +1624,18 @@ a {
 	opacity: 0.6;
 	cursor: pointer;
 }
+.im .item-drag:hover{
+	background-color: green;
+}
+.im .item-drag:hover i{
+	display: block;
+}
+.im .item-drag-blank{
+	background: none;
+}
+.im .item-drag-blank i{
+	display: none;
+}
 .im .item-drag .item-drag-viewdetail {
 	color: #fff;
 	background-color: #173448;
@@ -1626,3 +1651,20 @@ a {
 
 .float-left{float: left;}
 .float-right{float: right;}
+
+.view-src-img{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	background-color: #eee;
+	padding: 3px;
+	opacity: 0.8;
+}
+.view-src-img-part{
+	position: absolute;
+	bottom: 15px;
+	left: 15px;
+	background-color: #eee;
+	padding: 3px;
+	opacity: 0.8;
+}

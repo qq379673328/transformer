@@ -14,9 +14,12 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 	
 	// 是否查看
 	var IS_VIEW = core.getQueryString("IS_VIEW");
+	var IS_AUTO = core.getQueryString("IS_AUTO");
 	// 隐藏相关操作
 	if(IS_VIEW){
 		$('.btn-add,.btn-danger,.btn-edit,.btn-save,.zone-verify').remove();
+	}else{
+		$(".menu").show();
 	}
 	
 	// 调整宽度
@@ -25,9 +28,9 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 	$(".im-center").width(centerWidth);
 	$(".im-center-max").width($(window).width() - $(".im-left").width() - 50);
 	
-	$(".im-left").height($(window).height() - 150);
-	$(".im-right").height($(window).height() - 150);
-	$(".im-center").height($(window).height() - 150);
+	$(".im-left").height($(window).height() - 130);
+	$(".im-right").height($(window).height() - 130);
+	$(".im-center").height($(window).height() - 130);
 	
 	// 页面元素
 	var $tagImgWrap = $('#tag-wrap'),// 中间图片容器-变电站
@@ -153,7 +156,7 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 					}
 				}
 				$tagTransformers.html('');
-				$tagTransformers.append($("<div class='lv1'>").html('濮阳市供电区变电站'));
+				$tagTransformers.append($("<div class='lv1'>").html('濮阳供电区变电站'));
 				for(var type in typeMap){
 					$tagTransformers.append($("<div class='lv2'>").html(type));
 					for(var j in typeMap[type]){
@@ -383,16 +386,6 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 			$("#wd-info-verifyContent").html(item.verifyContent);
 			$("#wd-info-verifyTime").html(core.transTimeStamp(item.verifyTime));
 			
-			// 加载接线图设备列表信息
-			core.submitAjax({
-				url: 'api/device/list',
-				type: 'get',
-				data: {wiringdiagramId: wgId},
-				success: function(data){
-					refreshItemsData(data);
-				}
-			});
-			
 			// 渲染接线图图片
 			$tagImgWrap.html('');
 			var $imgMain = $("<img id='tag-img' />")
@@ -405,12 +398,33 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 				})
 				.appendTo($tagImgWrap)
 				.load(function(){
+					var percX = null;
+					var percY = null;
+					// 设置自适应-宽度
+					if(IS_AUTO){
+						percX = ($(".im-center").width() - 18)/$imgMain.width();
+						var srcHeight = $imgMain.height();
+						$imgMain.css('width', $(".im-center").width() - 18);
+						percY = $imgMain.height()/srcHeight;
+					}
+					
 					// 设置容器宽高
 					$tagImgWrap
 						//.width($("#tag-img").width())
-						.width($(".im-center").width())
+						.width($(".im-center").width() - 18)
 						//.height($("#tag-img").height());
-						.height($(window).height() - 220);
+						.height($(window).height() - 200);
+					
+					// 加载接线图设备列表信息
+					core.submitAjax({
+						url: 'api/device/list',
+						type: 'get',
+						data: {wiringdiagramId: wgId},
+						success: function(data){
+							refreshItemsData(data, percX, percY);
+						}
+					});
+					
 				});
 		}
 		
@@ -682,18 +696,20 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 
 	////////////////设备相关////////////////////
 	// 重新渲染设备列表数据
-	function refreshItemsData(data){
+	function refreshItemsData(data, percX, percY){
 		$tagItems.html('');
 		for(var i in data){
 			var item = data[i];
 			// 渲染数据
-			addDevice(item);
+			addDevice(item, percX, percY);
 		}
 	}
 	
 	// 添加一个设备
-	function addDevice(item){
+	function addDevice(item, percX, percY){
 		if(!item) return;
+		percX = percX || 1;
+		percY = percY || 1;
 		
 		// 数据
 		if(!ITEMS) ITEMS = [];
@@ -721,12 +737,15 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 		
 		// 图片
 		var $item = $('<div class="item-drag"></div>');
+		if(IS_VIEW){
+			$item.addClass('item-drag-blank');
+		}
 		$tagImgWrap.append($item);
 		$item.css({
-			width: item.width,
-			height: item.height,
-			left: item.x + 'px',
-			top: item.y + 'px'
+			width: item.width * percX,
+			height: item.height * percY,
+			left: item.x * percX + 'px',
+			top: item.y * percY + 'px'
 		})
 		.append($('<i class="item-drag-viewdetail fa fa-eye" title="详情"></i>')
 				.data('data', item)
@@ -1009,16 +1028,6 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 			$("#wd-info-device-verifyContent").html(item.verifyContent);
 			$("#wd-info-device-verifyTime").html(core.transTimeStamp(item.verifyTime));
 			
-			// 加载设备图部件列表信息
-			core.submitAjax({
-				url: 'api/part/list',
-				type: 'get',
-				data: {deviceImgId: deviceImgId},
-				success: function(data){
-					refreshPartItemsData(data);
-				}
-			});
-			
 			// 渲染设备图图片
 			$tagImgWrapDevice.html('');
 			var $imgMain = $("<img id='tag-img-device' />")
@@ -1033,12 +1042,33 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 				.load(function(){
 					// 设置容器宽高
 					//$tagImgWrapDevice.width($("#tag-img-device").width()).height($("#tag-img-device").height());
+					
+					var percX = null;
+					var percY = null;
+					// 设置自适应-宽度
+					if(IS_AUTO){
+						percX = ($(".im-center").width() - 55)/$imgMain.width();
+						var srcHeight = $imgMain.height();
+						$imgMain.css('width', $(".im-center").width() - 55);
+						percY = $imgMain.height()/srcHeight;
+					}
+					
 					// 设置容器宽高
 					$tagImgWrapDevice
 						//.width($("#tag-img").width())
-						.width($(".im-center").width())
+						.width($(".im-center").width() - 18)
 						//.height($("#tag-img").height());
-						.height($(window).height() - 250);
+						.height($(window).height() - 230);
+					
+					// 加载设备图部件列表信息
+					core.submitAjax({
+						url: 'api/part/list',
+						type: 'get',
+						data: {deviceImgId: deviceImgId},
+						success: function(data){
+							refreshPartItemsData(data, percX, percY);
+						}
+					});
 				});
 		}
 		
@@ -1306,18 +1336,20 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 
 	////////////////部件相关////////////////////
 	// 重新渲染部件列表数据
-	function refreshPartItemsData(data){
+	function refreshPartItemsData(data, percX, percY){
 		$tagItemsPart.html('');
 		for(var i in data){
 			var item = data[i];
 			// 渲染数据
-			addPart(item);
+			addPart(item, percX, percY);
 		}
 	}
 	
 	// 添加一个部件
-	function addPart(item){
+	function addPart(item, percX, percY){
 		if(!item) return;
+		percX = percX || 1;
+		percY = percY || 1;
 		
 		// 数据
 		if(!ITEMS_PART) ITEMS_PART = [];
@@ -1345,12 +1377,15 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 		
 		// 图片
 		var $item = $('<div class="item-drag"></div>');
+		if(IS_VIEW){
+			$item.addClass('item-drag-blank');
+		}
 		$tagImgWrapDevice.append($item);
 		$item.css({
-			width: item.width,
-			height: item.height,
-			left: item.x + 'px',
-			top: item.y + 'px'
+			width: item.width * percX,
+			height: item.height * percY,
+			left: item.x * percX + 'px',
+			top: item.y * percY + 'px'
 		})
 		// 数据
 		.data('data', item)
@@ -1626,6 +1661,8 @@ define(["jquery", "core", "tplengine", "simpleupload", "jquery.lightbox"],
 						.append(!IS_VIEW ? '<div class="his-item-verify" title="'+ ('' + item.verifyUserDesc + '/' + core.transTimeStamp(item.verifyTime) + '/' + item.verifyContent) + '"><span class="fa fa-eye"></span>' + item.verifyStatusDesc + '</div>' : '')
 						// 图片
 						.append('<img class="his-item-left" src="'+ imgPath +'" />')
+						// 查看-原图
+						.append('<a class="view-src-img-part" target="_blank" href="'+ imgPath +'">原图</a>')
 						.append($("<div class='his-item-center'></div>")
 							// 创建时间
 							.append(createTime)

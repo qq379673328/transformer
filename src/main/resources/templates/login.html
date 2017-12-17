@@ -57,6 +57,14 @@
 	top: 180px;
 	left: 370px;
 }
+.login-content .userview{
+	position: absolute;
+	width: 400px;
+	top: 295px;
+	left: 590px;
+	color: #fff;
+	text-decoration: none;
+}
 .login-btn{
 	background: url(images/login-btn.png) no-repeat;
 	background-size: 100%;
@@ -123,7 +131,7 @@
 		<div class="login-box">
 			<!-- 普通登陆 -->
 			<div class="login-content">
-				<!-- <h1 style="text-align: center; color: #fff;">濮阳市变电站设备图片管理与检索系统</h1> -->
+				<h1 style="text-align: center; color: #fff;">濮阳供电公司变电站一次设备照片管理系统</h1>
 				<img src="images/login-wrap.png" class="img-bg-wrap" />
 				<div class="logo"></div>
 				<div class="title">登录</div>
@@ -170,6 +178,9 @@
 						<span th:if="${param.logout}" class="login-form-error">您已注销成功</span>
 					</div>
 				</form>
+				
+				<a href="imgview#img-mgr?IS_VIEW=true" class="userview" target="_blank">浏览用户进入</a>
+				
 			</div>
 		</div>
 	</div>

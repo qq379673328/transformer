@@ -16,7 +16,10 @@ define(["jquery", "core"],
 					if(item.key == '左侧文字'){
 						$("#index-content-left").html(item.content);
 					}else if(item.key == '右侧图片'){
-						$("#index-content-right").append('<img style="width: 100%" src="upfiles/' + item.filePath + '" />');
+						var imgUrl = "upfiles/" + item.filePath;
+						$("#index-content-right").append('<img style="width: 100%" src="' + imgUrl + '" />');
+						$("#index-content-right")
+							.append('<a target="_blank" class="view-src-img" href="' + imgUrl + '">查看原图</a>');
 					}
 				}
 			}
