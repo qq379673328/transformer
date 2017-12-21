@@ -64,5 +64,5 @@ audience:
 
 # 文件上传
 filepath:
-    save: c:\\transformer\\upfiles
+    save: d:\\transformer\\upfiles
     download: upfiles

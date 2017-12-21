@@ -200,7 +200,7 @@ define([ "jquery", "core", "router", "mc"],
 		$.fn.datagrid.defaults.modal = false;// 非模态
 		$.fn.datagrid.defaults.title = "查询结果";// 默认 title
 		$.fn.datagrid.defaults.fitColumns = true;// 表格默认铺满
-		$.fn.datagrid.defaults.autoRowHeight = true;//自动行高
+		$.fn.datagrid.defaults.autoRowHeight = false;//自动行高
 		$.fn.datagrid.defaults.nowrap = false;//是否换行
 		$.fn.datagrid.defaults.scrollbarSize = 0;// 滚动条大小
 		//$.fn.datagrid.defaults.pageSize = 10;// 分页大小

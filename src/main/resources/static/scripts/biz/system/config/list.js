@@ -56,7 +56,7 @@ define(["core", "tplengine", "simpleupload"],
 						return val;
 					}else if(row.type == '2'){
 						var srcPath = 'upfiles/' + row.filePath;
-						return '<img width="100" src="' + srcPath + '" />';
+						return '<a target="_blank" title="原图" href="'+srcPath+'"><img width="45" src="' + srcPath + '" /></a>';
 					}
 				}},
 				{field: "HD", title: "操作", width: 100, formatter: function(val, row, idx){
